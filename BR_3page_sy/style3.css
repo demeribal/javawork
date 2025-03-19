@@ -52,7 +52,7 @@ html, body {
   text-align: center;
   font-size: 27px;
   font-weight: bold;
-  color: hotpink;
+  color: #f20c93;
   background-color: #fff;
   cursor: pointer;
   display: flex;
@@ -110,7 +110,7 @@ html, body {
   width: 40px;
   height: 40px;
   font-size: 30px;
-  color: hotpink;
+  color: #f20c93;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -148,7 +148,7 @@ html, body {
 }
 
 .dot.active {
-  background-color: hotpink;
+  background-color: #f20c93;
 }
 
 /* 선택 섹션 */
@@ -193,8 +193,9 @@ html, body {
   width: 200px;
   height: 173px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 20px;
+  gap: 5px;
 }
 
 .selected-flavor img {
@@ -204,8 +205,10 @@ html, body {
 }
 
 .selected-flavor p {
+  margin: 0;
   font-size: 20px;
   font-weight: bold;
+  text-align: center;
 }
 
 /* 슬롯 영역 */
@@ -231,7 +234,7 @@ html, body {
 .slot-box {
   width: 132px;
   height: 126px;
-  border: 1px solid hotpink;
+  border: 1px solid #f20c93;
   border-radius: 51px;
   display: flex;
   justify-content: center;
@@ -245,7 +248,7 @@ html, body {
   right: 0;
   width: 40px;
   height: 40px;
-  background-color: hotpink;
+  background-color: #f20c93;
   color: white;
   border-radius: 50%;
   display: flex;
@@ -296,8 +299,8 @@ html, body {
 }
 
 .button-back {
-  border: 2px solid hotpink;
-  color: hotpink;
+  border: 2px solid #f20c93;
+  color: #f20c93;
   background-color: #fff;
 }
 
@@ -309,11 +312,11 @@ html, body {
   align-items: center;
   font-size: 28px;
   margin-right: 10px;
-  color: hotpink;
+  color: #f20c93;
 }
 
 .button-confirm {
-  background-color: hotpink;
+  background-color: #f20c93;
   color: #fff;
   border: none;
 }
