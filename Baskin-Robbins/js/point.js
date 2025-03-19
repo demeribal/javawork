@@ -116,6 +116,6 @@ function confirmPayment() {
                         selectedOption.innerText;
     
     if (confirm(`"${selectedText}" 결제를 진행하시겠습니까?`)) {
-        window.location.href = "complete.html"; // 결제 완료 페이지로 이동
+        window.location.href = "coupon.html"; // 결제 완료 페이지로 이동
     }
 }
