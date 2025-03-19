@@ -1,8 +1,9 @@
+/* 기본 스타일 */
 html, body {
     width: 1024px;
     margin: 0 auto;
     overflow-x: hidden;
-    font-family: 'Noto Sans KR', sans-serif; /* 폰트 추가 */
+    font-family: 'Noto Sans KR', sans-serif;
     background-color: #fff;
     text-align: center;
 }
@@ -12,11 +13,12 @@ html, body {
     margin: 0 auto;
 }
 
-
+/* 로고 */
 .logo-container {
     position: absolute;
     top: 13px;
     left: 27px;
+    z-index: 100;
 }
 
 .logo {
@@ -24,10 +26,11 @@ html, body {
     height: 88px;
 }
 
+/* 탭 메뉴 */
 .tab-menu {
     display: flex;
     justify-content: center;
-    margin-top: 114px; /* 피그마 디자인에 맞게 조정 */
+    margin-top: 114px;
 }
 
 .tab {
@@ -35,6 +38,7 @@ html, body {
     font-size: 30px;
     font-weight: 500;
     cursor: pointer;
+    width: 512px;
 }
 
 .tab.active {
@@ -49,27 +53,30 @@ html, body {
 
 /* 전체 컨테이너 */
 .content-container {
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
     display: flex;
-    flex-direction: column;
-    align-items: center; /* 중앙 정렬 */
+    flex-wrap: wrap; /* 필요시 줄바꿈 허용 */
 }
 
-/* 제목 스타일 */
+/* 제목 행 - 전체 너비 사용 */
 .title-row {
+    width: 100%;
     text-align: left;
     margin-bottom: 30px;
-    width: 100%; /* 제목 전체 너비 사용 */
 }
 
-.section-title {
-    font-size: 35px;
-    font-weight: 500;
-    color: #000000;
-    margin: 0;
+/* 콘텐츠 행 - 좌우 배치 */
+.content-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 30px;
 }
+
+/* 왼쪽/오른쪽 섹션 */
+.left-section, .right-section {
+    width: 48%;
+}
+
 
 /* 옵션 그룹 스타일 */
 .option-group {
