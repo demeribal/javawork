@@ -58,6 +58,7 @@ ex) git commit -m "git 사용법"
 12--commit 상황 확인
 git log
 =>현재가지 commit된 상황 확인가능
+=>q로 나갈 수 있음
 
 13--원격(github)에 변경 사항 기록
 git push -u origin 본인브랜치(현재 있는 브랜치)
