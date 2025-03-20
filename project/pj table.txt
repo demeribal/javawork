@@ -1,0 +1,115 @@
+//유저 테이블
+CREATE TABLE users (
+    user_id    VARCHAR2(50) PRIMARY KEY,
+    id         VARCHAR2(50) UNIQUE NOT NULL,
+    password   VARCHAR2(100) NOT NULL,
+    name       VARCHAR2(50) NOT NULL,
+    nickname   VARCHAR2(50) UNIQUE,
+    age        NUMBER CHECK (age >= 0),
+    gender     CHAR(5),
+    address    VARCHAR2(255),
+    phone      VARCHAR2(20) UNIQUE,
+    email      VARCHAR2(100) UNIQUE NOT NULL,
+    img        VARCHAR2(255)
+);
+
+//user_id 시퀸스
+CREATE SEQUENCE user_id_seq
+START WITH 1
+INCREMENT BY 1
+NOCACHE;
+
+CREATE OR REPLACE TRIGGER users_before_insert
+BEFORE INSERT ON users
+FOR EACH ROW
+BEGIN
+  :NEW.user_id := user_id_seq.NEXTVAL;
+END; 
+/
+
+
+//임시 유저
+INSERT INTO users (id, password, name, nickname, age, gender, address, phone, email, img) 
+VALUES (
+    'user1', 
+    '1234', 
+    '홍길동', 
+    'dongdong', 
+    30, 
+    '남', 
+    '서울시 강남구', 
+    '010-1234-5678', 
+    'hong@example.com', 
+    '/images/profile_img/profile.png'
+);
+
+
+//주문목록
+CREATE TABLE orders (
+    order_id        NUMBER PRIMARY KEY,
+    product_id      NUMBER NOT NULL,
+    name            VARCHAR2(100) NOT NULL,
+    description     VARCHAR2(500),
+    price           NUMBER NOT NULL,
+    order_date      DATE DEFAULT SYSDATE,
+    brand           VARCHAR2(100),
+    img             VARCHAR2(255),
+    shipping_status VARCHAR2(50) DEFAULT '대기중',
+    color           VARCHAR2(50),
+    quantity        NUMBER NOT NULL,
+    product_size    NUMBER,
+    address         VARCHAR2(255) NOT NULL,
+    user_id         VARCHAR2(50) NOT NULL -- 사용자 ID 추가
+);
+
+
+INSERT INTO orders (order_id, product_id, name, description, price, order_date, brand, img, shipping_status, color, quantity, product_size, address, user_id)
+VALUES (1, 101, '신발이름', '이쁜신발', 10000, SYSDATE, '나이키', '/images/prod_img/nike.jpg', '대기중', 'white', 1, 240, '서울시 강남구', '1');
+
+INSERT INTO orders (order_id, product_id, name, description, price, order_date, brand, img, shipping_status, color, quantity, product_size, address, user_id)
+VALUES (2, 101, '신발이름', '이쁜신발', 10000, SYSDATE, '나이키', '/images/prod_img/nike.jpg', '대기중', 'white', 1, 250, '서울시 강서구', '1');
+
+INSERT INTO orders (order_id, product_id, name, description, price, order_date, brand, img, shipping_status, color, quantity, product_size, address, user_id)
+VALUES (3, 101, '신발이름', '이쁜신발', 10000, SYSDATE, '나이키', '/images/prod_img/nike.jpg', '대기중', 'white', 1, 260, '서울시 성동구', '1');
+
+INSERT INTO orders (order_id, product_id, name, description, price, order_date, brand, img, shipping_status, color, quantity, product_size, address, user_id)
+VALUES (4, 101, '신발이름', '이쁜신발', 10000, SYSDATE, '나이키', '/images/prod_img/nike.jpg', '대기중', 'white', 1, 270, '서울시 마포구', '1');
+
+INSERT INTO orders (order_id, product_id, name, description, price, order_date, brand, img, shipping_status, color, quantity, product_size, address, user_id)
+VALUES (5, 101, '신발이름', '이쁜신발', 10000, SYSDATE, '나이키', '/images/prod_img/nike.jpg', '대기중', 'white', 1, 280, '서울시 용산구', '1');
+
+INSERT INTO orders (order_id, product_id, name, description, price, order_date, brand, img, shipping_status, color, quantity, product_size, address, user_id)
+VALUES (6, 101, '신발이름', '이쁜신발', 10000, SYSDATE, '나이키', '/images/prod_img/nike.jpg', '대기중', 'white', 1, 290, '서울시 서초구', '1');
+
+
+//문의하기 db
+CREATE TABLE order_contact (
+ order_id NUMBER,	
+message         VARCHAR2(500),
+    contact_date    DATE DEFAULT SYSDATE,
+ FOREIGN KEY (order_id) REFERENCES orders(order_id));
+
+
+
+//얘는 신경쓰지 마세요
+CREATE TABLE order_contact (
+    order_id        NUMBER PRIMARY KEY,
+    product_id      NUMBER,
+    name            VARCHAR2(255),
+    description     VARCHAR2(500),
+    price           NUMBER,
+    order_date      DATE,
+    brand           VARCHAR2(100),
+    img             VARCHAR2(255),
+    shipping_status VARCHAR2(50),
+    color           VARCHAR2(50),
+    quantity        NUMBER,
+    product_size    VARCHAR2(50),
+    address         VARCHAR2(255),
+    user_id         VARCHAR2(50),
+    message         VARCHAR2(500),
+    contact_date    DATE DEFAULT SYSDATE
+);
+
+
+
