@@ -49,7 +49,7 @@
             </div>
             
             <div class="payment-methods">
-                <button class="option-btn">
+                <button class="option-btn" >
                     <img src="../img/credit_card.png" alt="신용카드">
                     <p>신용카드</p>
                 </button>
@@ -80,5 +80,15 @@
             </div>
         </div>
     </div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const optionButtons = document.querySelectorAll(".option-btn");
+        optionButtons.forEach(btn => {
+          btn.addEventListener("click", function() {
+            window.location.href = "../../BR_5,8page_wj/html/p8.html";
+          });
+        });
+      });
+    </script>
 </body>
 </html>

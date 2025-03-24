@@ -13,7 +13,7 @@
     <!-- 헤더 영역 -->
     <header class="header">
         <div class="logo"></div>
-        <button class="close-btn">
+        <button class="close-btn" onclick="location.href='../../BR_1,4page_hb/menu.html'">
             <img src="../img/delete-btn.png" alt="닫기">
         </button>
     </header>
@@ -138,6 +138,11 @@
                 quantityElement.textContent = quantity;
             });
         });
+
+        const card = document.querySelector('.card-option');
+        card.addEventListener('click', ()=>{
+           location.href='../../BR_6,7page_hm/html/point.html';
+        })
     </script>
 </body>
 </html>

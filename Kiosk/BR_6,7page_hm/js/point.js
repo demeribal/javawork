@@ -98,7 +98,7 @@ function goBack() {
 // 결제 취소
 function cancelPayment() {
     if (confirm("결제를 취소하시겠습니까?")) {
-        window.location.href = "index.html"; // 홈으로 이동
+        window.location.href = "../../BR_1,4page_hb/menu.html"; // 홈으로 이동
     }
 }
 

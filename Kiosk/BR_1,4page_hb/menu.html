@@ -87,11 +87,20 @@
             <a href="#"><img src="1, 4 페이지 제작/shopping_bag.png" class="cart-button"><p class="cart-count" cartCount="0">0</p></a>
         </div>
         <div class="pay">
-            <a href="/BR_2page_sm/page2.html"><div class="pay-button">결제하기</div><span class="arrow-next"></span></a>
+            <a href='../BR_5,8page_wj/html/p5.html'><div class="pay-button">결제하기</div><span class="arrow-next"></span></a>
         </div>
     </div>
         
     </div>
-
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const products = document.querySelectorAll(".product");
+        products.forEach(product => {
+          product.addEventListener("click", function() {
+            window.location.href = "../BR_2page_sm/page2.html";
+          });
+        });
+      });
+     </script> 
 </body>
 </html>
