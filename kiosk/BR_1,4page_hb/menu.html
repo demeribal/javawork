@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=3, user-scalable=yes">
+    <title>기본 HTML 문서</title>
+    <link rel="stylesheet" href="menu.css">
+</head>
+<body>
+    <div class="container">
+
+        <div class="main">
+        <div class="top">
+            <a href="/menu.html"><img src="1, 4 페이지 제작/로고-removebg-preview 2.png" class="BR-logo"></a>
+            <a href="#"><img src="1, 4 페이지 제작/Icon.png" class="exit-button"></a>
+        </div>
+
+        <div class="select-text">
+            <ul id="item-list">
+                <li>아이스크림</li>
+                <li>커피</li>
+                <li>음료</li>
+                <li>아이스모찌</li>
+                <li>아이스모찌</li>
+                <li>아이스모찌</li>
+                <li>아이스모찌</li>
+                <li>아이스모찌</li>
+            </ul>
+        </div>
+
+        <div class="select-icecream">
+
+            <div class="product">
+                <img src="1, 4 페이지 제작/싱글레귤러-removebg-preview.png" alt="싱글레귤러">
+                <p class="product-name">싱글레귤러</p>
+                <p class="product-price">₩3,200</p>
+            </div>
+
+            <div class="product">
+            <img src="1, 4 페이지 제작/싱글킹-removebg-preview.png" alt="싱글킹">
+            <p class="product-name">싱글킹</p>
+            <p class="product-price">₩4,000</p>
+            </div>
+
+            <div class="product">
+            <img src="1, 4 페이지 제작/더블주니어-removebg-preview.png" alt="더블주니어">
+            <p class="product-name">더블주니어</p>
+            <p class="product-price">₩4,300</p>
+            </div>
+
+            <div class="product">
+            <img src="1, 4 페이지 제작/더블레귤러-removebg-preview.png" alt="더블레귤러">
+            <p class="product-name">더블레귤러</p>
+            <p class="product-price">₩6,200</p>
+            </div>
+
+            <div class="product">
+            <img src="1, 4 페이지 제작/파인트-removebg-preview.png" alt="파인트">
+            <p class="product-name">파인트</p>
+            <p class="product-price">₩8,200</p>
+            </div>
+
+            <div class="product">
+            <img src="1, 4 페이지 제작/쿼터-removebg-preview.png" alt="쿼터">
+            <p class="product-name">쿼터</p>
+            <p class="product-price">₩15,500</p>
+            </div>
+
+            <div class="product">
+            <img src="1, 4 페이지 제작/패밀리-removebg-preview.png" alt="패밀리">
+            <p class="product-name">패밀리</p>
+            <p class="product-price">₩22,000</p>
+            </div>
+
+            <div class="product">
+            <img src="1, 4 페이지 제작/하프갤런-removebg-preview.png" alt="하프갤런">
+            <p class="product-name">하프갤런</p>
+            <p class="product-price">₩26,500</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="select-next">
+        <div class="cart">
+            <a href="#"><img src="1, 4 페이지 제작/shopping_bag.png" class="cart-button"><p class="cart-count" cartCount="0">0</p></a>
+        </div>
+        <div class="pay">
+            <a href='../BR_5,8page_wj/html/p5.html'><div class="pay-button">결제하기</div><span class="arrow-next"></span></a>
+        </div>
+    </div>
+        
+    </div>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const products = document.querySelectorAll(".product");
+        products.forEach(product => {
+          product.addEventListener("click", function() {
+            window.location.href = "../BR_2page_sm/page2.html";
+          });
+        });
+      });
+     </script> 
+</body>
+</html>
