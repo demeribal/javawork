@@ -44,7 +44,7 @@ body {
     margin-left: 27px;
     background-size: contain;
     background-repeat: no-repeat;
-    background-image: url('../img/logo.png');
+    background-image: url('images/logo.png');
 }
 
 .close-btn {
@@ -114,7 +114,7 @@ body {
     width: 100px;
     height: 100px;
     margin-left: 51px;
-    background-image: url('../img/single-regular.png');
+    background-image: url('images/single-regular.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

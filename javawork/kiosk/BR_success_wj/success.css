@@ -87,7 +87,7 @@ body {
     height: 22px;
     margin-left: 4px;
     margin-right: 54px;
-    background-image: url('../img/happy-point.png'); /* 해피포인트 로고 이미지 */
+    background-image: url('images/happy-point.png'); /* 해피포인트 로고 이미지 */
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
