@@ -17,14 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // 이전 버튼에 이벤트 리스너 추가
-    const prevBtn = document.querySelector('.prev-btn');
-    if (prevBtn) {
-        prevBtn.addEventListener('click', function() {
-            goBack();
-        });
-    }
-    
     // 결제 관련 버튼에 이벤트 리스너 추가
     const nextBtn = document.querySelector('.next-btn');
     if (nextBtn) {
@@ -88,11 +80,6 @@ function selectOption(button) {
         document.querySelector(".discount-amount").innerText = "₩0";
         document.querySelector(".total-amount").innerText = "₩12,800";
     }
-}
-
-// 뒤로 가기
-function goBack() {
-    window.history.back();
 }
 
 // 결제 취소

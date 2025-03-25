@@ -75,7 +75,7 @@
                 <p>총 주문 금액 <span class="order-amount">₩12,800</span> - 총 할인 금액 <span class="discount-amount">₩0</span></p>
             </div>
             <div class="payment-buttons">
-                <button class="prev-btn">← 이전</button>
+                <button class="prev-btn" onclick="location.href='../BR_point_hm/point.html'">← 이전</button>
                 <button class="next-btn">결제취소</button>
             </div>
         </div>
@@ -85,7 +85,7 @@
         const optionButtons = document.querySelectorAll(".option-btn");
         optionButtons.forEach(btn => {
           btn.addEventListener("click", function() {
-            window.location.href = "../BR_success_wj/p8.html";
+            window.location.href = "../BR_success_wj/success.html";
           });
         });
       });
