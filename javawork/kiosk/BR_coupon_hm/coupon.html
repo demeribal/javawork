@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=1024">
     <title>키오스크 결제</title>
-    <link rel="stylesheet" href="../css/coupon.css">
-    <script defer src="../js/point.js"></script>
+    <link rel="stylesheet" href="coupon.css">
+    <script defer src="coupon.js"></script>
 </head>
 <body>
     <div class="wrapper">
         <!-- 로고 -->
         <div class="logo-container">
-            <img src="../img/LOGO-BR-preview.png" alt="Baskin Robbins Logo" class="logo">
+            <img src="images/LOGO-BR-preview.png" alt="Baskin Robbins Logo" class="logo">
         </div>
 
         <!-- 탭 메뉴 -->
@@ -30,7 +30,7 @@
             <div class="content-row">
                 <div class="left-section">
                     <button class="option-btn">
-                        <img src="../img/ad_units.png" alt="모바일 상품권">
+                        <img src="images/ad_units.png" alt="모바일 상품권">
                         <p>모바일 상품권</p>
                     </button>
                 </div>
@@ -50,19 +50,19 @@
             
             <div class="payment-methods">
                 <button class="option-btn" >
-                    <img src="../img/credit_card.png" alt="신용카드">
+                    <img src="images/credit_card.png" alt="신용카드">
                     <p>신용카드</p>
                 </button>
                 <button class="option-btn">
-                    <img src="../img/임직원 할인1.png" alt="임직원 할인">
+                    <img src="images/임직원 할인1.png" alt="임직원 할인">
                     <p>임직원 할인</p>
                 </button>
                 <button class="option-btn">
-                    <img src="../img/Samsung Pay.png" alt="삼성페이">
+                    <img src="images/Samsung Pay.png" alt="삼성페이">
                     <p>삼성페이</p>
                 </button>
                 <button class="option-btn">
-                    <img src="../img/Group 40.png" alt="해피페이">
+                    <img src="images/Group 40.png" alt="해피페이">
                     <p>해피페이</p>
                 </button>
             </div>
@@ -85,7 +85,7 @@
         const optionButtons = document.querySelectorAll(".option-btn");
         optionButtons.forEach(btn => {
           btn.addEventListener("click", function() {
-            window.location.href = "../../BR_5,8page_wj/html/p8.html";
+            window.location.href = "../BR_success_wj/p8.html";
           });
         });
       });

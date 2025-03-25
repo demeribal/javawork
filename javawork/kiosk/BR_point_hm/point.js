@@ -2,10 +2,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     // 현재 페이지 확인 및 탭 활성화
     const currentPage = window.location.pathname.split('/').pop();
-    if (currentPage.includes('point.html')) {
+    if (currentPage.includes('../BR_point_hm/point.html')) {
         document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
         document.querySelector('[onclick="showTab(\'point\')"]').classList.add('active');
-    } else if (currentPage.includes('coupon.html')) {
+    } else if (currentPage.includes('../BR_coupon_hm/coupon.html')) {
         document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
         document.querySelector('[onclick="showTab(\'coupon\')"]').classList.add('active');
     }
@@ -46,17 +46,17 @@ function showTab(tabName) {
     const currentPage = window.location.pathname.split('/').pop();
     
     // 불필요한 페이지 리로드 방지
-    if (tabName === 'point' && currentPage === 'point.html') {
+    if (tabName === 'point' && currentPage === '../BR_point_hm/point.html') {
         return;
-    } else if (tabName === 'coupon' && currentPage === 'coupon.html') {
+    } else if (tabName === 'coupon' && currentPage === '../BR_coupon_hm/coupon.html') {
         return;
     }
     
     // 페이지 이동
     if (tabName === 'point') {
-        window.location.href = 'point.html';
+        window.location.href = '../BR_point_hm/point.html';
     } else if (tabName === 'coupon') {
-        window.location.href = 'coupon.html';
+        window.location.href = '../BR_coupon_hm/coupon.html';
     }
 }
 
@@ -98,7 +98,7 @@ function goBack() {
 // 결제 취소
 function cancelPayment() {
     if (confirm("결제를 취소하시겠습니까?")) {
-        window.location.href = "../../BR_1,4page_hb/menu.html"; // 홈으로 이동
+        window.location.href = "../BR_menu_hb/menu.html"; // 홈으로 이동
     }
 }
 
@@ -116,6 +116,6 @@ function confirmPayment() {
                         selectedOption.innerText;
     
     if (confirm(`"${selectedText}" 결제를 진행하시겠습니까?`)) {
-        window.location.href = "coupon.html"; // 결제 완료 페이지로 이동
+        window.location.href = "../BR_coupon_hm/coupon.html"; // 쿠폰 페이지로 이동
     }
 }
