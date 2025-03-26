@@ -1,8 +1,5 @@
 /* 기본 스타일 */
 html, body {
-    width: 1024px;
-    margin: 0 auto;
-    overflow-x: hidden;
     font-family: 'Noto Sans KR', sans-serif;
     background-color: #fff;
     text-align: center;
@@ -10,6 +7,7 @@ html, body {
 
 .wrapper {
     width: 1024px;
+    height: 1562px;
     margin: 0 auto;
 }
 
@@ -17,7 +15,6 @@ html, body {
 .logo-container {
     position: absolute;
     top: 13px;
-    left: 27px;
     z-index: 100;
 }
 
@@ -34,16 +31,18 @@ html, body {
 }
 
 .tab {
-    padding: 10px 40px;
     font-size: 30px;
     font-weight: 500;
     cursor: pointer;
     width: 512px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .tab.active {
     color: #F20C93;
-    border-bottom: 3px solid #F20C93;
 }
 
 .tab.inactive {
@@ -53,23 +52,39 @@ html, body {
 
 /* 전체 컨테이너 */
 .content-container {
-    display: flex;
-    flex-wrap: wrap; /* 필요시 줄바꿈 허용 */
+    position: relative;
+    top: 46px;
+    height: 833px;
 }
 
 /* 제목 행 - 전체 너비 사용 */
 .title-row {
     width: 100%;
+    height: 66px;
     text-align: left;
-    margin-bottom: 30px;
+}
+
+.title-row > p {
+    position: relative;
+    left:35px;
+}
+
+.section-title {
+    font-size: 35px;
+    font-weight: 500;
 }
 
 /* 콘텐츠 행 - 좌우 배치 */
 .content-row {
     display: flex;
     justify-content: space-between;
+    position: relative;
     width: 100%;
-    margin-bottom: 30px;
+    height: 165px;
+}
+
+.content-row.second{
+    top: 63px;
 }
 
 /* 왼쪽/오른쪽 섹션 */
@@ -98,13 +113,14 @@ html, body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 22px 20px;
     padding: 0;
     cursor: pointer;
 }
 
 .option-btn img {
     width: 65px;
-    height: auto;
+    height: 34px;
     margin-bottom: 10px;
 }
 
@@ -134,50 +150,75 @@ html, body {
     margin-top: 10px;
 }
 
-
-
-
 .payment-summary {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    position: absolute;
     width: 1024px;
+    height: 282px;
+    left: 0px;
+    top: 1047px;
+
     background: #F6F6F6;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
-.payment-details {
-    text-align: left;
-}
-
-.total-title, .total-amount {
-    font-weight: bold;
+.total-title1{
+    position: absolute;
+    width: 1024px;
+    height: 100px;
+    left: 0px;
+    top: 0px;
+    
+    font-size: 30px;
     color: #F20C93;
+}
+.total-title2{
+    position: absolute;
+    width: 1024px;
+    height: 100px;
+    left: 0px;
+    top: 100px;
     font-size: 30px;
 }
+/*.total-title, .total-amount {
+    position: absolute;
+    width: 1024px;
+    height: 100px;
+    left: 0px;
+    top: 0px;
+}*/
 
 .payment-buttons {
-    display: flex;
-    gap: 20px;
+    position: absolute;
+    width: 1024px;
+    height: 233px;
+    left: 0px;
+    top: 1329px;
+    
+    background: #FFFFFF;
 }
 
 .prev-btn, .next-btn {
-    padding: 15px 30px;
-    border-radius: 99px;
-    font-size: 30px;
-    cursor: pointer;
+    position: absolute;
+    width: 512px;
+    height: 233px;
+    left: 512px;
+    top: 0px;
+
+    background: #FFFFFF;
 }
 
 .prev-btn {
-    border: 2px solid #F20C93;
-    color: #F20C93;
-    background: white;
+    position: absolute;
+    width: 230px;
+    height: 233px;
+    left: 79px;
+    top: 0px;
+
+    background: #FFFFFF;
+
 }
 
 .next-btn {
+    font-size: 30px;
     background: #F20C93;
     color: white;
     border: none;
