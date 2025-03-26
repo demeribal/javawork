@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="order.css">
 </head>
-<body>
+<body onload="getPrice()">
     <!-- 헤더 영역 -->
     <header class="header">
         <div class="logo"></div>
@@ -136,13 +136,43 @@
                 }
                 
                 quantityElement.textContent = quantity;
+                getPrice();
             });
         });
 
         const card = document.querySelector('.card-option');
-        card.addEventListener('click', ()=>{
+        card.addEventListener('click', function() {
            location.href='../BR_point_hm/point.html';
         })
+
+        const editBtn = document.querySelectorAll('.edit-btn');
+        editBtn.forEach(btn => {
+            btn.addEventListener('click', function() {
+                location.href='../BR_flavor_sy/flavor.html';
+            });
+        });
+
+        const deleteBtn = document.querySelectorAll('.delete-btn');
+        deleteBtn.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const itemActions = btn.parentElement;
+                const item = itemActions.parentElement;
+                item.remove();
+            });
+        });
+
+        function getPrice() {
+            const totalPrice = document.querySelector('.total-price');
+            let price = 0;
+
+            const quantityElement = document.querySelectorAll('.quantity');
+            quantityElement.forEach(element => {
+                price += parseInt(element.textContent) * 3200;
+            });
+
+            let priceText = '₩'+price.toLocaleString();
+            totalPrice.textContent = priceText;
+        }
     </script>
 </body>
 </html>
