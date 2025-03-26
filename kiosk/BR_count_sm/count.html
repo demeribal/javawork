@@ -6,6 +6,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="count.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+    <script src="count.js" defer></script>
 
 </head>
 <body>
@@ -13,7 +14,7 @@
         <nav>
             <ul>
                 <li>
-                    <input type="radio" id="option1" name="option" class="option-radio">
+                    <input type="radio" id="option1" name="option" class="option-radio"checked>
                     <label for="option1">상품정보</label>
                 </li>
                 <li>
@@ -46,24 +47,38 @@
                 <p class="option-info">★★ 본 제품은 포장이 불가합니다 ★★</p>
                 <div class="option">
                     <div class="option-item">
-                        <div class="option-item-box" tabindex="0">
+                        <div class="option-item-box" id="cup-option" tabindex="0">
                             <img src="images/cup.png">
                             <p class="option-name">컵(포장불가)</p>
-                            <p>- 0 +</p>
+                            <div class="quantity-container">
+                                <button class="btn-decrease">-</button>
+                                <span class="quantity">1</span>
+                                <button class="btn-increase">+</button>
+                            </div>
                         </div>
                     </div>
+                    
                     <div class="option-item">
-                        <div class="option-item-box" tabindex="0">
+                        <div class="option-item-box" id="corn-option" tabindex="0">
                             <img src="images/corn.png">
                             <p class="option-name">콘(포장불가)</p>
-                            <p>- 0 +</p>
+                            <div class="quantity-container">
+                                <button class="btn-decrease">-</button>
+                                <span class="quantity">1</span>
+                                <button class="btn-increase">+</button>
+                            </div>
                         </div>
                     </div>
+                    
                     <div class="option-item">
-                        <div class="option-item-box" tabindex="0">
+                        <div class="option-item-box" id="waffle-option" tabindex="0">
                             <img src="images/corn.png">
                             <p class="option-name">와플콘(포장불가)</p>
-                            <p>- 0 +</p>
+                            <div class="quantity-container">
+                                <button class="btn-decrease">-</button>
+                                <span class="quantity">1</span>
+                                <button class="btn-increase">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -77,7 +92,12 @@
             <button class="btn-back" onclick="location.href='../BR_menu_hb/menu.html'">이전</button>
         </div>
         <div class="btn-box">
-            <button class="btn-choose" onclick="location.href='../BR_flavor_sy/flavor.html'">플레이버(맛) 선택</button>
+            <form id="quantityForm" action="../BR_flavor_sy/flavor.html" method="GET">
+                <input type="hidden" name="cup_quantity" id="cup_quantity" value="0">
+                <input type="hidden" name="corn_quantity" id="corn_quantity" value="0">
+                <input type="hidden" name="waffle_quantity" id="waffle_quantity" value="0">
+                <button class="btn-choose" onclick="location.href='./flavor.html'">플레이버(맛) 선택</button>
+            </form>
         </div>
     </footer>
 </body>
