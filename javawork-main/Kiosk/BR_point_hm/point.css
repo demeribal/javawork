@@ -65,6 +65,7 @@ html, body {
 }
 
 .title-row > p {
+    margin: 0;
     position: relative;
     left:35px;
 }
@@ -77,7 +78,6 @@ html, body {
 /* 콘텐츠 행 - 좌우 배치 */
 .content-row {
     display: flex;
-    justify-content: space-between;
     position: relative;
     width: 100%;
     height: 165px;
@@ -152,9 +152,8 @@ html, body {
 
 .payment-summary {
     position: absolute;
-    width: 1024px;
+    width: 100%;
     height: 282px;
-    left: 0px;
     top: 1047px;
 
     background: #F6F6F6;
@@ -178,13 +177,6 @@ html, body {
     top: 100px;
     font-size: 30px;
 }
-/*.total-title, .total-amount {
-    position: absolute;
-    width: 1024px;
-    height: 100px;
-    left: 0px;
-    top: 0px;
-}*/
 
 .payment-buttons {
     position: absolute;
@@ -197,29 +189,37 @@ html, body {
 }
 
 .prev-btn, .next-btn {
-    position: absolute;
-    width: 512px;
-    height: 233px;
-    left: 512px;
-    top: 0px;
-
-    background: #FFFFFF;
+    font-size: 30px;
 }
 
-.prev-btn {
+.prev-btn{
     position: absolute;
-    width: 230px;
-    height: 233px;
-    left: 79px;
-    top: 0px;
-
+    width: 471px;
+    height: 114px;
+    left: 21px;
+    top: 59px;
+    
+    color:#F20C93;
     background: #FFFFFF;
+    border: 1px solid #B9B9B9;
+    border-radius: 99px;
+}
 
+.prev-btn-img {
+    position: absolute;
+    left: 115px;
+    top: 30px;
 }
 
 .next-btn {
-    font-size: 30px;
+    position: absolute;
+    width: 471px;
+    height: 114px;
+    left: 533px;
+    top: 59px;
+
+    color: #FFFFFF;
     background: #F20C93;
-    color: white;
-    border: none;
+    border: 1px solid #B9B9B9;
+    border-radius: 99px;
 }

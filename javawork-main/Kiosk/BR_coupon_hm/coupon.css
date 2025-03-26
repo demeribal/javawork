@@ -1,8 +1,5 @@
 /* 기본 스타일 */
 html, body {
-    width: 1024px;
-    margin: 0 auto;
-    overflow-x: hidden;
     font-family: 'Noto Sans KR', sans-serif;
     background-color: #fff;
     text-align: center;
@@ -10,6 +7,7 @@ html, body {
 
 .wrapper {
     width: 1024px;
+    height: 1562px;
     margin: 0 auto;
 }
 
@@ -17,7 +15,6 @@ html, body {
 .logo-container {
     position: absolute;
     top: 13px;
-    left: 27px;
     z-index: 100;
 }
 
@@ -34,16 +31,18 @@ html, body {
 }
 
 .tab {
-    padding: 10px 40px;
     font-size: 30px;
     font-weight: 500;
     cursor: pointer;
     width: 512px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .tab.active {
     color: #F20C93;
-    border-bottom: 3px solid #F20C93;
 }
 
 .tab.inactive {
@@ -51,54 +50,63 @@ html, body {
     background: #F8F8F8;
 }
 
-/* 콘텐츠 컨테이너 */
+/* 전체 컨테이너 */
 .content-container {
-    padding: 20px;
-    margin-top: 40px;
+    position: relative;
+    top: 46px;
+    height: 350px;
 }
 
-/* 제목 행 */
+/* 제목 행 - 전체 너비 사용 */
 .title-row {
+    width: 100%;
+    height: 66px;
     text-align: left;
-    margin-bottom: 30px;
-    margin-left: 20px;
+}
+
+.title-row > p {
+    margin: 0;
+    position: relative;
+    left:15px;
 }
 
 .section-title {
     font-size: 35px;
     font-weight: 500;
-    color: #000000;
-    margin: 0;
 }
 
-/* 콘텐츠 행 */
+/* 콘텐츠 행 - 좌우 배치 */
 .content-row {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 40px;
-    padding: 0 20px;
+    position: relative;
+    width: 100%;
+    height: 164px;
 }
 
-.left-section {
+/* 왼쪽/오른쪽 섹션 */
+.left-section, .right-section {
     width: 48%;
-    display: flex;
-    justify-content: flex-start;
 }
 
-.right-section {
-    width: 48%;
-    text-align: left;
+.left-section > .option-btn {
+    position: relative;
+    left: 50px;
+}
+
+.highlight {
+    color: #F20C93;
+    font-weight: 400;
+    font-size: 27px;
+    margin-top: 10px;
 }
 
 /* 결제 방식 */
 .payment-methods {
     display: flex;
     justify-content: space-between;
+    gap: 80px;
     padding: 0 20px;
-    margin-bottom: 40px;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 20px 30px;
 }
 
 /* 옵션 버튼 */
@@ -112,8 +120,8 @@ html, body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0;
     cursor: pointer;
+    padding: 0;
 }
 
 .option-btn img {
@@ -136,62 +144,75 @@ html, body {
     margin: 5px 0;
 }
 
-.highlight {
-    color: #F20C93;
-    font-weight: 400;
-    font-size: 27px;
-    margin-top: 10px;
-}
-
-/* 결제 요약 */
 .payment-summary {
-    position: fixed;
-    bottom: 0;
-    left: 0;
+    position: absolute;
     width: 1024px;
+    height: 282px;
+    top: 1047px;
+
     background: #F6F6F6;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
-.payment-details {
-    text-align: left;
-}
-
-.total-title, .total-amount {
-    font-weight: 500;
+.total-title1{
+    position: absolute;
+    width: 1024px;
+    height: 100px;
+    left: 0px;
+    top: 0px;
+    
+    font-size: 30px;
     color: #F20C93;
+}
+.total-title2{
+    position: absolute;
+    width: 1024px;
+    height: 100px;
+    left: 0px;
+    top: 100px;
     font-size: 30px;
 }
 
-.order-amount, .discount-amount {
-    font-weight: 500;
-    font-size: 30px;
-}
-
-/* 버튼 스타일 */
 .payment-buttons {
-    display: flex;
-    gap: 20px;
+    position: absolute;
+    width: 1024px;
+    height: 233px;
+    top: 1329px;
+    
+    background: #FFFFFF;
 }
 
 .prev-btn, .next-btn {
-    padding: 15px 30px;
-    border-radius: 99px;
     font-size: 30px;
-    cursor: pointer;
 }
 
-.prev-btn {
+.prev-btn{
+    position: absolute;
+    width: 471px;
+    height: 114px;
+    left: 21px;
+    top: 59px;
+    
+    color:#F20C93;
+    background: #FFFFFF;
     border: 1px solid #B9B9B9;
-    color: #F20C93;
-    background: white;
+    border-radius: 99px;
+}
+
+.prev-btn-img {
+    position: absolute;
+    left: 115px;
+    top: 30px;
 }
 
 .next-btn {
+    position: absolute;
+    width: 471px;
+    height: 114px;
+    left: 533px;
+    top: 59px;
+
+    color:#F20C93;
+    background: #FFFFFF;
     border: 1px solid #B9B9B9;
-    background: white;
-    color: #F20C93;
+    border-radius: 99px;
 }

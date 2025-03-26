@@ -24,7 +24,7 @@
         <div id="coupon-section" class="content-container">
             <!-- 모바일 상품권 섹션 -->
             <div class="title-row">
-                <h2 class="section-title">모바일 상품권 사용</h2>
+                <p class="section-title">모바일 상품권 사용</p>
             </div>
             
             <div class="content-row">
@@ -37,58 +37,47 @@
                 
                 <div class="right-section">
                     <div class="coupon-info">
-                        <p class="highlight">* 모바일 상품권</p>
+                        <h2 class="highlight">* 모바일 상품권</h2>
                         <p>카카오톡, 쇼핑몰에서 구매한 쿠폰 선물 받은키프티콘</p>
                     </div>
                 </div>
             </div>
-
-            <!-- 결제 방식 섹션 -->
-            <div class="title-row">
-                <h2 class="section-title">결제방식을 선택해 주세요</h2>
-            </div>
-            
-            <div class="payment-methods">
-                <button class="option-btn" >
-                    <img src="images/credit_card.png" alt="신용카드">
-                    <p>신용카드</p>
-                </button>
-                <button class="option-btn">
-                    <img src="images/임직원 할인1.png" alt="임직원 할인">
-                    <p>임직원 할인</p>
-                </button>
-                <button class="option-btn">
-                    <img src="images/Samsung Pay.png" alt="삼성페이">
-                    <p>삼성페이</p>
-                </button>
-                <button class="option-btn">
-                    <img src="images/Group 40.png" alt="해피페이">
-                    <p>해피페이</p>
-                </button>
-            </div>
         </div>
 
+        <!-- 결제 방식 섹션 -->
+        <div class="title-row">
+            <p class="section-title">결제방식을 선택해 주세요</p>
+        </div>
+        
+        <div class="payment-methods">
+            <button class="option-btn" >
+                <img src="images/credit_card.png" alt="신용카드">
+                <p>신용카드</p>
+            </button>
+            <button class="option-btn">
+                <img src="images/임직원 할인1.png" alt="임직원 할인">
+                <p>임직원 할인</p>
+            </button>
+            <button class="option-btn">
+                <img src="images/Samsung Pay.png" alt="삼성페이">
+                <p>삼성페이</p>
+            </button>
+            <button class="option-btn">
+                <img src="images/Group 40.png" alt="해피페이">
+                <p>해피페이</p>
+            </button>
+        </div>
         <!-- 결제 요약 -->
         <div class="payment-summary">
             <div class="payment-details">
-                <p class="total-title">최종 결제금액 <span class="total-amount">₩12,800</span></p>
-                <p>총 주문 금액 <span class="order-amount">₩12,800</span> - 총 할인 금액 <span class="discount-amount">₩0</span></p>
-            </div>
-            <div class="payment-buttons">
-                <button class="prev-btn" onclick="location.href='../BR_point_hm/point.html'">← 이전</button>
-                <button class="next-btn">결제취소</button>
+                <p class="total-title1">최종 결제금액 <span class="total-amount">₩12,800</span></p>
+                <p class="total-title2">총 주문 금액 <span class="order-amount">₩12,800</span> - 총 할인 금액 <span class="discount-amount">₩0</span></p>
             </div>
         </div>
-    </div>
-    <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const optionButtons = document.querySelectorAll(".option-btn");
-        optionButtons.forEach(btn => {
-          btn.addEventListener("click", function() {
-            window.location.href = "../BR_success_wj/success.html";
-          });
-        });
-      });
-    </script>
+        <div class="payment-buttons">
+            <button class="prev-btn" onclick="location.href='../BR_order_wj/order.html'"><img class="prev-btn-img" src="images/arrow_forward_ios.png" alt="이전" />이전</button>
+            <button class="next-btn">다음단계(결제하기)</button>
+        </div>
+    </div>    
 </body>
 </html>
