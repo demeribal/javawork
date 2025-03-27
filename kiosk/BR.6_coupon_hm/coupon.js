@@ -38,17 +38,17 @@ function showTab(tabName) {
     const currentPage = window.location.pathname.split('/').pop();
     
     // 불필요한 페이지 리로드 방지
-    if (tabName === 'point' && currentPage === '../BR.5_point_hm/point.html') {
+    if (tabName === 'point' && currentPage === '../BR_point_hm/point.html') {
         return;
-    } else if (tabName === 'coupon' && currentPage === '../BR.6_coupon_hm/coupon.html') {
+    } else if (tabName === 'coupon' && currentPage === '../BR_coupon_hm/coupon.html') {
         return;
     }
     
     // 페이지 이동
     if (tabName === 'point') {
-        window.location.href = '../BR.5_point_hm/point.html';
+        window.location.href = '../BR_point_hm/point.html';
     } else if (tabName === 'coupon') {
-        window.location.href = '../BR.6_coupon_hm/coupon.html';
+        window.location.href = '../BR_coupon_hm/coupon.html';
     }
 }
 
@@ -85,7 +85,7 @@ function selectOption(button) {
 // 결제 취소
 function cancelPayment() {
     if (confirm("결제를 취소하시겠습니까?")) {
-        window.location.href = "../BR.1_menu_hb/menu.html"; // 홈으로 이동
+        window.location.href = "../BR_menu_hb/menu.html"; // 홈으로 이동
     }
 }
 
@@ -103,6 +103,6 @@ function confirmPayment() {
                         selectedOption.innerText;
     
     if (confirm(`"${selectedText}" 결제를 진행하시겠습니까?`)) {
-        window.location.href = "../BR.6_coupon_hm/coupon.html"; // 쿠폰 페이지로 이동
+        window.location.href = "../BR_coupon_hm/coupon.html"; // 쿠폰 페이지로 이동
     }
 }
