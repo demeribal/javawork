@@ -23,7 +23,7 @@
 
 2. nodeJs로 라이브서버 실행 
 npx live-server --port=5555
-	컨트롤러에서 5555로 정했으면 -- @CrossOrigin(origins = "http://127.0.0.1:5555")
+	컨트롤러에서 5555로 정했으면 npx live-server --port=5555  [ @CrossOrigin(origins = "http://127.0.0.1:5555") ]
 
 ** 실행시 @CrossOrigin로 호출한 주소와 같은 주소로 접속
 	@CrossOrigin(origins = "http://127.0.0.1:5555") 으로 설정했으면 
