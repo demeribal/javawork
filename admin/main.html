@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>통합물류관리시스템</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="pay.css">
+
+    <!-- flatpickr CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
+
+
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">통합물류관리시스템</h1>
+        
+        <!-- 탭 메뉴 -->
+        <div class="tabs">
+            <div class="tab active" data-tab="stock">Stock</div>
+            <div class="tab" data-tab="pay">Pay</div>
+            <div class="tab" data-tab="menu">Menu</div>
+        </div>
+        
+        <!-- Stock 탭 콘텐츠 -->
+        <div id="stock-content" class="tab-content active">
+            <div class="controls">
+                <button class="filter-btn">
+                    <img src="images/Filter.png" alt="필터" />
+                    Filter
+                </button>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="메뉴명 입력해주세요">
+                </div>
+                
+                <div class="branch-buttons">
+                    <button class="branch-btn" data-branch="gangseo">강서지점</button>
+                    <button class="branch-btn" data-branch="sangbong">상봉지점</button>
+                    <button class="branch-btn" data-branch="hanam">하남지점</button>
+                </div>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>지점명</th>
+                        <th>메뉴명</th>
+                        <th>재고량</th>
+                        <th>상품상태</th>
+                        <th>발주상태</th>
+                        <th>발주하기</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 데이터가 없는 상태 -->
+                </tbody>
+            </table>
+            
+            <div class="no-data">
+                조회 내역이 없습니다
+            </div>
+        </div>
+        
+        <!-- Pay 탭 콘텐츠 -->
+        <div id="pay-content" class="tab-content">
+            <div class="controls">
+                <button id="date-btn" class="filter-btn">
+                    <img src="images/Filter.png" alt="필터" />
+                    Date
+                </button>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="메뉴명 입력해주세요">
+                </div>
+                
+                <div class="branch-buttons">
+                    <button class="branch-btn" data-branch="gangseo">강서지점</button>
+                    <button class="branch-btn" data-branch="sangbong">상봉지점</button>
+                    <button class="branch-btn" data-branch="hanam">하남지점</button>
+                </div>
+            </div>
+            <div id="pay-data-area"></div>
+
+            <!-- Date 모달과 dim -->
+            <div id="date-modal-dim" class="dimmed" style="display: none;"></div>
+            <div id="calendar-step" style="display: none;"></div>
+
+            <div id="date-modal" class="date-modal" style="display: none;">
+                <div class="modal-content" id="modal-content-main">
+                <div class="modal-header">
+                    <div class="date-input-group">
+                      <label>From</label>
+                      <div class="input-icon-wrapper">
+                        <input type="text" id="from-date" />
+                        <img src="images/calendar.png" class="calendar-icon" data-target="from-date" />
+                      </div>
+                    </div>
+                    <div class="date-input-group">
+                      <label>To</label>
+                      <div class="input-icon-wrapper">
+                        <input type="text" id="to-date" />
+                        <img src="images/calendar.png" class="calendar-icon" data-target="to-date" />
+                      </div>
+                    </div>
+                  </div>
+                <div class="modal-shortcuts">
+                    <button id="today-btn" class="active">Today</button>
+                    <button id="this-week-btn">This Week</button>
+                    <button id="this-month-btn">This Month</button>
+                </div>
+                <div class="sort-dropdown">
+                    <div class="selected-option" id="sort-selected">
+                      오름차순
+                      <img src="images/down-arrow.png" alt="▼" />
+                    </div>
+                    <ul class="dropdown-options" id="sort-options">
+                      <li data-value="asc">오름차순</li>
+                      <li data-value="desc">내림차순</li>
+                    </ul>
+                  </div>
+                  
+                <hr />
+                <div class="modal-footer">
+                    <button id="reset-btn">리셋</button>
+                    <button id="apply-btn">적용하기</button>
+                </div>
+            </div>
+            </div>
+            <!-- 월 선택 모달 -->
+            <div id="month-modal" class="date-modal" style="display: none;">
+                <div id="month-picker-container"></div>
+            </div>
+            
+            <!-- 일 선택 모달 -->
+            <div id="day-modal" class="date-modal" style="display: none;">
+                <div id="day-picker-container"></div>
+            </div>
+  
+        </div>
+        
+        <!-- Menu 탭 콘텐츠 -->
+        <div id="menu-content" class="tab-content">
+            <div class="controls">
+                <button class="filter-btn">
+                    <img src="images/Filter.png" alt="필터" />
+                    Filter
+                </button>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="메뉴명 입력해주세요">
+                </div>
+                
+                <div class="branch-buttons">
+                    <button class="branch-btn" data-branch="gangseo">강서지점</button>
+                    <button class="branch-btn" data-branch="sangbong">상봉지점</button>
+                    <button class="branch-btn" data-branch="hanam">하남지점</button>
+                </div>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>지점명</th>
+                        <th>메뉴명</th>
+                        <th>재고량</th>
+                        <th>상품상태</th>
+                        <th>발주상태</th>
+                        <th>발주하기</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 데이터가 없는 상태 -->
+                </tbody>
+            </table>
+            
+            <div class="no-data">
+                조회 내역이 없습니다
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+    <script src="pay.js"></script>
+</body>
+</html>
