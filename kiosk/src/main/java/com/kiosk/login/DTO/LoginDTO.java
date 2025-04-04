@@ -1,4 +1,4 @@
-package com.kiosk.loginDTO;
+package com.kiosk.login.DTO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

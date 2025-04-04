@@ -16,11 +16,14 @@ document.querySelector("form").addEventListener("submit", function (event) {
     .then(data => {
         if (data.message === "로그인 성공") {
             alert("로그인 성공!");
-            // 로그인 후 이동할 페이지 설정
-            window.location.href = "main.html";
+            if (data.isHead) {
+                window.location.href = "admin_main.html";
+            } else {
+                window.location.href = "user_main.html";
+            }
         } else {
             alert("로그인 실패. 아이디와 비밀번호를 확인하세요.");
         }
-    })
+    })    
     .catch(error => console.error("Error:", error));
 });
