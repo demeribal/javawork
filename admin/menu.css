@@ -1,0 +1,260 @@
+
+.add-btn {
+    background-color: #6a5acd;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th {
+    background-color: #f8f9fa;
+    padding: 12px 15px;
+    text-align: center;
+    color: #666;
+    font-weight: normal;
+    font-size: 0.9rem;
+}
+
+.data-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #f1f1f1;
+    color: #333;
+    height: 47px;
+}
+
+/* 모달 스타일 */
+.modal {
+    display: none; /* 초기에는 숨김 상태 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.modal-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #333;
+}
+
+/* 파일 업로드 영역 스타일 */
+.file-upload-area {
+    margin-bottom: 25px;
+}
+
+.file-drop-zone {
+    width: 100%;
+    height: 100%;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #f8f9fc;
+    cursor: pointer;
+    position: relative;
+    min-height: 170px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.file-drop-zone.dragover {
+    border-color: #5D5FEF;
+    background-color: #f0f1ff;
+}
+
+.upload-initial {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.drop-text {
+    color: #333;
+    font-size: 14px;
+}
+
+.browse-link {
+    color: #5D5FEF;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* 업로드 완료 상태 스타일 */
+.upload-complete {
+    width: 100%;
+    height: 170px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.file-name {
+    font-size: 16px;
+    color: #5D5FEF;
+    font-weight: 500;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    border: none;
+}
+
+/* 입력 폼 영역 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.input-with-clear {
+    position: relative;
+}
+
+.clear-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #ccc;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* 등록 버튼 */
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: #5D5FEF;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #4a4cda;
+}
+
+/* 확인 모달 */
+.confirm-modal {
+    text-align: center;
+    background-color: #f5f2fc;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.confirm-text {
+    font-size: 16px;
+    margin-bottom: 25px;
+    color: #4a4a4a;
+}
+
+.confirm-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.confirm-btn {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.confirm-btn.yes {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.confirm-btn.no {
+    background-color: #6a5acd;
+    color: white;
+}
+
+.modal-close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    border: none;
+    background: none;
+    font-size: 18px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+/* 알림 토스트 스타일 */
+.notification-toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    padding: 12px 20px;
+    border-radius: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    animation: fadeInOut 3s forwards;
+    display: none;
+}
+
+.toast-message {
+    color: #333;
+    font-size: 14px;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, 20px); }
+    10% { opacity: 1; transform: translate(-50%, 0); }
+    90% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, -20px); }
+}

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>통합물류관리시스템</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="pay.css">
+    <link rel="stylesheet" href="stock.css">
+    <link rel="stylesheet" href="menu.css">
+
+    <!-- flatpickr CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
+
+
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">통합물류관리시스템</h1>
+        
+        <!-- 탭 메뉴 -->
+        <div class="tabs">
+            <div class="tab active" data-tab="stock">Stock</div>
+            <div class="tab" data-tab="pay">Pay</div>
+            <div class="tab" data-tab="menu">Menu</div>
+        </div>
+        
+        <!-- Stock 탭 콘텐츠 -->
+        <div id="stock-content" class="tab-content active">
+            <div class="controls">
+                <button class="filter-btn">
+                    <img src="images/Filter.png" alt="필터" />
+                    Filter
+                </button>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="메뉴명 입력해주세요">
+                </div>
+                
+                <div class="branch-buttons">
+                    <button class="branch-btn" data-branch="gangseo">강서지점</button>
+                    <button class="branch-btn" data-branch="sangbong">상봉지점</button>
+                    <button class="branch-btn" data-branch="hanam">하남지점</button>
+                </div>
+            </div>
+            <div id="stock-data-area"></div>
+        </div>
+        
+        <!-- Pay 탭 콘텐츠 -->
+        <div id="pay-content" class="tab-content">
+            <div class="controls">
+                <button id="date-btn" class="filter-btn">
+                    <img src="images/Filter.png" alt="필터" />
+                    Date
+                </button>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="메뉴명 입력해주세요">
+                </div>
+                
+                <div class="branch-buttons">
+                    <button class="branch-btn" data-branch="gangseo">강서지점</button>
+                    <button class="branch-btn" data-branch="sangbong">상봉지점</button>
+                    <button class="branch-btn" data-branch="hanam">하남지점</button>
+                </div>
+            </div>
+            <div id="pay-data-area"></div>
+
+            <!-- Date 모달과 dim -->
+            <div id="date-modal-dim" class="dimmed" style="display: none;"></div>
+            <div id="calendar-step" style="display: none;"></div>
+
+            <div id="date-modal" class="date-modal" style="display: none;">
+                <div class="modal-content" id="modal-content-main">
+                <div class="modal-header">
+                    <div class="date-input-group">
+                      <label>From</label>
+                      <div class="input-icon-wrapper">
+                        <input type="text" id="from-date" />
+                        <img src="images/calendar.png" class="calendar-icon" data-target="from-date" />
+                      </div>
+                    </div>
+                    <div class="date-input-group">
+                      <label>To</label>
+                      <div class="input-icon-wrapper">
+                        <input type="text" id="to-date" />
+                        <img src="images/calendar.png" class="calendar-icon" data-target="to-date" />
+                      </div>
+                    </div>
+                  </div>
+                <div class="modal-shortcuts">
+                    <button id="today-btn" class="active">Today</button>
+                    <button id="this-week-btn">This Week</button>
+                    <button id="this-month-btn">This Month</button>
+                </div>
+                <div class="sort-dropdown">
+                    <div class="selected-option" id="sort-selected">
+                      오름차순
+                      <img src="images/down-arrow.png" alt="▼" />
+                    </div>
+                    <ul class="dropdown-options" id="sort-options">
+                      <li data-value="asc">오름차순</li>
+                      <li data-value="desc">내림차순</li>
+                    </ul>
+                  </div>
+                  
+                <hr />
+                <div class="modal-footer">
+                    <button id="reset-btn">리셋</button>
+                    <button id="apply-btn">적용하기</button>
+                </div>
+            </div>
+            </div>
+            <!-- 월 선택 모달 -->
+            <div id="month-modal" class="date-modal" style="display: none;">
+                <div id="month-picker-container"></div>
+            </div>
+            
+            <!-- 일 선택 모달 -->
+            <div id="day-modal" class="date-modal" style="display: none;">
+                <div id="day-picker-container"></div>
+            </div>
+  
+        </div>
+        
+        <!-- Menu 탭 콘텐츠 -->
+        <div id="menu-content" class="tab-content">
+            <div class="controls">
+                <button class="filter-btn">
+                    <img src="images/Filter.png" alt="필터" />
+                    Filter
+                </button>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="메뉴명 입력해주세요">
+                </div>
+                
+                <div class="action-container">
+                    <button class="add-btn" id="openModalBtn">메뉴추가</button>
+                </div>
+            </div>
+            
+            <div id="menu-data-area"></div>
+            
+            <!--
+            <div class="no-data">
+                조회 내역이 없습니다
+            </div>
+            -->
+        </div>
+    </div>
+
+    <div class="notification-toast" id="statusToast">
+        <span class="check-icon">✅</span>
+        <span class="toast-message"></span>
+    </div>
+    <!-- 메뉴상태 변경 확인 모달 -->
+    <div class="modal" id="statusConfirmModal">
+        <div class="modal-content confirm-modal">
+            <button class="modal-close" id="confirmCloseBtn">&times;</button>
+            <p class="confirm-text"><strong id="confirmStatusChange">정말 판매상태를 변경하시겠습니까?</strong></p>
+            <div class="confirm-buttons">
+                <button id="statusConfirmYes" class="confirm-btn yes">예</button>
+                <button id="statusConfirmNo" class="confirm-btn no">아니요</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메뉴추가 모달 -->
+    <div class="modal" id="menuAddModal">
+        <div class="modal-content">
+            <h2 class="modal-title">메뉴추가</h2>
+            
+            <div class="file-upload-area">
+                <div class="file-drop-zone" id="fileDropZone">
+                    <!-- 초기 상태 (파일 없음) -->
+                    <div class="upload-initial" id="uploadInitial">
+                        <div class="file-icon">
+                            <img src="images/Upload icon.png" alt="업로드 아이콘" width="48" height="48">
+                        </div>
+                        <p class="drop-text">Drag & drop files or <a href="#" class="browse-link">Browse</a></p>
+                    </div>
+                    
+                    <!-- 업로드 완료 상태 (처음에는 숨김) -->
+                    <div class="upload-complete" id="uploadComplete" style="display: none;">
+                        <span class="file-name">맛있어봉.png</span>
+                        <button class="delete-btn" id="deleteFileBtn">
+                            <img src="images/Bin icon.png" alt="삭제" width="15" height="16">
+                        </button>
+                    </div>
+                </div>
+                <!-- 실제 파일 입력 필드 (숨김) -->
+                <input type="file" id="fileInput" accept="images/*" style="display: none;">
+            </div>
+            
+            <div class="form-group">
+                <label for="menuName">메뉴명</label>
+                <div class="input-with-clear">
+                    <input type="text" id="menuName" placeholder="맛있어초코봉">
+                    <button class="clear-btn">&times;</button>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="menuCode">메뉴코드</label>
+                <input type="text" id="menuCode" placeholder="98121">
+            </div>
+            
+            <button class="submit-btn" id="registerMenuBtn">등록하기</button>
+        </div>
+    </div>
+
+    <!-- 메뉴 등록 확인 모달 -->
+    <div class="modal" id="menuConfirmModal">
+        <div class="modal-content confirm-modal">
+            <button class="modal-close" id="confirmCloseBtn">&times;</button>
+            <p class="confirm-text"><strong id="confirmMenuName">정말 등록하시겠습니까?</strong></p>
+            <div class="confirm-buttons">
+                <button id="menuConfirmYes" class="confirm-btn yes">예</button>
+                <button id="menuConfirmNo" class="confirm-btn no">아니요</button>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+    <script src="pay.js"></script>
+    <script src="stock.js"></script>
+    <script src="menu.js"></script>
+</body>
+</html>
