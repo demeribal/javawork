@@ -149,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 파일 업로드 상태 초기화 함수
     function resetFileUpload() {
         fileInput.value = ''; // 파일 입력 초기화
+        fileNameElement.textContent = '';
         uploadComplete.style.display = 'none';
         uploadInitial.style.display = 'flex';
     }
@@ -172,6 +173,10 @@ document.addEventListener('DOMContentLoaded', function() {
         menuConfirmYesBtn.addEventListener('click', function () {
             menuConfirmModal.style.display = 'none';
             modal.style.display = 'none';
+            fileNameElement.textContent = '';
+            document.getElementById('menuName').value = '';
+            document.getElementById('menuCode').value = '';
+            resetFileUpload();
             showToast("메뉴등록이 완료되었습니다.");
         });
 
