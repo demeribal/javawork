@@ -10,24 +10,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kiosk.loginDTO.LoginDTO;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-@CrossOrigin(origins = "http://127.0.0.1:5555")
+@CrossOrigin(origins ="http://127.0.0.1:5555", allowCredentials = "true")
+
 @RestController
 @RequestMapping("/api")
 public class LoginController {
     
 	@PostMapping("/login")
-	public ResponseEntity<?> login( @RequestBody Map<String, String> loginData, HttpServletRequest request) {
+	public ResponseEntity<?> login( @RequestBody LoginDTO loginDTO, HttpServletRequest request) {
 		System.out.println("로그인 요청 들어옴!"); 		//디버깅용 추후에 삭제
-        System.out.println("입력값: " + loginData);	//디버깅용 추후에 삭제
+        System.out.println("입력값: " + loginDTO);	//디버깅용 추후에 삭제
 	        
-        String username = loginData.get("username");
-        String password = loginData.get("password");
+        String username = loginDTO.getUsername();
+        String password = loginDTO.getPassword();
         if ("admin".equals(username) && "1234".equals(password)) {
             HttpSession session = request.getSession();
-            session.setAttribute("user", username);
+            session.setAttribute("user", loginDTO);
 
             return ResponseEntity.ok(Map.of("message", "로그인 성공"));
         }

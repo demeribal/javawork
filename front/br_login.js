@@ -4,8 +4,9 @@ document.querySelector("form").addEventListener("submit", function (event) {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    fetch("http://192.168.50.15:8080/api/login", {  // 백엔드 주소로 요청
+    fetch("http://127.0.0.1:8080/api/login", {  // 백엔드 주소로 요청
         method: "POST",
+        credentials: "include",
         headers: {
             "Content-Type": "application/json"
         },
