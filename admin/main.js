@@ -18,25 +18,6 @@
          document.getElementById(`${tabName}-content`).classList.add('active');
      });
  });
- 
- // 지점 필터 버튼 기능
- const branchButtons = document.querySelectorAll('.branch-btn');
- 
- branchButtons.forEach(button => {
-     button.addEventListener('click', () => {
-         // 버튼의 active 상태 토글
-         button.classList.toggle('active');
-         
-         // 활성화된 지점 필터 확인
-         const activeBranches = [];
-         document.querySelectorAll('.branch-btn.active').forEach(btn => {
-             activeBranches.push(btn.getAttribute('data-branch'));
-         });
-         
-         // 여기서 필터링된 데이터를 표시하는 로직을 추가할 수 있습니다
-         console.log('활성화된 지점:', activeBranches);
-     });
- });
 
 
 //AJAX
@@ -112,10 +93,19 @@ document.addEventListener("DOMContentLoaded", () => {
           })
           .catch(error => console.error("Stock 탭 로딩 실패:", error));
       }
+
+      if (tabName === 'menu') {
+        fetch(`${tabName}.html`)
+          .then(response => response.text())
+          .then(data => {
+            document.getElementById("menu-data-area").innerHTML = data;
+          })
+          .catch(error => console.error("menu 탭 로딩 실패:", error));
+      }
     });
   });
 
-  // ✅ 초기 로딩 시 stock.html 불러오기
+  // 초기 로딩 시 stock.html 불러오기
   fetch("stock.html")
     .then(response => response.text())
     .then(data => {
@@ -124,4 +114,51 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch(error => console.error("초기 Stock 로딩 실패:", error));
 });
 
+
+// 데이터 있을때 no-data hidden
+  const noDataDiv = document.querySelector('.no-data');
+  const showDataBtn = document.getElementById('showDataBtn');
+  const hideDataBtn = document.getElementById('hideDataBtn');
+  const tableBody = document.getElementById('orderTableBody');
   
+  function checkForData() {
+      let hasData = false;
+      const orderRows = document.querySelectorAll('tr.order');
+      
+      orderRows.forEach(row => {
+          // Check if row has any non-empty cells
+          const cells = row.querySelectorAll('td');
+          for (let i = 0; i < cells.length; i++) {
+              const cellContent = cells[i].textContent.trim();
+              if (cellContent !== '') {
+                  hasData = true;
+                  break;
+              }
+          }
+      });
+      
+      // Toggle visibility of no-data div based on data presence
+      if (hasData) {
+          noDataDiv.style.display = 'none';
+      } else {
+          noDataDiv.style.display = 'block';
+      }
+  }
+  
+  // Initial check for data
+  checkForData();
+
+//부족한 줄만큼 빈 <tr> 자동 추가
+fetch("stock.html")
+  .then(response => response.text())
+  .then(data => {
+    document.getElementById("stock-data-area").innerHTML = data;
+
+    // 활성화
+    document.querySelector('.tab[data-tab="stock"]').classList.add('active');
+    document.getElementById('stock-content').classList.add('active');
+
+    // ✅ 테이블 로딩 후 빈 행 추가
+    addEmptyRows();
+  });
+

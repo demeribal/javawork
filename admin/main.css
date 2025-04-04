@@ -152,8 +152,10 @@ td {
 /* 데이터 없음 메시지 */
 .no-data {
     text-align: center;
-    padding: 100px 0;
+    padding: 220px 0;
     color: #aaa;
     font-size: 16px;
-}
+    display: none;
 
+    height: 517px;
+}

@@ -316,3 +316,18 @@
 .flatpickr-months .flatpickr-current-month {
   color: #6D5BD0;
 }
+
+
+.paymentlist {
+  height: 517px;
+}
+
+.payment > td {
+  height: 47px;
+}
+
+.payment:hover {
+  cursor: pointer;
+  background-color: #f2f2f2;
+  transition: background-color 0.3s ease;
+}
