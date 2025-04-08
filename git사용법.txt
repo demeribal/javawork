@@ -68,28 +68,51 @@ ex) git push -u origin sooyoon
 
 ---------------------------------------------------------------------
 --------------------------git merge하기----------------------------
-=> merge라는 branch에 sooyoon과 hamin을 merge한다고 가정
-=> main은 완벽한 코드만 올라가야하기 때문에 main으로 옮기기 전 merge할 barnch를 따로 생성함
+현재 본인 브랜치에서 merge브랜치로 merge하는 과정을 설명함
 
-1. 합칠 branch로 이동
-git checkout sooyoon
+1.
+본인 브랜치에  main에 있는 파일이름과 동일하게 하여 모든 파일 올리기
+or
+본인 브랜치에 main에 있는 파일 이름과 동일하게 하여 안에 본인이 수정한 파일만 넣기
+=> 위와 같은 과정으로 올려야 merge가 편합니다
 
-2. 충돌 방지를 위해 merge할 branch pull
-git pull origin [merge 할 bracnch]
-ex) git pull origin sooyoon
+2. main브랜치가 아닌 merge브랜치에 합치기
+=> 충돌방지를 위해 merge 브랜치로 합치고 이상없으면 main으로 옮겨주세요 (여기까지 해주셔도 제가 main으로 옮길게요)
 
-3. hamin branch도 1~2 똑같이 진행
-git checkout hamin
-git pull origin hamin
+3. 파일 이름만 같게 하면 기존에 있던 파일에 본인이 수정한 코드가 바뀌어서 올라감
 
-4. merge branch로 이동하여 branch pull해주기
+4. merge과정
+4-1. 본인 브랜치 pull, merge브랜치 pull
+=> 합칠 브랜치와 가져올 브랜치 모두 pull 합니다(충돌방지)
+
+4-2. 합쳐야할 브랜치로 이동합니다(merge)
 git checkout merge
-git pull origin merge
-=> 1~4까지는 충돌 방지를 위한 과정
 
-5. sooyoon과 hamin branch merge시키기
-git merge sooyoon
-git merge hamin
+4-3. 본인이 이동한 브랜치가 merge가 맞는지 확인합니다
+git branch
+=> 아래 merge가 초록색으로 표시
+
+4-4. 여기서 merge를 pull 합니다
+git pull origin merge
+=> 이전에 본인 브랜치도 pull 하고 오셔야합니다(충돌방지)
+
+4-5. 본인 브랜치에 있는 파일 이름을 입력하여 merge브랜치에 합쳐줍니다
+git checkout 본인브랜치이름 파일이름
+=> ex) git checkout sooyoon kiosk
+
+4-6. 이후에는 커밋과 푸시를 동일하게 진행합니다
+ex)
+git commit -m "flavor 수정"
+git push origin merge
+
+4-8. github로 이동해 정상적으로 올라갔는지 확인합니다
+=>cmd에서 git status를 했을떄 nothing to commit, working tree clean 이렇게 나오면 성공
+
+*********주의사항
+만약 파일 이름을 다르게 하면 초록글씨가 엄청 뜨면서 파란색으로 아래와 같은 문구가 뜨는데
+Apply addition to index and worktree [y,n,q,a,d,e,p,?]?
+이때는 y를 연속적으로 입력해주면 해결됨. 이후에 똑같이 커밋과 푸시 해주면 해결
+but. 이렇게 하면 merge하는 브랜치에 합쳐지지 않고 파일이 별도로 업로드 되니 그냥 파일 이름 같게 하시길 추천
 
 ----------------------------------------------------------------------
 ----------------------만약 pull이 안될 때----------------------------
