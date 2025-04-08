@@ -127,12 +127,28 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
     if (!allSelected) {
-      alert("모든 플레이버를 선택해주세요."); // ❗️ 여기서 알림
+      alert("모든 플레이버를 선택해주세요."); 
       return;
     }
 
-    // 선택 완료 시 이동
-    location.href = '../BR.1_menu_hb/menu.html';
+  //*****menu페이지로 데이터 전송*******(컵, 콘, 와플 개수와 선택한 플레이버 전송함)
+  //1. URL 파라미터 (cup/corn/waffle 수량) 복원
+  const params = new URLSearchParams(window.location.search);
+  const cup_quantity = params.get('cup_quantity') || 0;
+  const corn_quantity = params.get('corn_quantity') || 0;
+  const waffle_quantity = params.get('waffle_quantity') || 0;
+
+  //2. 선택된 플레이버 이름만 배열로 정리
+  const selectedFlavors = selectedFlavorsBySlot.map(slot =>
+    slot.map(f => f.name)
+  );
+
+  //3. JSON 문자열을 URL-safe하게 인코딩
+  const flavorData = encodeURIComponent(JSON.stringify(selectedFlavors));
+
+  //4. 다음 페이지로 데이터 전달
+  const nextUrl = `../BR.1_menu_hb/menu.html?cup_quantity=${cup_quantity}&corn_quantity=${corn_quantity}&waffle_quantity=${waffle_quantity}&selectedFlavors=${flavorData}`;
+  location.href = nextUrl;
   });
   
   
