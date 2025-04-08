@@ -6,6 +6,7 @@
     <title>통합물류관리시스템</title>
     <link rel="stylesheet" href="main.css">
     <link rel="stylesheet" href="pay.css">
+    <link rel="stylesheet" href="stock.css">
 
     <!-- flatpickr CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
@@ -45,27 +46,7 @@
                     <button class="branch-btn" data-branch="hanam">하남지점</button>
                 </div>
             </div>
-            
-            <table>
-                <thead>
-                    <tr>
-                        <th>NO</th>
-                        <th>지점명</th>
-                        <th>메뉴명</th>
-                        <th>재고량</th>
-                        <th>상품상태</th>
-                        <th>발주상태</th>
-                        <th>발주하기</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- 데이터가 없는 상태 -->
-                </tbody>
-            </table>
-            
-            <div class="no-data">
-                조회 내역이 없습니다
-            </div>
+            <div id="stock-data-area"></div>
         </div>
         
         <!-- Pay 탭 콘텐츠 -->
