@@ -1,0 +1,211 @@
+최종 sql문
+
+[ 1. h2 테이블 생성문과 예시데이터 (create table & insert into) ]
+
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(20) NOT NULL,
+  password VARCHAR(60) NOT NULL,
+  is_head BOOLEAN DEFAULT FALSE NOT NULL
+);
+
+CREATE TABLE office (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  office_name VARCHAR(20),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE menu (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  menu_name VARCHAR(100) NOT NULL,
+  image_path VARCHAR(255)
+);
+
+CREATE TABLE stock(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  menu_id INT NOT NULL,
+  office_id INT NOT NULL,
+  order_id INT NOT NULL,
+  quantity INT NOT NULL,
+  is_use BOOLEAN NOT NULL,
+  FOREIGN KEY (menu_id) REFERENCES menu(id),
+  FOREIGN KEY (office_id) REFERENCES office(id),
+  FOREIGN KEY (order_id) REFERENCES order(id),
+);
+
+CREATE TABLE orders (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  status VARCHAR(20) NOT NULL DEFAULT '확인중',
+  quantity INT NOT NULL,
+  last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE pay (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  menu_id INT NOT NULL,
+  pay_code INT NOT NULL,
+  payment_method VARCHAR(50) NOT NULL,
+  payment_status VARCHAR(50) NOT NULL,
+  amount INT NOT NULL,
+  paid_at TIMESTAMP NOT NULL,
+  FOREIGN KEY (menu_id) REFERENCES menu(id)
+);
+
+CREATE TABLE message (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  pay_id INT NOT NULL,
+  phone_number VARCHAR(20) NOT NULL,
+  send_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  is_sent BOOLEAN DEFAULT FALSE NOT NULL,
+  FOREIGN KEY (pay_id) REFERENCES pay(id)
+);
+
+---------------------------------------------------------------------------------------------------
+
+INSERT INTO users (username, password, is_Head) VALUES ('admin', '1234', 1);
+INSERT INTO users (username, password, is_Head) VALUES ('gangseo', '1234', 0);
+INSERT INTO users (username, password, is_Head) VALUES ('sangbong', '1234', 0);
+INSERT INTO users (username, password, is_Head) VALUES ('hanam', '1234', 0);
+
+INSERT INTO office (user_Id, office_Name) 
+VALUES (1, '본사매장');
+INSERT INTO office (user_Id, office_Name)
+VALUES (2, '강서본점');
+INSERT INTO office (user_Id, office_Name)
+VALUES (3, '상봉본점');
+INSERT INTO office (user_Id, office_Name)
+VALUES (4, '하남본점');
+
+INSERT INTO menu (menu_Name, image_Path) VALUES ('사랑에빠진딸기', '/images/strawberryfallinlove.png');
+INSERT INTO menu (menu_Name, image_Path) VALUES ('엄마는외계인', '/images/momisalien.png');
+INSERT INTO menu (menu_Name, image_Path) VALUES ('민트초코', '/images/mintchocolate.png');
+
+INSERT INTO inventory (menu_Id, office_Id, order_id, quantity, is_use) VALUES (1, 2, 1, 100, 1);
+INSERT INTO inventory (menu_Id, office_Id, order_id, quantity, is_use) VALUES (2, 3, 2, 50, 1);
+INSERT INTO inventory (menu_Id, office_Id, order_id, quantity, is_use) VALUES (3, 4, 3, 30, 1);
+
+INSERT INTO orders (status, quantity, last_Update) VALUES ('확인중', 10, NOW());
+INSERT INTO orders (status, quantity, last_Update) VALUES ('배송중', 5, NOW());
+INSERT INTO orders (status, quantity, last_Update) VALUES ('배송완료', 3, NOW());
+
+INSERT INTO pay (menu_Id, pay_Code, payment_Method, payment_Status, amount, paid_At)
+VALUES (1, 101, '현금', '결제완료', 3500, CURRENT_TIMESTAMP);
+INSERT INTO pay (menu_Id, pay_Code, payment_Method, payment_Status, amount, paid_At)
+VALUES (2, 102, '카카오페이', '결제완료', 4200, CURRENT_TIMESTAMP);
+INSERT INTO pay (menu_Id, pay_Code, payment_Method, payment_Status, amount, paid_At)
+VALUES (3, 103, '신용카드', '결제완료', 5500, CURRENT_TIMESTAMP);
+
+INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (1, '010-1234-5678', NOW(), 1);
+INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (2, '010-2345-6789', NOW(), 1);
+INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (3, '010-3456-7890', NOW(), 0);
+
+
+
+[ 2. MySQL 테이블 생성문과 예시데이터 (create table & insert into) ]
+
+CREATE TABLE users (
+  id INT NOT NULL AUTO_INCREMENT COMMENT '사용자 ID (PK)',
+  username VARCHAR(20) NOT NULL COMMENT '아이디',
+  password VARCHAR(60) NOT NULL COMMENT '비밀번호',
+  isHead TINYINT(1) DEFAULT 0 NOT NULL COMMENT '본사 여부 (본사1 지점0)',
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE office (
+  id INT NOT NULL AUTO_INCREMENT COMMENT '가맹점 ID (PK)',
+  userId INT NOT NULL COMMENT '사용자 ID (FK)',
+  officeName VARCHAR(20) DEFAULT NULL COMMENT '매장명',
+  PRIMARY KEY (id),
+  FOREIGN KEY (userId) REFERENCES users(id)
+);
+
+CREATE TABLE menu (
+  id INT NOT NULL AUTO_INCREMENT COMMENT '메뉴 ID (PK)',
+  menuName VARCHAR(100) NOT NULL COMMENT '메뉴 이름',
+  imagePath VARCHAR(255) DEFAULT NULL COMMENT '메뉴 이미지 경로',
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE stock(
+  id INT NOT NULL AUTO_INCREMENT COMMENT '재고 ID (PK)',
+  menuId INT NOT NULL COMMENT '메뉴 ID (FK)',
+  officeId INT NOT NULL COMMENT '가맹점 ID (FK)',
+  orderId INT NOT NULL COMMENT '발주 ID (FK)',
+  quantity INT NOT NULL COMMENT '재고 수량',
+  isUse TINYINT NOT NULL COMMENT '사용 여부',
+  PRIMARY KEY (id),
+  FOREIGN KEY (menuId) REFERENCES menu(id),
+  FOREIGN KEY (officeId) REFERENCES office(id),
+  FOREIGN KEY (orderId) REFERENCES order(id)
+);
+
+CREATE TABLE orders (
+  id INT NOT NULL AUTO_INCREMENT COMMENT '발주 ID (PK)',
+  status ENUM('확인중', '배송중', '배송완료') NOT NULL DEFAULT '확인중' COMMENT '주문 상태',
+  quantity INT NOT NULL COMMENT '발주 수량',
+  lastUpdate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '마지막 업데이트 날짜',
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE pay (
+  id INT NOT NULL AUTO_INCREMENT COMMENT '결제 ID (PK)',
+  menuId INT NOT NULL COMMENT '메뉴 ID (FK)',
+  payCode INT NOT NULL COMMENT '일련번호 (UNIQUE)',
+  paymentMethod VARCHAR(50) NOT NULL COMMENT '결제 수단',
+  paymentStatus VARCHAR(50) NOT NULL COMMENT '결제 상태',
+  amount INT NOT NULL COMMENT '가격',
+  paidAt DATETIME NOT NULL COMMENT '결제 일자',
+  PRIMARY KEY (id),
+  FOREIGN KEY (menuId) REFERENCES menu(id)
+);
+
+CREATE TABLE message (
+  id INT NOT NULL AUTO_INCREMENT COMMENT '문자 ID (PK)',
+  payId INT NOT NULL COMMENT '결제 ID (FK)',
+  phoneNumber VARCHAR(20) NOT NULL COMMENT '전화번호',
+  sendTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '보낸 시간',
+  isSent TINYINT(1) NOT NULL DEFAULT 0 COMMENT '전송 여부 (0: 미전송, 1: 전송)',
+  PRIMARY KEY (id),
+  FOREIGN KEY (payId) REFERENCES pay(id)
+);
+
+---------------------------------------------------------------------------------------------------
+
+INSERT INTO users (username, password, isHead) VALUES
+('admin', '1234', 1),
+('gangseo', '1234', 0),
+('sangbong', '1234', 0),
+('hanam', '1234', 0);
+
+INSERT INTO office (userId, officeName) 
+VALUES (1, '본사매장');
+INSERT INTO office (userId, officeName)
+VALUES (2, '강서본점');
+INSERT INTO office (userId, officeName)
+VALUES (3, '상봉본점');
+INSERT INTO office (userId, officeName)
+VALUES (4, '하남본점');
+
+INSERT INTO menu (menuName, imagePath) VALUES ('사랑에빠진딸기', '/images/strawberryfallinlove.png');
+INSERT INTO menu (menuName, imagePath) VALUES ('엄마는외계인', '/images/momisalien.png');
+INSERT INTO menu (menuName, imagePath) VALUES ('민트초코', '/images/mintchocolate.png');
+
+INSERT INTO inventory (menuId, officeId, orderid, quantity, isuse) VALUES (1, 2, 1, 100, 1);
+INSERT INTO inventory (menuId, officeId, orderid, quantity, isuse) VALUES (2, 3, 2, 50, 1);
+INSERT INTO inventory (menuId, officeId, orderid, quantity, isuse) VALUES (3, 4, 3, 30, 1);
+
+INSERT INTO orders (status, quantity, lastUpdate) VALUES ('확인중', 10, NOW());
+INSERT INTO orders (status, quantity, lastUpdate) VALUES ('배송중', 5, NOW());
+INSERT INTO orders (status, quantity, lastUpdate) VALUES ('배송완료', 3, NOW());
+
+INSERT INTO pay (menu_id, pay_code, payment_method, payment_status, amount, paid_at)
+VALUES (1, 101, '현금', '결제완료', 3500, CURRENT_TIMESTAMP);
+INSERT INTO pay (menu_id, pay_code, payment_method, payment_status, amount, paid_at)
+VALUES (2, 102, '카카오페이', '결제완료', 4200, CURRENT_TIMESTAMP);
+INSERT INTO pay (menu_id, pay_code, payment_method, payment_status, amount, paid_at)
+VALUES (3, 103, '신용카드', '결제완료', 5500, CURRENT_TIMESTAMP);
+
+INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (1, '010-1234-5678', NOW(), 1);
+INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (2, '010-2345-6789', NOW(), 1);
+INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (3, '010-3456-7890', NOW(), 0);
