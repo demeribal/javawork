@@ -127,6 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
     if (!allSelected) {
+<<<<<<< HEAD
       alert("모든 플레이버를 선택해주세요."); 
       return;
     }
@@ -149,6 +150,14 @@ document.addEventListener("DOMContentLoaded", () => {
   //4. 다음 페이지로 데이터 전달
   const nextUrl = `../BR.1_menu_hb/menu.html?cup_quantity=${cup_quantity}&corn_quantity=${corn_quantity}&waffle_quantity=${waffle_quantity}&selectedFlavors=${flavorData}`;
   location.href = nextUrl;
+=======
+      alert("모든 플레이버를 선택해주세요."); // ❗️ 여기서 알림
+      return;
+    }
+
+    // 선택 완료 시 이동
+    location.href = '../BR.1_menu_hb/menu.html';
+>>>>>>> 0b760dee3e054729f96c29ae35049c23f3d94357
   });
   
   
