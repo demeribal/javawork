@@ -1,14 +1,17 @@
 package com.kiosk.login.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
 import com.kiosk.login.entity.User;
 
 @Mapper
-public interface Loginmapper {
+public interface LoginMapper {
 
-	@Select("SELECT username, password, is_head AS isHead FROM users WHERE username = #{username}")
-	User findByUsername(String username);
+    User findByUsername(String username);
+
+    List<User> findAll();
 
 }
