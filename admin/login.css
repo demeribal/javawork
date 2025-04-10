@@ -42,7 +42,7 @@ body {
     top: -20px;
     font-size: 36px;
     font-weight: 700;
-    color: #585858;
+    color: #8C8C8C;
 }
 
 .input-field {
@@ -101,12 +101,4 @@ body {
 .login-container::after {
     bottom: -8vh;
     right: -12.5vw;
-}
-
-/*error 메시지*/
-.error-message {
-    color: #e53e3e;
-    font-size: 0.875rem;
-    text-align: center;
-    display: none;
 }

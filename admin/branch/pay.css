@@ -211,20 +211,22 @@
   display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3열 정렬 */
     grid-template-rows: repeat(4, 1fr);
-    gap: 40px;
+    gap: 45px;
+    margin: auto;
   }
   
   /* 개별 월 버튼 스타일 */
   .flatpickr-monthSelect-month {
     background: none;
     border: none;
-    font-size: 20px;
+    font-size: 23px;
     color: #333;
     border-radius: 12px;
     min-width: 80px;
     padding: 10px;
+  }
 
-  }.flatpickr-innerContainer {
+  .flatpickr-innerContainer {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -244,15 +246,15 @@
 
   /* -------------------- flatpickr 일 선택 스타일 커스터마이징 -------------------- */  
   .flatpickr-rContainer {
-    flex: 1;
+    width:100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
   
   .dayContainer {
-    width: 100% !important;
-    max-width: none !important;
+    width:100% !important;
+    max-width: 100%;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     justify-items: center;
@@ -261,13 +263,14 @@
     box-sizing: border-box;
   }
 
-  .flatpickr-day{
-    max-width: none !important;
-
+  .flatpickr-day {
+    height: auto;
+    width:100%;
   }
 
  /* --------------------글자 색-------------------- */  
   .flatpickr-day.today {
+    width: 100%;
     border-radius: 15px;
     background-color: #f2ebff;
     color: #6C6C6C !important;
@@ -315,11 +318,11 @@
 /* 상단 연도/월 타이틀 색상 */
 .flatpickr-months .flatpickr-current-month {
   color: #6D5BD0;
-}
+}A
 
-
-.paymentlist {
-  height: 517px;
+.paymentlist-wrapper {
+  max-height: 517px;
+  overflow-y: auto;
 }
 
 .payment > td {

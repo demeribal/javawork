@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+function initPayPage() {
     // DOM 요소 참조
     const dateBtn = document.getElementById('date-btn');
     const dim = document.getElementById('date-modal-dim');
@@ -10,12 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const toInput = document.getElementById('to-date');
     
     // ----------------- 모달 열기/닫기 -----------------
-    dateBtn.addEventListener('click', () => {
+    dateBtn?.addEventListener('click', () => {
       dim.style.display = 'block';
       modal.style.display = 'block';
     });
   
-    dim.addEventListener('click', () => {
+    dim?.addEventListener('click', () => {
         
       dim.style.display = 'none';
       modal.style.display = 'none';
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     removeDateModals();
     });
 
-    applyBtn.addEventListener("click", () => {
+    applyBtn?.addEventListener("click", () => {
     dim.style.display = "none";
     modal.style.display = "none";
 
@@ -45,7 +45,7 @@ function removeDateModals() {
 }
 
   // ---------------- Today / Reset / Apply----------------
-  todayBtn.addEventListener('click', () => {
+  todayBtn?.addEventListener('click', () => {
     const today = new Date();
     const yyyy = today.getFullYear();
     const mm = String(today.getMonth() + 1).padStart(2, '0');
@@ -55,7 +55,7 @@ function removeDateModals() {
     toInput.value = formatted;
   });
 
-  resetBtn.addEventListener('click', () => {
+  resetBtn?.addEventListener('click', () => {
     fromInput.value = '';
     toInput.value = '';
   });
@@ -185,6 +185,9 @@ function removeDateModals() {
     });
   });
 
+window.initPayPage = initPayPage;
+window.fetchPayList = fetchPayList;
+
   // ----------------- 정렬 드롭다운 기능 -----------------
     const selected = document.getElementById("sort-selected");
     const options = document.getElementById("sort-options");
@@ -216,4 +219,44 @@ function removeDateModals() {
         options.style.display = "none";
       }
     });
-  });
+    console.log("initPayPage 실행됨");
+  };
+
+//---------------- 결제 목록 불러오기---------------
+function fetchPayList() {
+  fetch("http://localhost:8080/api/pay")
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.getElementById("pay-table-body");
+      if (!tbody) {
+        console.warn("⚠️ pay-table-body 요소 없음!");
+        return;
+      }
+
+      tbody.innerHTML = ""; // 기존 내용 비우기
+
+      data.forEach((pay, index) => {
+        const row = document.createElement("tr");
+        row.classList.add("order");
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${pay.paymentmethod}</td>
+          <td>${pay.paymentstatus}</td>
+          <td>${pay.amount.toLocaleString()}</td>
+          <td>${formatDate(pay.paidat)}</td>
+          <td>강서지점</td>
+          <td>${pay.paycode}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      addEmptyRows('pay-table-body');
+      checkForData('#pay-table-body', '.no-data');  
+    })
+    .catch(err => console.error("❌ 결제 데이터 불러오기 실패:", err));
+}
+
+function formatDate(dateStr) {
+  const date = new Date(dateStr);
+  return `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
+}
