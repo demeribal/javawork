@@ -1,0 +1,83 @@
+/* stock list */
+.stock-content {
+    position: absolute;
+    display: flex;
+    flex-wrap: wrap;
+    width: 1100px;
+    height: 61px;
+    left: 100px;
+    top: 253px;
+    color: black;
+}
+
+.orderlist {
+    height: 517px;
+}
+
+.line {
+    position: absolute;
+    left: 0%;
+    right: 0%;
+    top: 98.36%;
+    bottom: 0%;
+
+    background: #D9D5EC;
+}
+
+.orderbutton {
+    all: unset;
+}
+
+.orderbutton:hover {
+    cursor: pointer;
+}
+
+.order > td {
+    height: 47px;
+}
+
+.order:hover {
+    cursor: pointer;
+    background-color: #f2f2f2;
+    transition: background-color 0.3s ease;
+}
+
+
+/* 드롭다운 스타일 */
+.dropdown-container-stock {
+    position: relative;
+    display: inline-block;
+    width: 120px;
+    z-index: 1000; /* 다른 요소 위로 표시 */
+}
+
+.dropdown-button-stock {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdown-options-stock {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.dropdown-options-stock li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdown-options-stock li:hover {
+    background-color: #f1f1f1; /* 마우스 오버 시 배경색 변경 */
+}
+
+.dropdown-container-stock.open .dropdown-options-stock {
+    display: block; /* 드롭다운 열림 상태 */
+}

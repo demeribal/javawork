@@ -1,0 +1,108 @@
+<div class="table-container">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>NO</th>
+                <th>메뉴명</th>
+                <th>메뉴코드</th>
+                <th>메뉴이미지경로</th>
+                <th>판매상태</th>
+                <th>비고</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>민트초코</td>
+                <td>BR001</td>
+                <td>C://PROJECT/IMAGES/MINT.PNG</td>
+                <td><input type="checkbox" class="checkbox" checked></td>
+                <td></td>
+            </tr>
+            <!-- 빈 행들 추가 -->
+            <tr><td colspan="6"></td></tr>
+            <tr><td colspan="6"></td></tr>
+            <tr><td colspan="6"></td></tr>
+            <tr><td colspan="6"></td></tr>
+            <tr><td colspan="6"></td></tr>
+            <tr><td colspan="6"></td></tr>
+            <tr><td colspan="6"></td></tr>
+            <tr><td colspan="6"></td></tr>
+            <tr><td colspan="6"></td></tr>
+            <tr><td colspan="6"></td></tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- 메뉴상태 변경 확인 모달 -->
+<div class="modal" id="statusConfirmModal">
+    <div class="modal-content confirm-modal">
+        <button class="modal-close" id="confirmCloseBtn">&times;</button>
+        <p class="confirm-text"><strong id="confirmStatusChange">정말 판매상태를 변경하시겠습니까?</strong></p>
+        <div class="confirm-buttons">
+            <button id="statusConfirmYes" class="confirm-btn yes">예</button>
+            <button id="statusConfirmNo" class="confirm-btn no">아니요</button>
+        </div>
+    </div>
+</div>
+
+<!-- 메뉴추가 모달 -->
+<div class="modal" id="menuAddModal">
+    <div class="modal-content menu-add-modal">
+        <h2 class="modal-title">메뉴추가</h2>
+        
+        <div class="file-upload-area">
+            <div class="file-drop-zone" id="fileDropZone">
+                <!-- 초기 상태 (파일 없음) -->
+                <div class="upload-initial" id="uploadInitial">
+                    <div class="file-icon">
+                        <img src="images/Upload icon.png" alt="업로드 아이콘" width="48" height="48">
+                    </div>
+                    <p class="drop-text">Drag & drop files or <a href="#" class="browse-link">Browse</a></p>
+                </div>
+                
+                <!-- 업로드 완료 상태 (처음에는 숨김) -->
+                <div class="upload-complete" id="uploadComplete" style="display: none;">
+                    <span class="file-name">맛있어봉.png</span>
+                    <button class="delete-btn" id="deleteFileBtn">
+                        <img src="images/Bin icon.png" alt="삭제" width="15" height="16">
+                    </button>
+                </div>
+            </div>
+            <!-- 실제 파일 입력 필드 (숨김) -->
+            <input type="file" id="fileInput" accept="images/*" style="display: none;">
+        </div>
+        
+        <div class="form-group">
+            <label for="menuName">메뉴명</label>
+            <div class="input-with-clear">
+                <input type="text" id="menuName" placeholder="맛있어초코봉">
+                <button class="clear-btn">&times;</button>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="menuCode">메뉴코드</label>
+            <input type="text" id="menuCode" placeholder="98121">
+        </div>
+        
+        <button class="submit-btn" id="registerMenuBtn">등록하기</button>
+    </div>
+</div>
+
+<!-- 메뉴 등록 확인 모달 -->
+<div class="modal" id="menuConfirmModal">
+    <div class="modal-content confirm-modal">
+        <button class="modal-close" id="confirmCloseBtn">&times;</button>
+        <p class="confirm-text"><strong id="confirmMenuName">정말 등록하시겠습니까?</strong></p>
+        <div class="confirm-buttons">
+            <button id="menuConfirmYes" class="confirm-btn yes">예</button>
+            <button id="menuConfirmNo" class="confirm-btn no">아니요</button>
+        </div>
+    </div>
+</div>
+
+<div class="notification-toast" id="statusToast">
+    <span class="check-icon">✅</span>
+    <span class="toast-message"></span>
+</div>
