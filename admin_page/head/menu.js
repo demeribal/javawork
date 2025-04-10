@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+function initMenuPage() {
     // 토스트 메시지 요소
     const statusToast = document.getElementById('statusToast');
     
@@ -185,4 +185,5 @@ document.addEventListener('DOMContentLoaded', function() {
             menuConfirmModal.style.display = 'none';
         });
     });
-});
+}
+window.initMenuPage = initMenuPage;
