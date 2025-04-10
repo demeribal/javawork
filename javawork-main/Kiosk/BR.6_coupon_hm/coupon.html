@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1024">
+    <title>키오스크 결제</title>
+    <link rel="stylesheet" href="coupon.css">
+    <script defer src="coupon.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- 로고 -->
+        <div class="logo-container">
+            <img src="images/LOGO-BR-preview.png" alt="Baskin Robbins Logo" class="logo">
+        </div>
+
+        <!-- 탭 메뉴 -->
+        <div class="tab-menu">
+            <div class="tab inactive" onclick="showTab('point')">포인트/할인</div>
+            <div class="tab active" onclick="showTab('coupon')">쿠폰/결제</div>
+        </div>
+
+        <!-- 쿠폰/결제 섹션 -->
+        <div id="coupon-section" class="content-container">
+            <!-- 모바일 상품권 섹션 -->
+            <div class="title-row">
+                <h2 class="section-title">모바일 상품권 사용</h2>
+            </div>
+            
+            <div class="content-row">
+                <div class="left-section">
+                    <button class="option-btn">
+                        <img src="images/ad_units.png" alt="모바일 상품권">
+                        <p>모바일 상품권</p>
+                    </button>
+                </div>
+                
+                <div class="right-section">
+                    <div class="coupon-info">
+                        <p class="highlight">* 모바일 상품권</p>
+                        <p>카카오톡, 쇼핑몰에서 구매한 쿠폰 선물 받은키프티콘</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 결제 방식 섹션 -->
+            <div class="title-row">
+                <h2 class="section-title">결제방식을 선택해 주세요</h2>
+            </div>
+            
+            <div class="payment-methods">
+                <button class="option-btn" onclick="location.href='../BR.7_pay/pay.html'">
+                    <img src="images/credit_card.png" alt="신용카드">
+                    <p>신용카드</p>
+                </button>
+                <button class="option-btn">
+                    <img src="images/임직원 할인1.png" alt="임직원 할인">
+                    <p>임직원 할인</p>
+                </button>
+                <button class="option-btn">
+                    <img src="images/Samsung Pay.png" alt="삼성페이">
+                    <p>삼성페이</p>
+                </button>
+                <button class="option-btn">
+                    <img src="images/Group 40.png" alt="해피페이">
+                    <p>해피페이</p>
+                </button>
+            </div>
+        </div>
+
+        <!-- 결제 요약 -->
+        <div class="payment-summary">
+            <div class="payment-details">
+                <p class="total-title1">최종 결제금액 <span class="total-amount">₩12,800</span></p>
+                <p class="total-title2">총 주문 금액 <span class="order-amount">₩12,800</span> - 총 할인 금액 <span class="discount-amount">₩0</span></p>
+            </div>
+        </div>
+        <div>
+            <div class="payment-buttons">
+                <button class="prev-btn" onclick="location.href='../BR.5_point_hm/point.html'">← 이전</button>
+                <button class="next-btn">결제취소</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
