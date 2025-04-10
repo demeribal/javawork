@@ -28,10 +28,6 @@ public class OrderService {
 		return mapper.findById(id);
 	}
 
-	public Orders getOrderByDTO(OrdersDTO orderdto) {
-		return mapper.findByDTO(orderdto);
-	}
-
 	public Orders updateOrder(Orders order) {
 		return mapper.update(order);
 	}

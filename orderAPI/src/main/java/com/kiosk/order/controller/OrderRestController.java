@@ -30,11 +30,12 @@ public class OrderRestController {
 	@Autowired
 	OrderService service;
 	
+	//@Autowired
+	//StockService
+	
 	@PostMapping("order") 
 	public ResponseEntity <Map<String,Object>> postOrder(
 			@ModelAttribute OrdersDTO orderdto) {
-		System.out.println(orderdto.getInventoryId());
-		System.out.println(orderdto.getMenuId());
 		System.out.println(orderdto.getQuantity());
 		//위 데이터를 mybatis를 이용해 db에 저장
 		//db저장 전 책 이미지 파일을 저장하고 데이터를 db에 저장
@@ -44,14 +45,11 @@ public class OrderRestController {
 		
 		//db에 정보를 저장(dto에 있는 값을 전달하여 mybatis로 처리)
 		Orders order = Orders.builder()
-				.inventoryId(orderdto.getInventoryId())
-				.menuId(orderdto.getMenuId())
 				.status("확인중")
 				.quantity(orderdto.getQuantity())
 				.lastUpdate(LocalDateTime.now())
 				.build();
 		service.register(order);
-		order = service.getOrderByDTO(orderdto);
 		
 		//클라이언트에게 성공 또는 실패 정보를 제공
 		response.put("status", "success");
@@ -99,8 +97,6 @@ public class OrderRestController {
 		Orders order=service.getOrderById(id).get();
 		Orders updateorder=Orders.builder()
 				.id(order.getId())
-				.inventoryId(order.getInventoryId())
-				.menuId(order.getMenuId())
 				.status(status)
 				.quantity(order.getQuantity())
 				.lastUpdate(LocalDateTime.now())

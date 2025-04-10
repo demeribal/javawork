@@ -13,7 +13,6 @@ public interface OrderMapper {
 	void insert(Orders order);
 	List<Orders> findAll();
 	Optional<Orders> findById(int id);
-	Orders findByDTO(OrdersDTO orderdto);
 	Orders update(Orders order);
 	int delete(int id);
 }

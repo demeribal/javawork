@@ -2,27 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kiosk.order.mapper.OrderMapper">
 <insert id="insert" parameterType="com.kiosk.order.model.Orders">
-	INSERT INTO orders (inventory_Id, menu_Id, status, quantity, last_Update)
-	VALUES (#{inventoryId}, #{menuId}, #{status}, #{quantity}, #{lastUpdate});
+	INSERT INTO orders (status, quantity, last_Update)
+	VALUES (#{status}, #{quantity}, #{lastUpdate});
 </insert>
 
 <select id="findAll" resultType="com.kiosk.order.model.Orders">
-	SELECT id, inventory_Id, menu_Id, status, quantity, last_Update
+	SELECT id, status, quantity, last_Update
 	FROM orders;
 </select>
 
 <select id="findById" resultType="com.kiosk.order.model.Orders">
-	SELECT id, inventory_Id, menu_Id, status, quantity, last_Update
+	SELECT id, status, quantity, last_Update
 	FROM orders
 	WHERE id = #{id}
-</select>
-
-<select id="findByDTO" parameterType="com.kiosk.order.model.OrdersDTO" resultType="com.kiosk.order.model.Orders">
-	SELECT id, inventory_Id, menu_Id, status, quantity, last_Update
-	FROM orders
-	WHERE inventory_Id = #{inventoryId}
-	AND menu_Id = #{menuId}
-	AND quantity = #{quantity}
 </select>
 
 <update id="update" parameterType="com.kiosk.order.model.Orders">

@@ -8,12 +8,6 @@
 <body>
     <form id="orderform">
         <div>
-            <label for="inventoryId">재고ID</label>
-            <input type="number" name="inventoryId" id="inventoryId">
-            
-            <label for="menuId">메뉴ID</label>
-            <input type="number" name="menuId" id="menuId">
-            
             <label for="quantity">수량</label>
             <input type="number" name="quantity" id="quantity">
         </div>
@@ -26,8 +20,6 @@
         <thead>
             <tr>
                 <th>id</th>
-                <th>재고id</th>
-                <th>메뉴id</th>
                 <th>발주상태</th>
                 <th>발주량</th>
                 <th>마지막 업데이트</th>
@@ -43,12 +35,8 @@
             event.preventDefault();
 
             let formDate=new FormData();
-            formDate.append("inventoryId",inventoryId.value);
-            formDate.append("menuId",menuId.value);
             formDate.append("quantity",quantity.value);
             console.log(formDate);
-            console.log(formDate.get("inventoryId"));
-            console.log(formDate.get("menuId"));
             console.log(formDate.get("quantity"));
 
             fetch("http://localhost:8080/api/order",{
@@ -88,14 +76,14 @@
                     const row = document.createElement("tr");
                     row.innerHTML = `
                         <td>${order.id}</td>
-                        <td>${order.inventoryId}</td>
-                        <td>${order.menuId}</td>
                         <td>${order.status}</td>
                         <td>${order.quantity}</td>
                         <td>${formatDate(order.lastUpdate)}</td>
                     `;
                     tbody.appendChild(row);
                 });
+
+                setTimeout(fetchOrderList, 1000);
             })
             .catch(error=>{console.error("발주 데이터 불러오기 실패:", error)});        
         }
