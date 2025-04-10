@@ -30,7 +30,7 @@ CREATE TABLE orders (
   last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE inventory (
+CREATE TABLE stock (
   id INT AUTO_INCREMENT PRIMARY KEY,
   menu_id INT NOT NULL,
   office_id INT NOT NULL,
@@ -86,9 +86,9 @@ INSERT INTO orders (status, quantity, last_Update) VALUES ('확인중', 10, NOW(
 INSERT INTO orders (status, quantity, last_Update) VALUES ('배송중', 5, NOW());
 INSERT INTO orders (status, quantity, last_Update) VALUES ('배송완료', 3, NOW());
 
-INSERT INTO inventory (menu_Id, office_Id, order_id, quantity, is_use) VALUES (1, 2, 1, 100, 1);
-INSERT INTO inventory (menu_Id, office_Id, order_id, quantity, is_use) VALUES (2, 3, 2, 50, 1);
-INSERT INTO inventory (menu_Id, office_Id, order_id, quantity, is_use) VALUES (3, 4, 3, 30, 1);
+INSERT INTO stock (menu_Id, office_Id, order_id, quantity, is_use) VALUES (1, 2, 1, 100, 1);
+INSERT INTO stock (menu_Id, office_Id, order_id, quantity, is_use) VALUES (2, 3, 2, 50, 1);
+INSERT INTO stock (menu_Id, office_Id, order_id, quantity, is_use) VALUES (3, 4, 3, 30, 1);
 
 INSERT INTO pay (menu_Id, pay_Code, payment_Method, payment_Status, amount, paid_At)
 VALUES (1, 101, '현금', '결제완료', 3500, CURRENT_TIMESTAMP);
@@ -136,7 +136,7 @@ CREATE TABLE orders (
   PRIMARY KEY (id)
 );
 
-CREATE TABLE inventory (
+CREATE TABLE stock (
   id INT NOT NULL AUTO_INCREMENT COMMENT '재고 ID (PK)',
   menuId INT NOT NULL COMMENT '메뉴 ID (FK)',
   officeId INT NOT NULL COMMENT '가맹점 ID (FK)',
@@ -196,9 +196,9 @@ INSERT INTO orders (status, quantity, lastUpdate) VALUES ('확인중', 10, NOW()
 INSERT INTO orders (status, quantity, lastUpdate) VALUES ('배송중', 5, NOW());
 INSERT INTO orders (status, quantity, lastUpdate) VALUES ('배송완료', 3, NOW());
 
-INSERT INTO inventory (menuId, officeId, orderid, quantity, isuse) VALUES (1, 2, 1, 100, 1);
-INSERT INTO inventory (menuId, officeId, orderid, quantity, isuse) VALUES (2, 3, 2, 50, 1);
-INSERT INTO inventory (menuId, officeId, orderid, quantity, isuse) VALUES (3, 4, 3, 30, 1);
+INSERT INTO stock (menuId, officeId, orderid, quantity, isuse) VALUES (1, 2, 1, 100, 1);
+INSERT INTO stock (menuId, officeId, orderid, quantity, isuse) VALUES (2, 3, 2, 50, 1);
+INSERT INTO stock (menuId, officeId, orderid, quantity, isuse) VALUES (3, 4, 3, 30, 1);
 
 INSERT INTO pay (menu_id, pay_code, payment_method, payment_status, amount, paid_at)
 VALUES (1, 101, '현금', '결제완료', 3500, CURRENT_TIMESTAMP);
