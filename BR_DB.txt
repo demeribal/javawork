@@ -31,7 +31,7 @@ CREATE TABLE inventory (
   is_use BOOLEAN NOT NULL,
   FOREIGN KEY (menu_id) REFERENCES menu(id),
   FOREIGN KEY (office_id) REFERENCES office(id),
-  FOREIGN KEY (order_id) REFERENCES order(id),
+  FOREIGN KEY (order_id) REFERENCES orders(id)
 );
 
 CREATE TABLE orders (
@@ -137,7 +137,7 @@ CREATE TABLE inventory (
   PRIMARY KEY (id),
   FOREIGN KEY (menuId) REFERENCES menu(id),
   FOREIGN KEY (officeId) REFERENCES office(id),
-  FOREIGN KEY (orderId) REFERENCES order(id)
+  FOREIGN KEY (orderId) REFERENCES orders(id)
 );
 
 CREATE TABLE orders (
