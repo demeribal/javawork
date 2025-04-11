@@ -19,6 +19,7 @@ CREATE TABLE office (
 CREATE TABLE menu (
   id INT AUTO_INCREMENT PRIMARY KEY,
   menu_name VARCHAR(100) NOT NULL,
+  menu_code VARCHAR(25) NOT NULL,
   image_path VARCHAR(255)
 );
 
@@ -78,9 +79,9 @@ VALUES (3, '상봉본점');
 INSERT INTO office (user_Id, office_Name)
 VALUES (4, '하남본점');
 
-INSERT INTO menu (menu_Name, image_Path) VALUES ('사랑에빠진딸기', '/images/strawberryfallinlove.png');
-INSERT INTO menu (menu_Name, image_Path) VALUES ('엄마는외계인', '/images/momisalien.png');
-INSERT INTO menu (menu_Name, image_Path) VALUES ('민트초코', '/images/mintchocolate.png');
+INSERT INTO menu (menu_Name, menu_code, image_Path) VALUES ('사랑에빠진딸기', '/images/사랑에_빠진_딸기.png');
+INSERT INTO menu (menu_Name, menu_code, image_Path) VALUES ('엄마는외계인', '/images/엄마는_외계인.png');
+INSERT INTO menu (menu_Name, menu_code, image_Path) VALUES ('민트초코', '/images/민트초코.png');
 
 INSERT INTO orders (status, quantity, last_Update) VALUES ('확인중', 10, NOW());
 INSERT INTO orders (status, quantity, last_Update) VALUES ('배송중', 5, NOW());
@@ -124,7 +125,8 @@ CREATE TABLE office (
 CREATE TABLE menu (
   id INT NOT NULL AUTO_INCREMENT COMMENT '메뉴 ID (PK)',
   menuName VARCHAR(100) NOT NULL COMMENT '메뉴 이름',
-  imagePath VARCHAR(255) DEFAULT NULL COMMENT '메뉴 이미지 경로',
+  menuCode VARCHAR(25) NOT NULL COMMENT'메뉴코드',
+  imagePath VARCHAR(255) DEFAULT NULL COMMENT '메뉴 이미지 경로'
   PRIMARY KEY (id)
 );
 
@@ -210,3 +212,14 @@ VALUES (3, 103, '신용카드', '결제완료', 5500, CURRENT_TIMESTAMP);
 INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (1, '010-1234-5678', NOW(), 1);
 INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (2, '010-2345-6789', NOW(), 1);
 INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (3, '010-3456-7890', NOW(), 0);
+
+-------------------------------------------------------------------------------------------------
+-- 1. 외래 키 제약 조건 비활성화
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- 2. 데이터 삭제
+DELETE FROM your_table_name;
+ALTER TABLE your_table_name AUTO_INCREMENT = 1;
+
+-- 3. 외래 키 제약 조건 다시 활성화
+SET FOREIGN_KEY_CHECKS = 1;
