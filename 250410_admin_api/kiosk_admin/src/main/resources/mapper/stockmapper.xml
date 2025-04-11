@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiosk.stock.mapper.StockMapper">
+    
+    <resultMap id="stockResultMap" type="com.kiosk.stock.model.Stock">
+        <id property="id" column="id"/>
+        <result property="menuId" column="menuId"/>
+        <result property="officeId" column="officeId"/>
+        <result property="orderId" column="orderid"/>
+        <result property="quantity" column="quantity"/>
+        <result property="isUse" column="isUse"/>
+    </resultMap>
+    
+    <select id="getStockById" resultMap="stockResultMap">
+        SELECT * FROM stock WHERE id = #{id}
+    </select>
+    
+    <select id="getAllStocks" resultMap="stockResultMap">
+        SELECT * FROM stock
+    </select>
+    
+    <select id="getStocksByOfficeId" resultMap="stockResultMap">
+        SELECT * FROM stock WHERE officeId = #{officeId}
+    </select>
+    
+    <select id="getStocksByMenuId" resultMap="stockResultMap">
+        SELECT * FROM stock WHERE menuId = #{menuId}
+    </select>
+    
+    <insert id="insertStock" parameterType="com.kiosk.stock.model.Stock" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO stock (menuId, officeId, quantity, isUse)
+        VALUES (#{menuId}, #{officeId}, #{quantity}, #{isUse})
+    </insert>
+    
+    <update id="updateStock" parameterType="com.kiosk.stock.model.Stock">
+        UPDATE stock
+        SET menuId = #{menuId},
+            officeId = #{officeId},
+            quantity = #{quantity},
+            isUse = #{isUse}
+        WHERE id = #{id}
+    </update>
+    
+    <delete id="deleteStock">
+        DELETE FROM stock WHERE id = #{id}
+    </delete>
+    
+</mapper>
