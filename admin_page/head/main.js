@@ -143,7 +143,6 @@ fetch("stock.html")
   });
 */
 
-// --3. tr 11줄 유지
 function addEmptyRows(tbodyId = 'pay-table-body', minRows = 11) {
   const tbody = document.getElementById(tbodyId);
   if (!tbody) return;
@@ -156,15 +155,4 @@ function addEmptyRows(tbodyId = 'pay-table-body', minRows = 11) {
     tr.innerHTML = `<td colspan="7">&nbsp;</td>`;
     tbody.appendChild(tr);
   }
-}
-
-// --4. 데이터 없을 때 문구 표시
-function checkForData(tbodySelector, noDataSelector) {
-  const tbody = document.querySelector(tbodySelector);
-  const noData = document.querySelector(noDataSelector);
-
-  if (!tbody || !noData) return;
-
-  const hasData = tbody.querySelectorAll('tr').length > 0;
-  noData.style.display = hasData ? 'none' : 'block';
 }

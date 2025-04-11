@@ -140,6 +140,10 @@ td {
     font-size: 14px;
 }
 
+tr {
+    line-height: 20px;
+}
+
 /* 탭 콘텐츠 영역 */
 .tab-content {
     display: none;

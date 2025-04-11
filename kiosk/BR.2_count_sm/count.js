@@ -5,6 +5,54 @@ const cupQuantityInput = document.querySelector('#cup_quantity');
 const cornQuantityInput = document.querySelector('#corn_quantity');
 const waffleQuantityInput = document.querySelector('#waffle_quantity');
 
+const optionBox = document.querySelector(".option-item-box");
+const nextBtn = document.querySelector(".btn-choose");
+
+//
+function checkActive() {
+  const isActive = Array.from(optionItems).some(item => item.classList.contains('active'));
+  if (isActive) {
+      nextBtn.disabled = false;
+      nextBtn.classList.add('enabled');
+  } else {
+      nextBtn.disabled = true;
+      nextBtn.classList.remove('enabled');
+  }
+}
+
+// 옵션 클릭하면 활성화
+optionItems.forEach(option => {
+  option.addEventListener('click', () => {
+      // 클릭되면 'active' 추가
+      option.classList.add('active');
+      checkActive();
+  });
+});
+
+// 페이지 로드시 비활성화
+window.addEventListener('DOMContentLoaded', () => {
+  nextBtn.disabled = true;
+});
+
+function updateNextButtonState() {
+  let selected = false;
+  optionItems.forEach(option => {
+    const quantity = parseInt(option.querySelector('.quantity').textContent, 10);
+    if (quantity > 0) {
+      selected = true;
+    }
+  });
+  
+  if (selected) {
+    nextBtn.disabled = false;
+    nextBtn.classList.remove('disabled'); // 필요하면 클래스 조정
+  } else {
+    nextBtn.disabled = true;
+    nextBtn.classList.add('disabled'); // 필요하면 스타일 조정
+  }
+}
+
+
 optionItems.forEach(option => {
     const decreaseButton = option.querySelector('.btn-decrease');
     const increaseButton = option.querySelector('.btn-increase');
@@ -95,3 +143,111 @@ document.querySelector('.btn-choose').addEventListener('click', function() {
     let url = '../BR.3_flavor_sy/flavor.js?' + urlParams;
     window.location.href = url;
 });
+const params = new URLSearchParams(window.location.search);
+const name = params.get('productName');
+
+// 요소 가져오기
+const productName = document.getElementById('product-name');
+const productPrice = document.getElementById('product-price');
+const productOption = document.getElementById('product-option');
+const optionImgContainer = document.getElementById('option-img-container'); // 옵션 이미지 넣을 곳
+const guideText = document.getElementById('menu-guide');
+
+const products = [
+  { name: '싱글레귤러', price: '₩3,200', option: '(콘/컵)' },
+  { name: '싱글킹', price: '₩4,000', option: '(콘/컵)' },
+  { name: '더블주니어', price: '₩4,300', option: '(콘/컵)' },
+  { name: '더블레귤러', price: '₩6,200', option: '(콘/컵)' },
+  { name: '파인트', price: '₩8,200', option: '(컵)' },
+  { name: '쿼터', price: '₩15,500', option: '(컵)' },
+  { name: '패밀리', price: '₩22,000', option: '(컵)' },
+  { name: '하프갤런', price: '₩26,500', option: '(컵)' }
+];
+
+// name에 맞는 product 찾기
+const product = products.find(p => p.name === name);
+
+if (product) {
+  // 제품명, 가격, 옵션 텍스트 설정
+  if (productName) productName.textContent = product.name;
+  if (productPrice) productPrice.textContent = product.price;
+  if (productOption) productOption.textContent = product.option;
+
+  if (guideText) guideText.textContent = `원하는 맛의 아이스크림을 ${product.name}으로 즐기세요!`;
+
+  // 옵션 이미지 넣기
+  if (optionImgContainer) {
+    optionImgContainer.innerHTML = ''; // 기존 이미지 비우기
+
+    const optionText = product.option;
+    const imgList = [];
+
+    if (optionText.includes('콘')) {
+      const cornImg = document.createElement('img');
+      cornImg.src = 'images/corn.png';
+      cornImg.alt = '콘';
+      cornImg.classList.add('corn-img');
+      imgList.push(cornImg);
+    }
+
+    if (optionText.includes('컵')) {
+      const cupImg = document.createElement('img');
+      cupImg.src = 'images/cup.png';
+      cupImg.alt = '컵';
+      cupImg.classList.add('cup-img');
+      imgList.push(cupImg);
+    }
+
+    if (imgList.length === 1) {
+        optionImgContainer.classList.add('single-img');
+      
+        // 이미지가 하나고 그게 컵 이미지면 회전 없애기
+        if (imgList[0].classList.contains('cup-img')) {
+          imgList[0].style.transform = 'none'; // 회전 취소
+        }
+      } else {
+        optionImgContainer.classList.remove('single-img');
+      }
+
+    imgList.forEach((img) => {
+      optionImgContainer.appendChild(img);
+    });
+
+    const optionInfo = document.querySelector('.option-info');
+    if (optionInfo) {
+      if (optionText === '(컵)') {
+        optionInfo.style.visibility = 'hidden';
+      } else {
+        optionInfo.style.visibility = 'visible';
+      }
+    }
+
+    // 옵션 아이템 처리
+    const cupOption = document.getElementById('cup-option');
+    const cornOption = document.getElementById('corn-option');
+    const waffleOption = document.getElementById('waffle-option');
+
+    if (optionText === '(컵)') {
+      // 컵만 있으면 콘/와플 숨기기
+      if (cornOption) cornOption.parentElement.style.display = 'none';
+      if (waffleOption) waffleOption.parentElement.style.display = 'none';
+      
+      if (cupOption) {
+        cupOption.parentElement.style.display = 'flex';
+        cupOption.parentElement.style.justifyContent = 'center';
+      }
+    } else {
+      // 콘이나 와플콘도 선택지에 있으면 다 보이게
+      if (cornOption) cornOption.parentElement.style.display = 'flex';
+      if (waffleOption) waffleOption.parentElement.style.display = 'flex';
+      if (cupOption) cupOption.parentElement.style.display = 'flex';
+    }
+
+    const cupName = cupOption.querySelector('.option-name');
+    if (cupName) {
+      cupName.textContent = '컵';
+    }
+  }
+} else {
+  console.error('해당하는 상품을 찾을 수 없습니다:', name);
+}

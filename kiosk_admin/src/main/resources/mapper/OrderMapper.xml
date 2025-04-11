@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiosk.order.mapper.OrderMapper">
+<insert id="insert" parameterType="com.kiosk.order.model.Orders">
+	INSERT INTO orders (status, quantity, last_Update)
+	VALUES (#{status}, #{quantity}, #{lastUpdate});
+</insert>
+
+<select id="findAll" resultType="com.kiosk.order.model.Orders">
+	SELECT id, status, quantity, last_Update
+	FROM orders;
+</select>
+
+<select id="findById" resultType="com.kiosk.order.model.Orders">
+	SELECT id, status, quantity, last_Update
+	FROM orders
+	WHERE id = #{id}
+</select>
+
+<update id="update" parameterType="com.kiosk.order.model.Orders">
+	UPDATE orders
+	SET
+		status = #{status}
+	WHERE id = #{id}
+</update>
+
+<delete id="delete" parameterType="int">
+	Delete
+	FROM orders
+	Where id = #{id}
+</delete>
+
+</mapper>

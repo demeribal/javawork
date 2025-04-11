@@ -26,6 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
           if (targetArea) {
             targetArea.innerHTML = html;
 
+          if (tabName === "menu" && typeof initPayPage === "function") {
+            initPayPage();
+          }
           // pay 탭일 때만 initPayPage 실행
           if (tabName === "pay" && typeof initPayPage === "function") {
             initPayPage();
@@ -102,7 +105,7 @@ function loadTabAssets(tabName) {
   function checkForData() {
       let hasData = false;
       const orderRows = document.querySelectorAll('tr.order');
-      
+
       orderRows.forEach(row => {
           // Check if row has any non-empty cells
           const cells = row.querySelectorAll('td');
@@ -115,15 +118,17 @@ function loadTabAssets(tabName) {
           }
       });
       
-      // Toggle visibility of no-data div based on data presence
       /*
+      // Toggle visibility of no-data div based on data presence
+
       if (hasData) {
           noDataDiv.style.display = 'none';
       } else {
           noDataDiv.style.display = 'block';
       }
-      */
+*/
   }
+
   
   // Initial check for data
 

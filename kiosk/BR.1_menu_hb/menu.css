@@ -25,31 +25,23 @@ body {
     padding: 0;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
-
+    min-height: 100vh; /* 변경: height -> min-height */
     white-space: nowrap;
-}
+  }
 
+/* 컨테이너 크기 조정 */
 .container {
-    width: 506px;
-    height: 778px;
+    width: 1024px; /* 변경 */
+    height: 1562px; /* 변경 */
     background-color: white;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 6px;
-
     max-width: 100%;
-    min-width: 300px;
-
     overflow: auto;
-
     display: flex;
     flex-direction: column;
     align-items: center;
-    align-content: center;
     justify-content: space-between;
-}
+  }
 
 .top {
     display: flex;
@@ -57,16 +49,21 @@ body {
 }
 
 .BR-logo {
-    width: 52px;
-    padding: 4px;
-    
+    position: relative;
+    top: 20px;
+    right: -10px;
+    width: 104px;
 }
 
 .exit-button {
-    padding: 3px;
+    position: relative;
+    top: 20px;
+    left: -20px;
+
+    padding: 10px;
     margin: 6px;
-    width: 22px;
-    height: 22px;
+    width: 40px;
+    height: 40px;
 
     background-color: #F6A9D785;
     border-radius: 50%;
@@ -77,8 +74,8 @@ body {
     display: flex;
     align-items: center;
     align-content: center;
-
-    width: 506px;
+    padding: 20px 0px;
+    width: 1024px;
 }
 
 .select-text > ul {
@@ -97,8 +94,8 @@ body {
     font-family: 'NanumSquareNeoBold';
     color: #F20C93;
     cursor: pointer;
-    padding: 11px 8px;
-    font-size: 9.5px;
+    font-size: 20px;
+    padding: 20px 15px;
 
     border-radius: 50px;
     transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease, margin 0.3s ease;
@@ -108,7 +105,7 @@ body {
     color: #ffffff;
     background-color: #F20C93;
     border-radius: 50px;
-    padding: 11px 18px;
+    padding: 20px 30px;
     margin: 0 7px;
     transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease, margin 0.3s ease;
     
@@ -124,93 +121,48 @@ body {
     font-family: 'NanumSquareNeoBold';
     text-align: center;
 
-    margin: 0 14px;
-    padding: 0 14px;
+    margin: 10px 20px;
+    padding: 0 20px;
 
-    width: 60px;
+    width: 160px;
 }
 
 .select-icecream > .product:hover {
     cursor: pointer;
 }
 
-.select-coffee {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.select-coffee > .product {
-    font-family: 'NanumSquareNeoBold';
-    text-align: center;
-
-    margin: 0 14px;
-    padding: 0 14px;
-
-    width: 60px;
-}
-
-.select-coffee > .product:hover {
-    cursor: pointer;
-}
-
-.select-drink {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.select-drink > .product {
-    font-family: 'NanumSquareNeoBold';
-    text-align: center;
-
-    margin: 0 14px;
-    padding: 0 14px;
-
-    width: 60px;
-}
-
-.select-drink > .product:hover {
-    cursor: pointer;
-}
-
-.select-drink > .product:first-child > .product-name {
-    font-size: 8px;
-}
-
-.select-drink > .product:first-child > .product-price {
-    margin-top: 1px;
-}
-
 .product > img {
-    width: 62px;
+    width: 130px;
 }
 
 .product > .product-name {
-    font-size: 10px;
+    font-size: 19px;
     padding-bottom: 4px;
     margin:0;
 }
 
 .product-price {
     color: #F20C93;
-    font-size: 7.5px;
+    font-size: 16px;
 }
 
 .select-next {
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-around;
 
-    margin-bottom: 18px;
+    padding: 40px;
+
+    width: 800px;
 }
 
 .select-next > .cart {
-    padding: 6px 38px;
     border: 1px solid #d3d3d3;
-    border-radius: 50px;
-    margin-right: 70px;
+    border-radius: 99px;
 
     position: relative;
+    width: 202px;
+    height: 100px;
 }
 
 .select-next > .pay {
@@ -222,14 +174,14 @@ body {
     font-family: 'NanumSquareNeo';
     text-decoration: none;
     
-    max-width: 240px;
-    width: 200px;
+    width: 384px;
+    height: 100px;
     /*padding: 14px 40px;*/
     font-size: 14px;
     color: #ffffff;
 
     border: none;
-    border-radius: 50px;
+    border-radius: 99px;
     background-color: #F20C93;
 
     display: flex;
@@ -238,52 +190,16 @@ body {
 }
 
 .cart-button {
-    width: 20px;
-    padding-top: 3px;
-}
-
-.cart-count {
-    position: absolute;
-    top: -8px; /* 숫자 위치 조정 */
-    right: 17px;
-    background-color: #F20C93;
-    color: white;
-    font-size: 11px;
-    font-weight: bold;
-    width: 16px;
-    height: 16px;
-    justify-content: center;
-    border-radius: 50%;
-    text-align: center;
+    position: relative;
+    top: 22px;
+    left: 80px;
 }
 
 .pay-button {
-    max-width: 70px;
+    font-size: 28px;
 }
 
-#paybutton {
+.arrow {
     position: relative;
-    float:left;
-    right: 34px;
-}
-
-.arrow-next {
-    position: absolute;
-    float:left;
-    border: none;
-    width:100px;
-    height:100px;
-    margin-right:5px;
-}
-
-.arrow-next::after {
-    position: absolute;
-    left: 122px;
-    top: 42px; 
-    content: '';
-    width: 13px; /* 사이즈 */
-    height: 13px; /* 사이즈 */
-    border-top: 2.9px solid #ffffff; /* 선 두께 */
-    border-right: 2.9px solid #ffffff; /* 선 두께 */
-    transform: rotate(45deg); /* 각도 */
+    left: 90px;
 }

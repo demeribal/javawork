@@ -23,6 +23,7 @@ public class Pay {
 
 /*
 localhost:8080/h2-console db
+
 CREATE TABLE pay (
   id INT AUTO_INCREMENT PRIMARY KEY,
   order_id INT NOT NULL,
