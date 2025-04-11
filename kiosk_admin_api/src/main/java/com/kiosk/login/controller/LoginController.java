@@ -51,6 +51,8 @@ public class LoginController {
 	        return ResponseEntity.ok(Map.of(
 	            "message", "로그인 성공",
 	            "isHead", user.isHead()
+	            //로그인한 사람에 대한 office 정보 넘기기
+	            
 	        ));
 	    }
 

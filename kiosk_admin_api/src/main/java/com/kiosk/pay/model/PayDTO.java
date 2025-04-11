@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class PayDTO {
-    //private int orderId;
+    private int orderId;
     private int paycode;
     private String paymentmethod;
     private String paymentstatus;

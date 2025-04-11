@@ -7,7 +7,7 @@
         	id,
             username, 
             password, 
-            is_head AS isHead 
+            is_head
         FROM users 
         WHERE username = #{username}
     </select>
