@@ -126,7 +126,7 @@ CREATE TABLE menu (
   id INT NOT NULL AUTO_INCREMENT COMMENT '메뉴 ID (PK)',
   menuName VARCHAR(100) NOT NULL COMMENT '메뉴 이름',
   menuCode VARCHAR(25) NOT NULL COMMENT'메뉴코드',
-  imagePath VARCHAR(255) DEFAULT NULL COMMENT '메뉴 이미지 경로'
+  imagePath VARCHAR(255) DEFAULT NULL COMMENT '메뉴 이미지 경로',
   PRIMARY KEY (id)
 );
 
@@ -190,9 +190,10 @@ VALUES (3, '상봉본점');
 INSERT INTO office (userId, officeName)
 VALUES (4, '하남본점');
 
-INSERT INTO menu (menuName, imagePath) VALUES ('사랑에빠진딸기', '/images/strawberryfallinlove.png');
-INSERT INTO menu (menuName, imagePath) VALUES ('엄마는외계인', '/images/momisalien.png');
-INSERT INTO menu (menuName, imagePath) VALUES ('민트초코', '/images/mintchocolate.png');
+INSERT INTO menu (menuName, menucode, imagePath) VALUES ('사랑에빠진딸기', 'ICE001', '/images/사랑에_빠진_딸기.png');
+INSERT INTO menu (menuName, menucode, imagePath) VALUES ('엄마는외계인', 'ICE002', '/images/엄마는_외계인.png');
+INSERT INTO menu (menuName, menucode, imagePath) VALUES ('민트초코', 'ICE003', '/images/민트초코.png');
+
 
 INSERT INTO orders (status, quantity, lastUpdate) VALUES ('확인중', 10, NOW());
 INSERT INTO orders (status, quantity, lastUpdate) VALUES ('배송중', 5, NOW());
@@ -202,12 +203,12 @@ INSERT INTO stock (menuId, officeId, orderid, quantity, isuse) VALUES (1, 2, 1, 
 INSERT INTO stock (menuId, officeId, orderid, quantity, isuse) VALUES (2, 3, 2, 50, 1);
 INSERT INTO stock (menuId, officeId, orderid, quantity, isuse) VALUES (3, 4, 3, 30, 1);
 
-INSERT INTO pay (menu_id, pay_code, payment_method, payment_status, amount, paid_at)
-VALUES (1, 101, '현금', '결제완료', 3500, CURRENT_TIMESTAMP);
-INSERT INTO pay (menu_id, pay_code, payment_method, payment_status, amount, paid_at)
-VALUES (2, 102, '카카오페이', '결제완료', 4200, CURRENT_TIMESTAMP);
-INSERT INTO pay (menu_id, pay_code, payment_method, payment_status, amount, paid_at)
-VALUES (3, 103, '신용카드', '결제완료', 5500, CURRENT_TIMESTAMP);
+INSERT INTO pay (menuId, payCode, paymentMethod, paymentStatus, amount, paidAt)
+VALUES (1, 201, '현금', '결제완료', 3500, CURRENT_TIMESTAMP);
+INSERT INTO pay (menuId, payCode, paymentMethod, paymentStatus, amount, paidAt)
+VALUES (2, 202, '카카오페이', '결제완료', 4200, CURRENT_TIMESTAMP);
+INSERT INTO pay (menuId, payCode, paymentMethod, paymentStatus, amount, paidAt)
+VALUES (3, 203, '신용카드', '결제완료', 5500, CURRENT_TIMESTAMP);
 
 INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (1, '010-1234-5678', NOW(), 1);
 INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (2, '010-2345-6789', NOW(), 1);
