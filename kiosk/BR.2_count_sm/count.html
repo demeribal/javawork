@@ -13,13 +13,11 @@
     <header>
         <nav>
             <ul>
-                <li>
-                    <input type="radio" id="option1" name="option" class="option-radio"checked>
-                    <label for="option1">상품정보</label>
+                <li class="active"> 
+                    상품정보
                 </li>
                 <li>
-                    <input type="radio" id="option2" name="option" class="option-radio">
-                    <label for="option2">플레이버</label>
+                    플레이버
                 </li>
             </ul>
         </nav>
@@ -27,21 +25,16 @@
     <main>
         <div class="container">
             <div class="menu">
-                <div class="menu-info">
-                    <div class="menu-img">
-                        <img src="images/corn_rotation.png" >
-                        <img src="images/cup_rotation.png" style="margin-top: 20px">
-                    </div>
-                    <div class="menu-txt">
-                        <div>싱글레귤러</div>
-                        <div>(콘/컵)</div>
-                    </div>
-                    <div class="menu-price">₩3,200</div>
-                </div>
-                <div class="menu-info-txt">
-                    <p>원하는 맛의 아이스크림을 싱글레귤러로 즐기세요!</p>
-                </div>
 
+                <div class="menu-info">
+                    <div class="menu-img" id="option-img-container"></div>
+                    <div class="menu-txt">
+                    <div id="product-name">이름</div>
+                    <div id="product-option">옵션</div>
+                    </div>
+                    <div class="menu-price" id="product-price">가격</div>
+                </div>
+                <div class="menu-guide" id="menu-guide"></div>
             </div>
             <div class="option-container">
                 <p class="option-info">★★ 본 제품은 포장이 불가합니다 ★★</p>
@@ -102,3 +95,8 @@
     </footer>
 </body>
 </html>
+
+<!--
+npx live-server --port=5555
+http://127.0.0.1:5555/BR.2_count_sm/count.html?productName=%ED%95%98%ED%94%84%EA%B0%A4%EB%9F%B0
+-->
