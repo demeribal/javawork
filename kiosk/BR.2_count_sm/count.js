@@ -19,6 +19,8 @@ function checkActive() {
   }
 }
 
+
+
 // 옵션 클릭하면 활성화
 optionItems.forEach(option => {
   option.addEventListener('click', () => {
