@@ -1,22 +1,3 @@
-//--0.URL 파라미터로부터 제품 정보 추출
-function getSelectedProductsFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  const productTypes = [
-    { name: 'cup', flavorsRequired: 2 },
-    { name: 'corn', flavorsRequired: 3 },
-    { name: 'waffle', flavorsRequired: 4 }
-  ];
-
-  const selectedProducts = [];
-  productTypes.forEach(type => {
-    const quantity = parseInt(params.get(`${type.name}_quantity`)) || 0;
-    for (let i = 0; i < quantity; i++) {
-      selectedProducts.push(type); // flavorsRequired 포함된 객체로 push
-    }
-  });
-
-  return selectedProducts;
-}
 
 //--1.초기 페이지 설정
 const itemsPerPage = 4 * 3;
@@ -58,7 +39,36 @@ document.addEventListener("DOMContentLoaded", () => {
   showCurrentPage();
   updateArrowsAndDots();
 
-  const selectedProducts = getSelectedProductsFromURL(); //파라미터로 데이터 추출
+//세션에서 데이터 불러옴
+const quantities = JSON.parse(sessionStorage.getItem('quantities') || '{}');
+const productName = sessionStorage.getItem('productName') || '';
+
+const flavorPerProduct = {
+  '싱글레귤러': 1,
+  '싱글킹': 1,
+  '더블주니어': 2,
+  '더블레귤러': 2,
+  '파인트': 3,
+  '쿼터': 4,
+  '패밀리': 5,
+  '하프갤런': 6
+};
+
+// 1) 제품명 기반 flavor 개수
+const flavorsRequired = flavorPerProduct[productName] || 1;
+
+// 2) 수량 기반 슬롯 개수 계산
+const totalQuantity = 
+  (parseInt(quantities.cup_quantity) || 0) +
+  (parseInt(quantities.corn_quantity) || 0) +
+  (parseInt(quantities.waffle_quantity) || 0);
+
+// 3) 선택해야 할 슬롯 정보 배열 생성
+const selectedProducts = new Array(totalQuantity).fill({
+  name: productName,
+  flavorsRequired: flavorsRequired
+});
+
 
   let currentSlotIndex = 0;
   let selectedFlavorsBySlot = new Array(selectedProducts.length).fill(null).map(() => []);
@@ -106,9 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   
     updateSlotArrowPosition();
-  }
-
   updateSelectionUI();
+  }
 
   //--5.오른쪽 화살표 클릭 시 페이지 전환
   document.querySelector('.arrow.right').addEventListener('click', () => {
@@ -131,24 +140,28 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-  //*****menu페이지로 데이터 전송*******(컵, 콘, 와플 개수와 선택한 플레이버 전송함)
-  //1. URL 파라미터 (cup/corn/waffle 수량) 복원
-  const params = new URLSearchParams(window.location.search);
-  const cup_quantity = params.get('cup_quantity') || 0;
-  const corn_quantity = params.get('corn_quantity') || 0;
-  const waffle_quantity = params.get('waffle_quantity') || 0;
+  //*****************세션에 저장******************
+  // (1)수량 정보 정리
+  const productCounts = {
+    cup_quantity: parseInt(quantities.cup_quantity) || 0,
+    corn_quantity: parseInt(quantities.corn_quantity) || 0,
+    waffle_quantity: parseInt(quantities.waffle_quantity) || 0
+  };
 
-  //2. 선택된 플레이버 이름만 배열로 정리
+  // (2)플레이버 이름만 정리
   const selectedFlavors = selectedFlavorsBySlot.map(slot =>
     slot.map(f => f.name)
   );
 
-  //3. JSON 문자열을 URL-safe하게 인코딩
-  const flavorData = encodeURIComponent(JSON.stringify(selectedFlavors));
+  // (3)setTimeout으로 저장하고 페이지 이동!
+  setTimeout(() => {
+    sessionStorage.setItem('flavorOrder', JSON.stringify({
+      ...productCounts,
+      selectedFlavors
+    }));
 
-  //4. 다음 페이지로 데이터 전달
-  const nextUrl = `../BR.3-1_menu2_hb/menu.html?cup_quantity=${cup_quantity}&corn_quantity=${corn_quantity}&waffle_quantity=${waffle_quantity}&selectedFlavors=${flavorData}`;
-  location.href = nextUrl;
+    location.href = '../BR.3-1_menu2_hb/menu.html';
+  }, 100);
   });
   
   

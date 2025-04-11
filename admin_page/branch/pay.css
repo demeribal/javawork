@@ -332,3 +332,9 @@
   width: 100%;
   border-collapse: collapse;
 }
+
+
+.modal-content {
+  position: relative;
+  top: 10px;
+}
