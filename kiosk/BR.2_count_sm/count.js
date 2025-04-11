@@ -95,3 +95,73 @@ document.querySelector('.btn-choose').addEventListener('click', function() {
     let url = '../BR.3_flavor_sy/flavor.js?' + urlParams;
     window.location.href = url;
 });
+const params = new URLSearchParams(window.location.search);
+const name = params.get('productName');
+
+// 요소 가져오기
+const productName = document.getElementById('product-name');
+const productPrice = document.getElementById('product-price');
+const productOption = document.getElementById('product-option');
+const optionImgContainer = document.getElementById('option-img-container'); // 옵션 이미지 넣을 곳
+
+const products = [
+  { name: '싱글레귤러', price: '₩3,200', option: '(콘/컵)' },
+  { name: '싱글킹', price: '₩4,000', option: '(콘/컵)' },
+  { name: '더블주니어', price: '₩4,300', option: '(콘/컵)' },
+  { name: '더블레귤러', price: '₩6,200', option: '(콘/컵)' },
+  { name: '파인트', price: '₩8,200', option: '(컵)' },
+  { name: '쿼터', price: '₩15,500', option: '(컵)' },
+  { name: '패밀리', price: '₩22,000', option: '(컵)' },
+  { name: '하프갤런', price: '₩26,500', option: '(컵)' }
+];
+
+// 🛠 여기 추가! name에 맞는 product 찾기
+const product = products.find(p => p.name === name);
+
+if (product) {
+  // 제품명, 가격, 옵션 텍스트 설정
+  if (productName) productName.textContent = product.name;
+  if (productPrice) productPrice.textContent = product.price;
+  if (productOption) productOption.textContent = product.option;
+
+  // 옵션 이미지 넣기
+  if (optionImgContainer) {
+    optionImgContainer.innerHTML = ''; // 기존 이미지 비우기
+
+    const optionText = product.option;
+    const imgList = [];
+
+    if (optionText.includes('콘')) {
+      const cornImg = document.createElement('img');
+      cornImg.src = 'images/corn.png';
+      cornImg.alt = '콘';
+      cornImg.classList.add('corn-img');
+      imgList.push(cornImg);
+    }
+
+    if (optionText.includes('컵')) {
+      const cupImg = document.createElement('img');
+      cupImg.src = 'images/cup.png';
+      cupImg.alt = '컵';
+      cupImg.classList.add('cup-img');
+      imgList.push(cupImg);
+    }
+
+    if (imgList.length === 1) {
+        optionImgContainer.classList.add('single-img');
+      
+        // 이미지가 하나고 그게 컵 이미지면 회전 없애기
+        if (imgList[0].classList.contains('cup-img')) {
+          imgList[0].style.transform = 'none'; // 회전 취소
+        }
+      } else {
+        optionImgContainer.classList.remove('single-img');
+      }
+
+    imgList.forEach((img) => {
+      optionImgContainer.appendChild(img);
+    });
+  }
+} else {
+  console.error('해당하는 상품을 찾을 수 없습니다:', name);
+}
