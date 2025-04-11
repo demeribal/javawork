@@ -77,12 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
-
-
-
-
-
 // menu.js
 document.addEventListener('DOMContentLoaded', function () {
     // URL 파라미터 파싱

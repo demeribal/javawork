@@ -97,6 +97,8 @@
         const products = document.querySelectorAll(".product");
         products.forEach(product => {
           product.addEventListener("click", function() {
+            const productName = product.querySelector(".product-name").innerText;
+            sessionStorage.setItem("productName", productName);
             window.location.href = "../BR.2_count_sm/count.html";
           });
         });
