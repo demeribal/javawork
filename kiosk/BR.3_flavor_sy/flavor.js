@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const flavorData = encodeURIComponent(JSON.stringify(selectedFlavors));
 
   //4. 다음 페이지로 데이터 전달
-  const nextUrl = `../BR.1_menu_hb/menu.html?cup_quantity=${cup_quantity}&corn_quantity=${corn_quantity}&waffle_quantity=${waffle_quantity}&selectedFlavors=${flavorData}`;
+  const nextUrl = `../BR.3-1_menu2_hb/menu.html?cup_quantity=${cup_quantity}&corn_quantity=${corn_quantity}&waffle_quantity=${waffle_quantity}&selectedFlavors=${flavorData}`;
   location.href = nextUrl;
   });
   

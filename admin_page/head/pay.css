@@ -259,7 +259,6 @@
     grid-template-columns: repeat(7, 1fr);
     justify-items: center;
     align-items: center;
-    padding: 0 12px;
     box-sizing: border-box;
   }
 
@@ -320,17 +319,16 @@
   color: #6D5BD0;
 }A
 
-.paymentlist-wrapper {
-  max-height: 517px;
+.table-wrapper {
+  width: 100%;
+}
+
+.tbody-scroll {
+  max-height: calc(47px * 11); /* 행 높이 × 11줄 */
   overflow-y: auto;
 }
 
-.payment > td {
-  height: 47px;
-}
-
-.payment:hover {
-  cursor: pointer;
-  background-color: #f2f2f2;
-  transition: background-color 0.3s ease;
+.tbody-scroll table {
+  width: 100%;
+  border-collapse: collapse;
 }
