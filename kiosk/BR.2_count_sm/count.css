@@ -110,6 +110,13 @@ main, footer {
     color: #989898;
 }
 
+.menu-guide{
+    margin: 20px 0;
+    text-align: center;
+    font-size: 30px;
+    color: #989898;
+}
+
 .option-container {
     display: flex;
     flex-direction: column;

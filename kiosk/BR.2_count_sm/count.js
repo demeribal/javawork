@@ -5,6 +5,54 @@ const cupQuantityInput = document.querySelector('#cup_quantity');
 const cornQuantityInput = document.querySelector('#corn_quantity');
 const waffleQuantityInput = document.querySelector('#waffle_quantity');
 
+const optionBox = document.querySelector(".option-item-box");
+const nextBtn = document.querySelector(".btn-choose");
+
+//
+function checkActive() {
+  const isActive = Array.from(optionItems).some(item => item.classList.contains('active'));
+  if (isActive) {
+      nextBtn.disabled = false;
+      nextBtn.classList.add('enabled');
+  } else {
+      nextBtn.disabled = true;
+      nextBtn.classList.remove('enabled');
+  }
+}
+
+// 옵션 클릭하면 활성화
+optionItems.forEach(option => {
+  option.addEventListener('click', () => {
+      // 클릭되면 'active' 추가
+      option.classList.add('active');
+      checkActive();
+  });
+});
+
+// 페이지 로드시 비활성화
+window.addEventListener('DOMContentLoaded', () => {
+  nextBtn.disabled = true;
+});
+
+function updateNextButtonState() {
+  let selected = false;
+  optionItems.forEach(option => {
+    const quantity = parseInt(option.querySelector('.quantity').textContent, 10);
+    if (quantity > 0) {
+      selected = true;
+    }
+  });
+  
+  if (selected) {
+    nextBtn.disabled = false;
+    nextBtn.classList.remove('disabled'); // 필요하면 클래스 조정
+  } else {
+    nextBtn.disabled = true;
+    nextBtn.classList.add('disabled'); // 필요하면 스타일 조정
+  }
+}
+
+
 optionItems.forEach(option => {
     const decreaseButton = option.querySelector('.btn-decrease');
     const increaseButton = option.querySelector('.btn-increase');
@@ -103,6 +151,7 @@ const productName = document.getElementById('product-name');
 const productPrice = document.getElementById('product-price');
 const productOption = document.getElementById('product-option');
 const optionImgContainer = document.getElementById('option-img-container'); // 옵션 이미지 넣을 곳
+const guideText = document.getElementById('menu-guide');
 
 const products = [
   { name: '싱글레귤러', price: '₩3,200', option: '(콘/컵)' },
@@ -115,7 +164,7 @@ const products = [
   { name: '하프갤런', price: '₩26,500', option: '(컵)' }
 ];
 
-// 🛠 여기 추가! name에 맞는 product 찾기
+// name에 맞는 product 찾기
 const product = products.find(p => p.name === name);
 
 if (product) {
@@ -123,6 +172,8 @@ if (product) {
   if (productName) productName.textContent = product.name;
   if (productPrice) productPrice.textContent = product.price;
   if (productOption) productOption.textContent = product.option;
+
+  if (guideText) guideText.textContent = `원하는 맛의 아이스크림을 ${product.name}으로 즐기세요!`;
 
   // 옵션 이미지 넣기
   if (optionImgContainer) {
@@ -161,6 +212,41 @@ if (product) {
     imgList.forEach((img) => {
       optionImgContainer.appendChild(img);
     });
+
+    const optionInfo = document.querySelector('.option-info');
+    if (optionInfo) {
+      if (optionText === '(컵)') {
+        optionInfo.style.visibility = 'hidden';
+      } else {
+        optionInfo.style.visibility = 'visible';
+      }
+    }
+
+    // 옵션 아이템 처리
+    const cupOption = document.getElementById('cup-option');
+    const cornOption = document.getElementById('corn-option');
+    const waffleOption = document.getElementById('waffle-option');
+
+    if (optionText === '(컵)') {
+      // 컵만 있으면 콘/와플 숨기기
+      if (cornOption) cornOption.parentElement.style.display = 'none';
+      if (waffleOption) waffleOption.parentElement.style.display = 'none';
+      
+      if (cupOption) {
+        cupOption.parentElement.style.display = 'flex';
+        cupOption.parentElement.style.justifyContent = 'center';
+      }
+    } else {
+      // 콘이나 와플콘도 선택지에 있으면 다 보이게
+      if (cornOption) cornOption.parentElement.style.display = 'flex';
+      if (waffleOption) waffleOption.parentElement.style.display = 'flex';
+      if (cupOption) cupOption.parentElement.style.display = 'flex';
+    }
+
+    const cupName = cupOption.querySelector('.option-name');
+    if (cupName) {
+      cupName.textContent = '컵';
+    }
   }
 } else {
   console.error('해당하는 상품을 찾을 수 없습니다:', name);

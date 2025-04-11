@@ -4,7 +4,11 @@ document.querySelector("form").addEventListener("submit", function (event) {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
+<<<<<<< Updated upstream
     fetch("http://127.0.0.1:8080/user/login", { 
+=======
+    fetch("http://192.168.0.17:8080/api/login", {  // 백엔드 주소로 요청
+>>>>>>> Stashed changes
         method: "POST",
         credentials: "include",
         headers: {
