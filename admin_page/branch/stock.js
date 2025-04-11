@@ -1,6 +1,4 @@
-  
-// 지점 선택 가능
-
+  // 지점 선택 가능
 // 지점 필터 버튼 기능
 
 const branchButtons = document.querySelectorAll('.branch-btn');
@@ -76,46 +74,73 @@ filterTableByBranch(branchName);
 // Initialize the table to show all branches
 filterTableByBranch('all');
 });
-  
 
-// 드롭다운의 기본값 설정 및 변경 이벤트 처리(재고)
-document.addEventListener('DOMContentLoaded', () => {
-  const dropdowns = document.querySelectorAll('.dropdown-container-stock');
 
-  dropdowns.forEach(dropdown => {
-      const button = dropdown.querySelector('.dropdown-button-stock');
-      const options = dropdown.querySelectorAll('.dropdown-options-stock li');
 
-      // 드롭다운 열고 닫기
-      button.addEventListener('click', (e) => {
-          e.stopPropagation(); // 이벤트 버블링 방지
-          dropdown.classList.toggle('open');
-      });
 
-      // 옵션 선택 처리
-      options.forEach(option => {
-          option.addEventListener('click', () => {
-              const selectedValue = option.textContent; // 선택된 텍스트 가져오기
-              button.textContent = selectedValue; // 버튼 텍스트 변경
-              dropdown.classList.remove('open'); // 드롭다운 닫기
+let currentOrderRow = null;
+let currentModal = null;
 
-              // 선택된 값 저장 (localStorage)
-              localStorage.setItem('productStatus', selectedValue);
-              console.log(`선택된 상태: ${selectedValue}`); // 선택된 값 출력
-          });
-      });
+// 모달 열기 (모든 지점 대응)
+function openOrderModal(button) {
+  currentOrderRow = button.closest('tr.order');
+  const branch = currentOrderRow.dataset.branch;
+  currentModal = document.getElementById(`orderModal-${branch}`);
+  currentModal.classList.remove('hidden');
+}
 
-      // 드롭다운 외부 클릭 시 닫기
-      window.addEventListener('click', (e) => {
-          if (!dropdown.contains(e.target)) {
-              dropdown.classList.remove('open');
-          }
-      });
-
-      // 페이지 로드 시, 저장된 상태를 불러오기 (localStorage)
-      const savedStatus = localStorage.getItem('productStatus');
-      if (savedStatus && button.textContent !== savedStatus) {
-          button.textContent = savedStatus; // 저장된 값으로 버튼 텍스트 설정
-      }
+// 범용 닫기 함수
+function closeAllModals() {
+  document.querySelectorAll('.modal').forEach(modal => {
+    modal.classList.add('hidden');
   });
+}
+
+// 이벤트 위임 처리 (전체 문서에 적용)
+document.addEventListener('click', (e) => {
+  // 숫자 조절
+  if (e.target.classList.contains('minus-btn')) {
+    const input = e.target.nextElementSibling;
+    input.stepDown();
+  }
+  if (e.target.classList.contains('plus-btn')) {
+    const input = e.target.previousElementSibling;
+    input.stepUp();
+  }
+
+  // 모달 컨트롤
+  if (e.target.classList.contains('modalCancel')) {
+    closeAllModals();
+  }
+  if (e.target.classList.contains('modalConfirm')) {
+    handleConfirmClick();
+  }
 });
+
+// 확인 버튼 핸들러
+function handleConfirmClick() {
+  if (currentOrderRow && currentModal) {
+    const quantity = currentModal.querySelector('.quantity-input').value;
+    const orderData = {
+      branch: currentOrderRow.dataset.branch,
+      no: currentOrderRow.cells[0].textContent,
+      name: currentOrderRow.cells[1].textContent,
+      menu: currentOrderRow.cells[2].textContent,
+      image: currentOrderRow.cells[3].textContent,
+      stock: currentOrderRow.cells[4].textContent || 
+             currentOrderRow.cells[4].querySelector('img')?.src,
+      status: currentOrderRow.cells[5].querySelector('img').src,
+      orderStatus: currentOrderRow.cells[6].querySelector('img').src,
+      quantity: parseInt(quantity)
+    };
+    sendOrderData(orderData);
+  }
+  closeAllModals();
+}
+
+// 데이터 전송 함수
+function sendOrderData(data) {
+  console.log('발주 데이터 전송:', data);
+  /* 실제 전송 로직 구현 */
+}
+window.initPayPage = initPayPage;
