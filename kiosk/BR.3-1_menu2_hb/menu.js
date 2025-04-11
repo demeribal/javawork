@@ -77,130 +77,74 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// menu.js
-document.addEventListener('DOMContentLoaded', function () {
-    // URL 파라미터 파싱
-    const params = new URLSearchParams(window.location.search);
-    
-    // 컵/콘/와플 수량
-    const cupQty = parseInt(params.get('cup_quantity')) || 0;
-    const cornQty = parseInt(params.get('corn_quantity')) || 0;
-    const waffleQty = parseInt(params.get('waffle_quantity')) || 0;
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  // UI 초기 설정
+  document.querySelector(".select-icecream").style.display = "flex";
+  document.querySelector(".select-coffee").style.display = "none";
+  document.querySelector(".select-drink").style.display = "none";
+
+  // sessionStorage에서 데이터 가져오기
+  const savedData = JSON.parse(sessionStorage.getItem("productData")) || [];
   
-    // 선택한 맛 정보
-    const flavorData = JSON.parse(decodeURIComponent(params.get('selectedFlavors') || '[]'));
-  
-    // UI 초기 설정
-    document.querySelector('.select-icecream').style.display = 'flex';
-    document.querySelector('.select-coffee').style.display = 'none';
-    document.querySelector('.select-drink').style.display = 'none';
-  
-    // 커피 항목 숨기기 (기존 코드 유지)
-    document.querySelectorAll('.item[data-type="coffee"]').forEach(item => {
-      item.style.display = 'none';
-    });
-  
-    // 장바구니 초기화
-    const cartCountElement = document.querySelector('.cart-count');
-    let cartCount = cupQty + cornQty + waffleQty;
-    cartCountElement.textContent = cartCount;
-    cartCountElement.style.display = cartCount > 0 ? 'flex' : 'none';
-  
-    // 결제 버튼 초기화
-    const payButton = document.querySelector('.pay-button');
-    payButton.id = 'paybutton';
-    let totalPrice = 0; // 추가 상품 가격용
-  
-    // 메뉴 탭 전환 로직
-    document.querySelectorAll('#item-list li').forEach(item => {
-      item.addEventListener('click', function () {
-        document.querySelectorAll('.select-icecream, .select-coffee, .select-drink')
-          .forEach(el => el.style.display = 'none');
-        
-        document.querySelectorAll('#item-list li').forEach(li => {
-          li.classList.remove('active');
-        });
-  
-        switch (this.textContent) {
-          case '아이스크림':
-            document.querySelector('.select-icecream').style.display = 'flex';
-            break;
-          case '커피':
-            document.querySelector('.select-coffee').style.display = 'flex';
-            break;
-          case '음료':
-            document.querySelector('.select-drink').style.display = 'flex';
-            break;
-        }
-      });
-    });
-  
-    // 상품 클릭 이벤트 핸들러
-    document.querySelectorAll('.product').forEach(product => {
-      product.addEventListener('click', function () {
-        const price = parseFloat(
-          this.querySelector('.product-price')
-            .textContent.replace(/[^0-9]/g, '')
-        );
-  
-        // 장바구니 업데이트
-        cartCount++;
-        totalPrice += price;
-        
-        // UI 반영
-        cartCountElement.textContent = cartCount;
-        cartCountElement.style.display = 'flex';
-        payButton.textContent = `₩${totalPrice.toLocaleString()}   결제하기`;
-      });
-    });
-  
-    // 결제 버튼 클릭 이벤트
-    document.querySelector('.pay-link').addEventListener('click', function(e) {
-      e.preventDefault();
-      const nextUrl = `../BR.4_order_wj/order.html?cup=${cupQty}&corn=${cornQty}&waffle=${waffleQty}&flavors=${encodeURIComponent(JSON.stringify(flavorData))}`;
-      window.location.href = nextUrl;
+  let cartCount = savedData.length; // 장바구니에 담긴 제품 수
+  let totalPrice = savedData.reduce((acc, item) => acc + item.price, 0); // 총 가격 계산
+
+  // 장바구니 UI 업데이트
+  const cartCountElement = document.querySelector(".cart-count");
+  cartCountElement.textContent = cartCount;
+  cartCountElement.style.display = cartCount > 0 ? "flex" : "none";
+
+  // 결제 버튼 UI 업데이트
+  const payButton = document.querySelector(".pay-button");
+  payButton.id = "paybutton"; // 아이디 추가
+  payButton.textContent = `₩${totalPrice.toLocaleString()}   결제하기`;
+
+  // 메뉴 탭 전환 로직
+  document.querySelectorAll("#item-list li").forEach((item) => {
+    item.addEventListener("click", function () {
+      document.querySelectorAll(".select-icecream, .select-coffee, .select-drink")
+        .forEach((el) => (el.style.display = "none"));
+
+      switch (this.textContent) {
+        case "아이스크림":
+          document.querySelector(".select-icecream").style.display = "flex";
+          break;
+        case "커피":
+          document.querySelector(".select-coffee").style.display = "flex";
+          break;
+        case "음료":
+          document.querySelector(".select-drink").style.display = "flex";
+          break;
+      }
     });
   });
 
+  // 상품 클릭 이벤트 핸들러 (추가 상품 선택 시)
+  const products = document.querySelectorAll(".product");
+  
+  products.forEach((product) => {
+    product.addEventListener("click", function () {
+      const productName = this.querySelector(".product-name").textContent;
+      const productPrice = parseFloat(
+        this.querySelector(".product-price")
+          .textContent.replace(/₩/g, "").replace(/,/g, "").trim()
+      );
 
-  // 1. URL 파라미터 키 이름 일치 여부
-console.log('cup_quantity:', params.get('cup_quantity'));
-
-// 2. JSON 파싱 안전장치
-JSON.parse(decodeURIComponent(params.get('selectedFlavors') || '[]'));
-
-// 3. 숫자 변환 안전장치
-parseInt(value) || 0
-
-
-document.querySelectorAll('.product').forEach(product => {
-    product.addEventListener('click', function() {
-      // 기존 URL 파라미터 유지
-      const currentParams = new URLSearchParams(window.location.search);
+      savedData.push({ name: productName, price: productPrice });
       
-      // 새 URL 생성
-      const nextUrl = `../BR.2_count_sm/count.html?${currentParams.toString()}`;
-      window.location.href = nextUrl;
+      sessionStorage.setItem("productData", JSON.stringify(savedData));
+
+      cartCount++;
+      totalPrice += productPrice;
+
+      cartCountElement.textContent = cartCount;
+      payButton.textContent = `₩${totalPrice.toLocaleString()}   결제하기`;
     });
   });
 
-
-  document.querySelector('.pay-link').addEventListener('click', function(e) {
-    e.preventDefault();
-    
-    // 현재 URL 파라미터 가져오기
-    const params = new URLSearchParams(window.location.search);
-    
-    // 추가 상품 정보 수집
-    const selectedProducts = [];
-    document.querySelectorAll('.product.selected').forEach(product => {
-      selectedProducts.push({
-        name: product.querySelector('.product-name').textContent,
-        price: product.querySelector('.product-price').textContent
-      });
-    });
-  
-    // 최종 URL 생성
-    const nextUrl = `../BR.4_order_wj/order.html?${params.toString()}&products=${encodeURIComponent(JSON.stringify(selectedProducts))}`;
-    window.location.href = nextUrl;
-  });
+});
