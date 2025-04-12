@@ -15,8 +15,6 @@ public class Orders {
 }
 
 /*
-localhost:8080/h2-console db
-application.propertise -> db설정, mapper등록
 CREATE TABLE orders (
   id INT AUTO_INCREMENT PRIMARY KEY,
   status VARCHAR(20) NOT NULL DEFAULT '확인중',

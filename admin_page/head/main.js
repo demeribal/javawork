@@ -34,6 +34,10 @@ document.addEventListener("DOMContentLoaded", () => {
           if (tabName === "pay" && typeof fetchPayList === "function") {
             fetchPayList();
           }
+          //stock 탭일 데이터 로드
+          if (tabName === "stock" && typeof fetchOrderList === "function") {
+            fetchOrderList();
+          }
           if (tabName === 'menu' && typeof initMenuPage === 'function') {
             initMenuPage();
           }
@@ -55,7 +59,22 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById(`${defaultTab}-data-area`).innerHTML = html;
     })
     .catch((err) => console.error("초기 stock.html 로딩 실패:", err));
+
+  const branchButtons = document.querySelectorAll('.branch-btn');
+  branchButtons.forEach((btn) => {
+    btn.addEventListener('click',() => {
+      let branchName = btn.getAttribute('data-branch');
+      console.log(`${branchName}`)
+      ChangeBranch(btn);
+    });
+  });
 });
+
+function ChangeBranch(button) {
+  const branchButtons = document.querySelectorAll('.branch-btn');
+  branchButtons.forEach(btn => btn.classList.remove('active'));
+  button.classList.add('active');
+}
 
 // ✅ 공통 CSS & JS 동적 로딩 함수
 function loadTabAssets(tabName) {

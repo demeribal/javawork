@@ -12,11 +12,11 @@
 
 .order {
     white-space: nowrap;
-    overflow-x: auto; 
+    overflow-x: auto;
+    height: 47px;
 }
 
 .orderlist {
-    height: 517px;
     white-space: nowrap;
     overflow-x: auto; 
 }
