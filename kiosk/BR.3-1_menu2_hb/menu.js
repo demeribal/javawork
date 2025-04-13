@@ -142,6 +142,8 @@ document.addEventListener("DOMContentLoaded", function () {
       cartCount++;
       totalPrice += productPrice;
 
+      sessionStorage.setItem("totalPrice", totalPrice.toString());
+
       cartCountElement.textContent = cartCount;
       payButton.textContent = `₩${totalPrice.toLocaleString()}   결제하기`;
     });

@@ -1,146 +1,164 @@
-  // 지점 선택 가능
-// 지점 필터 버튼 기능
-
+// 지점 필터 버튼 초기화
 const branchButtons = document.querySelectorAll('.branch-btn');
 
+// 지점 버튼 토글 기능
 branchButtons.forEach(button => {
-button.addEventListener('click', () => {
-// 버튼의 active 상태 토글
-button.classList.toggle('active');
-
-// 활성화된 지점 필터 확인
-const activeBranches = [];
-document.querySelectorAll('.branch-btn.active').forEach(btn => {
-activeBranches.push(btn.getAttribute('data-branch'));
+  button.addEventListener('click', () => {
+    button.classList.toggle('active');
+    
+    // 활성화된 지점 필터 수집
+    const activeBranches = Array.from(
+      document.querySelectorAll('.branch-btn.active')
+    ).map(btn => btn.getAttribute('data-branch'));
+    
+    console.log('활성화된 지점:', activeBranches);
+  });
 });
 
-// 여기서 필터링된 데이터를 표시하는 로직을 추가할 수 있습니다
-console.log('활성화된 지점:', activeBranches);
-});
-});
-
-// const branchButtons = document.querySelectorAll('.branch-btn'); 위에 이미 있음
+// DOM 로드 완료 후 실행
 document.addEventListener('DOMContentLoaded', () => {
-const orderRows = document.querySelectorAll('tr.order');
-const noDataMessage = document.querySelector('.no-data');
+  const orderRows = document.querySelectorAll('tr.order');
+  const noDataMessage = document.querySelector('.no-data');
 
-// Set the "All branches" button as active by default
-//document.querySelector('.branch-btn[data-branch="all"]').classList.add('active');
+  // 테이블 필터링 함수
+  function filterTableByBranch(branchName) {
+    let visibleRowCount = 0;
 
-// Function to filter table by branch
-function filterTableByBranch(branchName) {
-let visibleRowCount = 0;
+    orderRows.forEach(row => {
+      if (row.classList.contains('empty-row')) return;
 
-// Process each row
-orderRows.forEach(row => {
-// Skip empty rows
-if (row.classList.contains('empty-row')) return;
+      const rowBranch = row.getAttribute('data-branch');
+      const shouldShow = branchName === 'all' || rowBranch === branchName;
+      row.style.display = shouldShow ? '' : 'none';
+      if (shouldShow) visibleRowCount++;
+    });
 
-// Get this row's branch name
-const rowBranch = row.getAttribute('data-branch');
+    // 데이터 없을 때 메시지 표시
+    noDataMessage.classList.toggle('hidden', visibleRowCount > 0);
+  }
 
-// Show or hide based on selected branch
-if (branchName === 'all' || rowBranch === branchName) {
-row.style.display = '';
-visibleRowCount++;
-} else {
-row.style.display = 'none';
-}
+  // 지점 버튼 클릭 이벤트
+  branchButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      // 모든 버튼 비활성화 후 클릭한 버튼만 활성화
+      branchButtons.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+      filterTableByBranch(this.getAttribute('data-branch'));
+    });
+  });
+
+  // 초기 전체 데이터 표시
+  filterTableByBranch('all');
 });
 
-// Show/hide no-data message based on visible rows
-if (visibleRowCount === 0) {
-noDataMessage.classList.remove('hidden');
-} else {
-noDataMessage.classList.add('hidden');
-}
-}
-
-// Add click event for branch buttons
-branchButtons.forEach(button => {
-button.addEventListener('click', function() {
-// Remove active class from all buttons
-branchButtons.forEach(btn => btn.classList.remove('active'));
-
-// Add active class to clicked button
-this.classList.add('active');
-
-// Filter table based on selected branch
-const branchName = this.getAttribute('data-branch');
-filterTableByBranch(branchName);
-});
-});
-
-// Initialize the table to show all branches
-filterTableByBranch('all');
-});
-
-
-
-
+// 모달 관련 변수
 let currentOrderRow = null;
 let currentModal = null;
 
-// 모달 열기 (모든 지점 대응)
+// 모달 열기 함수 (안전한 접근 추가)
 function openOrderModal(button) {
   currentOrderRow = button.closest('tr.order');
+  if (!currentOrderRow) return;
+
   const branch = currentOrderRow.dataset.branch;
   currentModal = document.getElementById(`orderModal-${branch}`);
-  currentModal.classList.remove('hidden');
+  if (currentModal) {
+    currentModal.classList.remove('hidden');
+  }
 }
 
-// 범용 닫기 함수
+// 모달 닫기 함수
 function closeAllModals() {
   document.querySelectorAll('.modal').forEach(modal => {
     modal.classList.add('hidden');
   });
 }
 
-// 이벤트 위임 처리 (전체 문서에 적용)
+// 이벤트 위임 처리 (전체 문서)
 document.addEventListener('click', (e) => {
-  // 숫자 조절
+  // 수량 조절 버튼
   if (e.target.classList.contains('minus-btn')) {
     const input = e.target.nextElementSibling;
-    input.stepDown();
+    if (input) input.stepDown();
   }
   if (e.target.classList.contains('plus-btn')) {
     const input = e.target.previousElementSibling;
-    input.stepUp();
+    if (input) input.stepUp();
   }
 
-  // 모달 컨트롤
+  // 모달 닫기/확인 처리
   if (e.target.classList.contains('modalCancel')) {
     closeAllModals();
   }
   if (e.target.classList.contains('modalConfirm')) {
-    handleConfirmClick();
+    handleConfirmClick(e); // 이벤트 객체 전달
   }
 });
 
-// 확인 버튼 핸들러
-function handleConfirmClick() {
-  if (currentOrderRow && currentModal) {
-    const quantity = currentModal.querySelector('.quantity-input').value;
-    const orderData = {
-      branch: currentOrderRow.dataset.branch,
-      no: currentOrderRow.cells[0].textContent,
-      name: currentOrderRow.cells[1].textContent,
-      menu: currentOrderRow.cells[2].textContent,
-      image: currentOrderRow.cells[3].textContent,
-      stock: currentOrderRow.cells[4].textContent || 
-             currentOrderRow.cells[4].querySelector('img')?.src,
-      status: currentOrderRow.cells[5].querySelector('img').src,
-      orderStatus: currentOrderRow.cells[6].querySelector('img').src,
-      quantity: parseInt(quantity)
-    };
-    sendOrderData(orderData);
-  }
+// 확인 버튼 처리 (함수 선언 방식 변경)
+function handleConfirmClick(e) {
+  const modal = e.target.closest('.modal');
+  const row = document.querySelector(`tr[data-branch="${modal.id.split('-')[1]}"]`);
+
+  if (!row) return;
+
+  // 1. 주문 데이터 처리
+  const quantityInput = modal.querySelector('.quantity-input');
+  if (!quantityInput) return;
+
+  const orderData = {
+    branch: row.dataset.branch,
+    no: row.cells[0].textContent,
+    name: row.cells[1].textContent,
+    menu: row.cells[2].textContent,
+    image: row.cells[3].textContent,
+    stock: row.cells[4].textContent || 
+           row.cells[4].querySelector('img')?.src,
+    status: row.cells[5].querySelector('img')?.src,
+    orderStatus: row.cells[6].querySelector('img')?.src,
+    quantity: parseInt(quantityInput.value)
+  };
+  
+  sendOrderData(orderData);
+
+  // 2. 알림 이미지 동적 생성 및 표시
+ // 알림 이미지 생성 및 표시 (위치 조정)
+const alertImg = document.createElement('img');
+alertImg.src = '/images/Frame1043.png';
+alertImg.className = 'alarm-png';
+alertImg.style.position = 'fixed';
+alertImg.style.top = '80%'; // 중앙으로 이동
+alertImg.style.left = '50%'; // 중앙으로 이동
+alertImg.style.transform = 'translate(-50%, 20%)'; // 중앙에서 아래로 살짝 이동
+alertImg.style.width = '200px';
+alertImg.style.zIndex = '10000';
+alertImg.style.transition = 'all 0.5s ease';
+alertImg.style.opacity = '0';
+
+document.body.appendChild(alertImg);
+setTimeout(() => {
+  alertImg.style.opacity = '1';
+  alertImg.style.transform = 'translate(-50%, 20%) scale(1)'; // 애니메이션 시작
+}, 50);
+
+  setTimeout(() => {
+    alertImg.style.opacity = '0';
+    setTimeout(() => {
+      document.body.removeChild(alertImg);
+    }, 500);
+  }, 3000);
+
+  // 3. 모달 닫기
   closeAllModals();
 }
 
-// 데이터 전송 함수
+// 주문 데이터 전송
 function sendOrderData(data) {
   console.log('발주 데이터 전송:', data);
-  /* 실제 전송 로직 구현 */
+  /* 실제 API 호출 로직 구현 */
 }
-window.initPayPage = initPayPage;
+
+// 결제 페이지 초기화 함수
+window.initPayPage = function() {
+  console.log('결제 페이지 초기화 완료');
+};
