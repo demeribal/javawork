@@ -62,16 +62,21 @@ function onFlavorItemClick(e) {
   //슬롯 화살표 위치 함수
   function updateSlotArrowPosition() {
     const slots = document.querySelectorAll('.slot');
-    slots.forEach((slot, index) => {
-      slot.classList.toggle('active-slot', index === currentSlotIndex);
-    });
-
     const currentSlot = slots[currentSlotIndex];
-    if (currentSlot) {
-      const offsetLeft = currentSlot.offsetLeft + currentSlot.offsetWidth / 2 - 8;
-      slotArrow.style.left = offsetLeft + 'px';
+    const slotsContainer = document.querySelector('.circle-slots');
+  
+    if (currentSlot && slotsContainer && slotArrow) {
+      const containerRect = slotsContainer.getBoundingClientRect();
+      const slotRect = currentSlot.getBoundingClientRect();
+      const centerX = slotRect.left + slotRect.width / 2 - containerRect.left;
+      // 가운데로 정렬 (8은 삼각형 너비 보정)
+      slotArrow.style.left = `${centerX - 8}px`; 
+
+    slots.forEach(slot => slot.classList.remove('active-slot'));
+    currentSlot.classList.add('active-slot');
     }
   }
+  
 
 //--5.선택된 항목을 UI에 업데이트
 function updateSelectionUI() {
@@ -102,14 +107,9 @@ function updateSelectionUI() {
   
 //--6.플레이버 선택
 document.addEventListener("DOMContentLoaded", () => {
-  /*
-  const flavorItems = Array.from(document.querySelectorAll('.flavor-item'));
-  flavors = flavorItems;
-
-  totalPages = Math.ceil(flavors.length / itemsPerPage);
-  showCurrentPage();
-  updateArrowsAndDots();
-  */
+  document.querySelector('.circle-slots').addEventListener('scroll', () => {
+    updateSlotArrowPosition();
+  });
 
 //세션에서 데이터 불러옴
 const quantities = JSON.parse(sessionStorage.getItem('quantities') || '{}');

@@ -225,10 +225,13 @@ html, body {
   height: 243px;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   gap: 20px;
   background-color: #f3f3f3;
   position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-top: 8px;
 }
 
 .slot-arrow {
@@ -241,6 +244,7 @@ html, body {
   border-top: 30px solid #fff;
   transition: left 0.3s ease;
   pointer-events: none;
+  scroll-behavior: smooth;
 }
 
 .slot {
@@ -250,7 +254,10 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: 0 0 auto;
+  margin-right: 20px;
 }
+
 
 .slot-box {
   width: 132px;
