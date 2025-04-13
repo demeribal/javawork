@@ -79,9 +79,9 @@ VALUES (3, '상봉본점');
 INSERT INTO office (user_Id, office_Name)
 VALUES (4, '하남본점');
 
-INSERT INTO menu (menu_Name, menu_code, image_Path) VALUES ('사랑에빠진딸기', '/images/사랑에_빠진_딸기.png');
-INSERT INTO menu (menu_Name, menu_code, image_Path) VALUES ('엄마는외계인', '/images/엄마는_외계인.png');
-INSERT INTO menu (menu_Name, menu_code, image_Path) VALUES ('민트초코', '/images/민트초코.png');
+INSERT INTO menu (menu_Name, menu_code, image_Path) VALUES ('사랑에빠진딸기', 'ICE001', '/images/사랑에_빠진_딸기.png');
+INSERT INTO menu (menu_Name, menu_code, image_Path) VALUES ('엄마는외계인', 'ICE002', '/images/엄마는_외계인.png');
+INSERT INTO menu (menu_Name, menu_code, image_Path) VALUES ('민트초코', 'ICE003', '/images/민트초코.png');
 
 INSERT INTO orders (status, quantity, last_Update) VALUES ('확인중', 10, NOW());
 INSERT INTO orders (status, quantity, last_Update) VALUES ('배송중', 5, NOW());
