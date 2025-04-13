@@ -1,0 +1,325 @@
+@font-face {
+    font-family: 'NanumSquareNeoExtraBold';
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.eot);
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: 'NanumSquareNeoBold';
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.eot);
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: 'NanumSquareNeo';
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.eot);
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.ttf) format("truetype");
+}
+
+.select-icecream, .select-coffee, .select-drink {
+    display: none;
+}
+
+.pay-button {
+    white-space: pre;
+}
+
+body {
+    
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+
+    white-space: nowrap;
+}
+
+.container {
+
+    width: 1024px;
+    height: 1562px;
+    left: 4605px;
+    top: 1524px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 6px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+
+    transform: translateX(100%);
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 14px;
+}
+
+.BR-logo {
+    width: 96px;
+    height: 88px;
+    padding: 4px;
+    
+}
+
+.exit-button {
+    padding: 10px;
+    margin: 6px;
+    width: 40px;
+    height: 40px;
+
+    background-color: #F6A9D785;
+    border-radius: 50%;
+    border: none;
+}
+
+.select-text {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+
+    width: 1024px;
+    height: 100px;
+    top: 114px;
+}
+
+.select-text > ul {
+    list-style-type: none;
+
+    display: flex;
+    justify-content: space-around;
+
+    padding: 0;
+    width: 100%;
+
+    margin: 10px 0;
+}
+
+.select-text > ul > li {
+    font-family: 'NanumSquareNeoBold';
+    color: #F20C93;
+    cursor: pointer;
+    padding: 20px 20px;
+    font-size: 19px;
+    gap: 10px;
+
+    top: 20px;
+    left: 14px;
+    border-radius: 99px;
+    transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+}
+
+.select-text > ul > li:hover {
+    color: #ffffff;
+    background-color: #F20C93;
+    border-radius: 50px;
+    padding: 20px 28px;
+    margin: 0 7px;
+    transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+    
+}
+
+.product {
+    width: 256px;
+    height: 164px;
+    left: 256px;
+
+    margin: 11px 0;
+}
+
+.select-icecream {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    width: 1024px;
+    height: 328px;
+    top: 214px;
+}
+
+.select-icecream > .product {
+    font-family: 'NanumSquareNeoBold';
+    text-align: center;
+}
+
+.select-icecream > .product:hover {
+    cursor: pointer;
+}
+
+.select-coffee {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    width: 1024px;
+    height: 328px;
+    top: 214px;
+}
+
+.select-coffee > .product {
+    font-family: 'NanumSquareNeoBold';
+    text-align: center;
+}
+
+.select-coffee > .product:hover {
+    cursor: pointer;
+}
+
+.select-drink {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    width: 1024px;
+    height: 328px;
+    top: 214px;
+}
+
+.select-drink > .product {
+    font-family: 'NanumSquareNeoBold';
+    text-align: center;
+}
+
+.select-drink > .product:hover {
+    cursor: pointer;
+}
+
+.product > img {
+    width: 113px;
+    height: 97;
+}
+
+.product > .product-name {
+    font-size: 17px;
+    height: 22px;
+    top: 97px;
+}
+
+.product-price {
+    color: #F20C93;
+    font-size: 17px;
+    height: 22px;
+    top: 101px;
+}
+
+.select-bottom {
+    position: fixed;
+
+    width: 1024px;
+    height: 194px;
+    top: calc(86% + 10px);
+}
+
+.select-next {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    gap: 158px;
+
+    position: absolute;
+    width: 745px;
+    height: 101px;
+    left: calc(50% - 745px/2 - 0.5px);
+    top: 47px;
+}
+
+.select-next > .cart {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 13px 35px;
+    gap: 10px;
+
+    width: 202px;
+    height: 71px;
+
+    background: #FFFFFF;
+    border: 1px solid #D1D1D1;
+    border-radius: 99px;
+}
+
+.select-next > .pay {
+    display: flex;
+    flex-direction: row;
+}
+
+.select-next > .pay > a {
+    font-family: 'NanumSquareNeo';
+    text-decoration: none;
+    
+    width: 385px;
+    height: 101px;
+    /*padding: 14px 40px;*/
+    font-size: 14px;
+    color: #ffffff;
+
+    border: none;
+    border-radius: 99px;
+    background-color: #F20C93;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cart-button {
+    width: 38px;
+    height: 47px;
+    padding-top: 3px;
+}
+
+.cart-count {
+    display: none;
+
+    position: absolute;
+    top: -12px; /* 숫자 위치 조정 */
+    right: 580px;
+    background-color: #F20C93;
+    color: white;
+    font-size: 24px;
+    width: 30px;
+    height: 30px;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+/* 장바구니 숫자를 표시하는 부분 */
+.cart-count::after {
+    content: attr(data-count);
+}
+
+.pay-button {
+    position: absolute;
+    max-width: 70px;
+    font-size: 30px;
+    right: 180px;
+}
+
+#paybutton {
+    position: absolute;
+    float:left;
+    right: 270px;
+
+    width: 385px;
+}
+
+.arrow-next {
+    position: absolute;
+    width: 23px;
+    height: 39px;
+    top: 34px;
+    left: 690px;
+}
