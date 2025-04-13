@@ -280,14 +280,10 @@ html, body {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-/*
-.slot img {
-  width: 80%;
-  height: 80%;
-  object-fit: cover;
-  border-radius: 10px;
+.active-slot .slot-box {
+  border: 2px solid #f20c93;
+  box-shadow: 0 0 10px rgba(242, 12, 147, 0.4);
 }
-*/
 
 /* 버튼 컨테이너 */
 .button-container {
