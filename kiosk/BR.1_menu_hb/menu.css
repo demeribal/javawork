@@ -131,6 +131,46 @@ body {
     cursor: pointer;
 }
 
+.select-coffee {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.select-coffee > .product {
+    font-family: 'NanumSquareNeoBold';
+    text-align: center;
+
+    margin: 10px 20px;
+    padding: 0 20px;
+
+    width: 160px;
+}
+
+.select-coffee > .product:hover {
+    cursor: pointer;
+}
+
+.select-drink {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.select-drink > .product {
+    font-family: 'NanumSquareNeoBold';
+    text-align: center;
+
+    margin: 10px 20px;
+    padding: 0 20px;
+
+    width: 160px;
+}
+
+.select-drink > .product:hover {
+    cursor: pointer;
+}
+
 .product > img {
     width: 130px;
 }
@@ -195,11 +235,36 @@ body {
     left: 80px;
 }
 
+.cart-count {
+    display: none;
+    left: 130px;
+    top: -10px;
+    position: absolute;
+    background-color: #F20C93;
+    color: white;
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+/* 장바구니 숫자를 표시하는 부분 */
+.cart-count::after {
+    content: attr(data-count);
+}
+
+.pay {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
 .pay-button {
     font-size: 28px;
 }
 
 .arrow {
-    position: relative;
-    left: 90px;
+    position: absolute;
+    left: 336px;
 }

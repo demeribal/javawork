@@ -9,6 +9,7 @@ html, body {
     width: 1024px;
     height: 1562px;
     margin: 0 auto;
+    position: relative; /* 중요: 추가 */
 }
 
 /* 로고 */
@@ -146,7 +147,7 @@ html, body {
 
 .payment-summary {
     position: absolute;
-    width: 1024px;
+    width: 100%;
     height: 282px;
     top: 1047px;
 
@@ -176,6 +177,7 @@ html, body {
     position: absolute;
     width: 1024px;
     height: 233px;
+    left: 0px;
     top: 1329px;
     
     background: #FFFFFF;
@@ -211,8 +213,8 @@ html, body {
     left: 533px;
     top: 59px;
 
-    color:#F20C93;
-    background: #FFFFFF;
+    color: #FFFFFF;
+    background: #F20C93;
     border: 1px solid #B9B9B9;
     border-radius: 99px;
 }
