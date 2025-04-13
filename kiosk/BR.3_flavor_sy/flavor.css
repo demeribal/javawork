@@ -225,10 +225,13 @@ html, body {
   height: 243px;
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   gap: 20px;
   background-color: #f3f3f3;
   position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-top: 8px;
 }
 
 .slot-arrow {
@@ -241,6 +244,7 @@ html, body {
   border-top: 30px solid #fff;
   transition: left 0.3s ease;
   pointer-events: none;
+  scroll-behavior: smooth;
 }
 
 .slot {
@@ -250,7 +254,10 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: 0 0 auto;
+  margin-right: 20px;
 }
+
 
 .slot-box {
   width: 132px;
@@ -280,14 +287,10 @@ html, body {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
-/*
-.slot img {
-  width: 80%;
-  height: 80%;
-  object-fit: cover;
-  border-radius: 10px;
+.active-slot .slot-box {
+  border: 2px solid #f20c93;
+  box-shadow: 0 0 10px rgba(242, 12, 147, 0.4);
 }
-*/
 
 /* 버튼 컨테이너 */
 .button-container {
