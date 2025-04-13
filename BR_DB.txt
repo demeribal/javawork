@@ -1,6 +1,6 @@
 최종 sql문
 
-[ 1. h2 테이블 생성문과 예시데이터 (create table & insert into) ]
+**************[ 1. h2 테이블 생성문과 예시데이터 (create table & insert into) ]**************
 
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -102,9 +102,18 @@ INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (1, '010-1
 INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (2, '010-2345-6789', NOW(), 1);
 INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (3, '010-3456-7890', NOW(), 0);
 
+---------------------------------------------------------------------------------------------------
+h2 데이터 삭제(무결성 제약 해제, 모든 데이터 삭제, 무결성 제약 다시 켜기)
+SET REFERENTIAL_INTEGRITY FALSE;
+
+SELECT 'TRUNCATE TABLE "' || TABLE_NAME || '";' 
+FROM INFORMATION_SCHEMA.TABLES 
+WHERE TABLE_SCHEMA='PUBLIC';
+
+SET REFERENTIAL_INTEGRITY TRUE;
 
 
-[ 2. MySQL 테이블 생성문과 예시데이터 (create table & insert into) ]
+**************[ 2. MySQL 테이블 생성문과 예시데이터 (create table & insert into) ]**************
 
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT COMMENT '사용자 ID (PK)',
