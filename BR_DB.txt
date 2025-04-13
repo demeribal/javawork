@@ -103,12 +103,14 @@ INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (2, '010-2
 INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (3, '010-3456-7890', NOW(), 0);
 
 ---------------------------------------------------------------------------------------------------
-h2 데이터 삭제(무결성 제약 해제, 모든 데이터 삭제, 무결성 제약 다시 켜기)
+h2 데이터 삭제(무결성 제약 해제, 모든 데이터 삭제, 테이블 ID초기화(모든 테이블 적용해야함), 무결성 제약 다시 켜기)
 SET REFERENTIAL_INTEGRITY FALSE;
 
 SELECT 'TRUNCATE TABLE "' || TABLE_NAME || '";' 
 FROM INFORMATION_SCHEMA.TABLES 
 WHERE TABLE_SCHEMA='PUBLIC';
+
+ALTER TABLE your_table_name ALTER COLUMN id RESTART WITH 1;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
@@ -237,5 +239,5 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- 테이블의 모든 데이터 삭제
 DELETE FROM your_table_name;
 
--- AUTO_INCREMENT 초기화 (id 값을 1부터 다시 시작하게 함)
+-- AUTO_INCREMENT 초기화 (id 값을 1부터 다시 시작하게 함) - 모든 테이블에 적용
 ALTER TABLE your_table_name AUTO_INCREMENT = 1;
