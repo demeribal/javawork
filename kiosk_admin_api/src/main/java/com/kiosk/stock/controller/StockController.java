@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/stocks")
-@CrossOrigin(origins = "http://222.109.216.30:5500", allowCredentials = "true")
 public class StockController {
     
     @Autowired

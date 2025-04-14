@@ -20,8 +20,6 @@ import com.kiosk.menu.service.MenuService;
 
 @RestController
 @RequestMapping("api/menus")
-@CrossOrigin("http://192.168.0.35:5500/")
-
 public class MenuController {
 	
 	//	http://localhost:8080/api/menus

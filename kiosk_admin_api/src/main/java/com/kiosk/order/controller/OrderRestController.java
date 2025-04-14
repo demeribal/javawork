@@ -24,7 +24,6 @@ import com.kiosk.order.service.OrderService;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://192.168.0.35:5500") //vscode 실행 시 나오는 url과 일치
 public class OrderRestController {
 	
 	@Autowired

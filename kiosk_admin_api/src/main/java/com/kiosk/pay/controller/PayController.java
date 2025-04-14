@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/pay")
-@CrossOrigin("http://192.168.0.35:5500")
 
 public class PayController {
 	
