@@ -60,6 +60,7 @@ const productPriceEl = document.getElementById('product-price');
 const productOptionEl = document.getElementById('product-option');
 const optionImgContainer = document.getElementById('option-img-container'); 
 const guideTextEl = document.getElementById('menu-guide');
+
 document.addEventListener("DOMContentLoaded", function() {
   const products = [
     { name: '싱글레귤러', price: '₩3,200', option: '(콘/컵)' },
@@ -246,6 +247,29 @@ document.querySelector('.btn-choose').addEventListener('click', function() {
 
   // 수량 정보를 sessionStorage에 저장
   sessionStorage.setItem('quantities', JSON.stringify(quantities));
+
+    // 💡 이미 선언된 selectedProduct 재사용!
+    if (!selectedProduct) {
+      alert("상품 정보를 찾을 수 없습니다.");
+      return;
+    }
+  
+    // "₩3,200" → 3200 숫자로 변환
+    const unitPrice = parseInt(selectedProduct.price.replace(/₩|,/g, ''), 10);
+  
+    let quantity = 0;
+    if (quantities.cup_quantity > 0) quantity = quantities.cup_quantity;
+    else if (quantities.corn_quantity > 0) quantity = quantities.corn_quantity;
+    else if (quantities.waffle_quantity > 0) quantity = quantities.waffle_quantity;
+  
+    const productData = JSON.parse(sessionStorage.getItem('productData')) || [];
+    productData.push({
+      name: selectedProduct.name,
+      unitPrice,
+      quantity,
+      totalPrice: unitPrice * quantity
+    });
+    sessionStorage.setItem('productData', JSON.stringify(productData));
 
   //다음 페이지 이동
   let url = '../BR.3_flavor_sy/flavor.html';
