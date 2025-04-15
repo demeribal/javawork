@@ -224,7 +224,7 @@ window.fetchPayList = fetchPayList;
 
 //---------------- 결제 목록 불러오기---------------
 function fetchPayList() {
-  fetch("http://localhost:8080/api/pay")
+  fetch("http://tomhoon.duckdns.org:8882/api/pay")
     .then(res => res.json())
     .then(data => {
       const tbody = document.getElementById("pay-table-body");

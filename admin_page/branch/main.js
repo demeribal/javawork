@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ✅ 공통 CSS & JS 동적 로딩 함수
 function loadTabAssets(tabName) {
   // CSS 로딩
+/*
   const styleId = `${tabName}-style`;
   if (!document.getElementById(styleId)) {
     const link = document.createElement("link");
@@ -71,6 +72,7 @@ function loadTabAssets(tabName) {
     link.href = `${tabName}.css`;
     document.head.appendChild(link);
   }
+   */ 
 
   // JS 로딩
   const scriptId = `${tabName}-script`;
