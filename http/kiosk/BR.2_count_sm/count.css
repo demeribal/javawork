@@ -161,7 +161,7 @@ main, footer {
 }
 
 .option-item-box.selected {
-    border: solid 3px #EF9BCD;
+    border: solid 5px #EF9BCD;
     color: #F20C93;
 }
 

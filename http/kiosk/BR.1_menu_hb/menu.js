@@ -1,30 +1,95 @@
-// menu.js
-window.addEventListener('pageshow', function(event) {
+const params = new URLSearchParams(window.location.search);
+const cartCountElement = document.querySelector('.cart-count');
+const payButton = document.querySelector('.pay-button');
+const products = document.querySelectorAll('.product');
+const tabs = document.querySelectorAll('#item-list li');
+const sections = {
+  icecream: document.querySelector('.select-icecream'),
+  coffee: document.querySelector('.select-coffee'),
+  drink: document.querySelector('.select-drink')
+};
+
+const tempProductData = JSON.parse(sessionStorage.getItem('tempProductData')) || [];
+document.addEventListener('DOMContentLoaded', function(event) {
+  selectMenu();
+  sessionManagement();
+  pageUI(event);
+  const productData = JSON.parse(sessionStorage.getItem('productData')) || [];
+  updateCartUI(productData);
+});
+
+function selectMenu() {
+  products.forEach(product => {
+    product.addEventListener('click', function() {
+      const productName = this.querySelector('.product-name').textContent;
+      const productPrice = parseFloat(
+        this.querySelector('.product-price').textContent.replace(/[^0-9]/g, '')
+      );
+      // 상품 데이터 처리
+      sessionUpdate(productName, productPrice);
+    });
+  });
+}
+
+function sessionUpdate(productName, productPrice) {
+  const productData = JSON.parse(sessionStorage.getItem('productData')) || [];
+  const tempProductData = JSON.parse(sessionStorage.getItem('tempProductData')) || [];
+
+  //메뉴를 눌렀을 때 temp생성
+  tempProductData.push({
+    name: productName,
+    unitPrice: productPrice,
+    quantity: 1, 
+    totalPrice: productPrice
+  });
+
+  const existingProduct = productData.find(item => item.name === productName);
+  // 기존 상품이 있다면 수량과 가격을 갱신
+  if (existingProduct) {
+    existingProduct.quantity += 1;
+    existingProduct.totalPrice += productPrice;
+  }
+  // 업데이트된 tempProductData를 세션에 저장
+  sessionStorage.setItem('tempProductData', JSON.stringify(tempProductData));
+  sessionStorage.setItem('productData', JSON.stringify(productData));
+
+}
+
+function updateCartUI(productData) {
+  // 수량 합산
+  const totalCount = productData.reduce((sum, item) => sum + item.quantity, 0);
+
+  // 총 금액 합산
+  const totalAmount = productData.reduce((sum, item) => sum + item.totalPrice, 0);
+
+  cartCountElement.textContent = totalCount;
+  cartCountElement.style.display = totalCount > 0 ? 'flex' : 'none';
+
+  let discountAmount = 0;
+  const priceData = {
+    totalAmount: totalAmount,
+    discountAmount: discountAmount,
+    paymentPrice: totalAmount - discountAmount
+  };
+  sessionStorage.setItem('priceData', JSON.stringify(priceData));
+
+  // 최종 결제 금액을 텍스트에 반영
+  if (totalCount > 0) {
+    payButton.textContent = `₩${priceData.paymentPrice.toLocaleString()} 결제하기`;
+  } else {
+    payButton.textContent = `결제하기`;
+  }
+}
+  
+  
+
+function pageUI(event){
   if (event.persisted || performance.getEntriesByType('navigation')[0].type === 'back_forward') {
     sessionStorage.removeItem('productData');
     document.querySelector('.cart-count').textContent = '0';
     document.querySelector('.pay-button').textContent = '결제하기';
   }
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-  // ✅ 초기화
-  const params = new URLSearchParams(window.location.search);
-  const cartCountElement = document.querySelector('.cart-count');
-  const payButton = document.querySelector('.pay-button');
-  const products = document.querySelectorAll('.product');
-  const tabs = document.querySelectorAll('#item-list li');
-  const sections = {
-    icecream: document.querySelector('.select-icecream'),
-    coffee: document.querySelector('.select-coffee'),
-    drink: document.querySelector('.select-drink')
-  };
-/*
-  // ✅ 세션 초기화 (Menu1 진입 시)
-  if (!window.location.pathname.includes('count.html')) {
-    sessionStorage.removeItem('productData');
-  }
-*/
+  
   // ✅ UI 초기 설정
   sections.icecream.style.display = 'flex';
   sections.coffee.style.display = 'none';
@@ -46,40 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // 임시 세션
-  let tempProductData = [];
-
-  // ✅ 상품 선택 핸들러
-  products.forEach(product => {
-    product.addEventListener('click', function() {
-      const productName = this.querySelector('.product-name').textContent;
-      const productPrice = parseFloat(
-        this.querySelector('.product-price').textContent
-          .replace(/[^0-9]/g, '')
-      );
-
-      // 세션 업데이트
-      const productData = JSON.parse(sessionStorage.getItem('productData')) || [];
-      const existingProduct = productData.find(item => item.name === productName);
-
-      if (existingProduct) {
-        existingProduct.quantity += 1;
-        existingProduct.totalPrice += productPrice;
-      } else {
-        tempProductData.push({
-          name: productName,
-          unitPrice: productPrice,
-          quantity: 1,
-          totalPrice: productPrice
-        });
-      }
-
-      sessionStorage.setItem('tempProductData', JSON.stringify(tempProductData));
-      updateCartUI(tempProductData);
-    });
-  });
-
-
+}
 
   // ✅ 결제 버튼 핸들러
   document.querySelector('.pay-link').addEventListener('click', function(e) {
@@ -95,22 +127,40 @@ document.addEventListener('DOMContentLoaded', function() {
     window.location.href = nextUrl;
   });
 
-  // ✅ UI 업데이트 함수
-  function updateCartUI(productData) {
-    const totalCount = productData.reduce((sum, item) => sum + item.quantity, 0);
-    const totalPrice = productData.reduce((sum, item) => sum + item.totalPrice, 0);
-  
-    cartCountElement.textContent = totalCount;
-    cartCountElement.style.display = totalCount > 0 ? 'flex' : 'none';
-  
-    if (totalCount > 0) {
-      payButton.textContent = `₩${totalPrice.toLocaleString()} 결제하기`;
-    } else {
-      payButton.textContent = `결제하기`;
-    }
-  }
 
-  // ✅ 초기 UI 업데이트
-  const initialData = JSON.parse(sessionStorage.getItem('productData')) || [];
-  updateCartUI(initialData);
-});
+function sessionManagement(){
+  if (sessionStorage.getItem("tempProductData")) {
+    // ✅ 페이지가 로드되면 tempProductData를 productData로 넘기고 초기화
+      if (tempProductData.products.length > 0) {
+        // 세션에서 기존 productData를 가져오기 (없으면 빈 배열로 초기화)
+        let productData = JSON.parse(sessionStorage.getItem('productData')) || [];
+    
+        // tempProductData의 products 배열을 productData에 추가
+        tempProductData.products.forEach(product => {
+          const existingProduct = productData.find(item => item.name === product.name && item.option === product.option);
+    
+          if (existingProduct) {
+            existingProduct.quantity += product.quantity;
+            existingProduct.totalPrice += product.totalPrice;
+          } else {
+            productData.push({
+              name: product.name,
+              unitPrice: product.unitPrice,
+              quantity: product.quantity,
+              totalPrice: product.totalPrice,
+              option: product.option,
+              flavors: product.flavors
+            });
+          }
+        });
+        // 변경된 productData를 세션에 저장
+        sessionStorage.setItem('productData', JSON.stringify(productData));
+        // tempProductData 키 삭제 -> tempProductData 삭제
+        sessionStorage.removeItem('tempProductData');
+
+        
+      }
+    }
+    
+}
+

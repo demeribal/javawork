@@ -8,31 +8,42 @@ const waffleQuantityInput = document.querySelector('#waffle_quantity');
 const optionBox = document.querySelector(".option-item-box");
 const nextBtn = document.querySelector(".btn-choose");
 
-function checkActive() {
-  const isActive = Array.from(optionItems).some(item => item.classList.contains('active'));
-  if (isActive) {
-      nextBtn.disabled = false;
-      nextBtn.classList.add('enabled');
+
+nextBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (nextBtn.classList.contains("disabled")) {
+    alert("옵션 / 수량을 선택해 주세요");
   } else {
-      nextBtn.disabled = true;
-      nextBtn.classList.remove('enabled');
+    location.href = '../BR.3_flavor_sy/flavor.html';
+  }
+});
+
+
+
+function checkActive() {
+  const isActive = Array.from(optionItems).some(item => item.classList.contains("active")
+  );
+
+  if (isActive) {
+    nextBtn.classList.remove("disabled");
+    nextBtn.classList.add("enabled");
+  } else {
+    nextBtn.classList.add("disabled");
+    nextBtn.classList.remove("enabled");
   }
 }
-
-
-
 // 옵션 클릭하면 활성화
 optionItems.forEach(option => {
-  option.addEventListener('click', () => {
-      // 클릭되면 'active' 추가
-      option.classList.add('active');
-      checkActive();
+  option.addEventListener("click", () => {
+    option.classList.add("active");
+    checkActive();
   });
 });
 
+
 // 페이지 로드시 비활성화
-window.addEventListener('DOMContentLoaded', () => {
-  nextBtn.disabled = true;
+window.addEventListener("DOMContentLoaded", () => {
+  nextBtn.classList.add("disabled");
 });
 
 function updateNextButtonState() {
@@ -52,7 +63,6 @@ function updateNextButtonState() {
     nextBtn.classList.add('disabled'); // 필요하면 스타일 조정
   }
 }
-
 
 // html 요소 가져오기
 const productNameEl = document.getElementById('product-name');
@@ -146,6 +156,10 @@ document.addEventListener("DOMContentLoaded", function() {
           cupOption.parentElement.style.display = 'flex';
           cupOption.parentElement.style.justifyContent = 'center';
         }
+        const cupName = cupOption.querySelector('.option-name');
+        if (cupName) {
+          cupName.textContent = '컵';
+        }
       } else {
         // 콘이나 와플콘도 선택지에 있으면 다 보이게
         if (cornOption) cornOption.parentElement.style.display = 'flex';
@@ -153,10 +167,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (cupOption) cupOption.parentElement.style.display = 'flex';
       }
   
-      const cupName = cupOption.querySelector('.option-name');
-      if (cupName) {
-        cupName.textContent = '컵';
-      }
+      
     }
   } else {
     console.error('해당하는 상품을 찾을 수 없습니다:', name);
@@ -179,7 +190,7 @@ optionItems.forEach(option => {
                   itemQuantity.textContent = 1; // 수량 초기화
               }
               if (itemInput) {
-                  itemInput.value = 1; // hidden input 수량 초기화
+                  itemInput.value = 0; // hidden input 수량 초기화
               }
           }
       });
@@ -194,7 +205,7 @@ optionItems.forEach(option => {
   option.addEventListener('click', () => {
       optionItems.forEach(item => item.classList.remove('selected'));
       option.classList.add('selected');
-
+      
       // 수량 초기화 및 업데이트
       resetOtherQuantities();
       updateQuantity(option);
@@ -290,14 +301,8 @@ function updateProductData() {
 
 function goBack() {
   sessionStorage.removeItem("tempProductData");
-  history.back();
+  window.location.href = "../BR.1_menu_hb/menu.html";
 }
-
-
-
-
-
-
 
 
 
