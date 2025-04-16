@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1024, height=1562">
+  <title>키오스크 시작화면</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+        width: 100vw;
+        height: 100vh;
+        background-color: white;
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        cursor: pointer;
+        overflow: auto;
+    }
+
+    .container {
+        position: relative;
+        width: 1024px;
+        height: 1562px;
+        background-color: #ffe5ee; 
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1)
+    }
+
+    .logo {
+        margin-bottom: 60px;
+    }
+
+    .logo img {
+        width: 800px;
+        height: auto;
+    }
+
+    .touch-box {
+      background-color: white;
+      border-radius: 80px;
+      padding: 40px 60px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .touch-box p {
+      font-size: 28px;
+      color: #e91e63;
+      font-weight: bold;
+      line-height: 1.4;
+    }
+
+    .admin-link {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    text-decoration: none;
+    }
+
+    .admin-link img {
+        width: 50px;
+        height: auto;
+    }
+  </style>
+</head>
+<body onclick="goToKiosk()">
+  <div class="container">
+    <div class="logo">
+        <a href="./admin_page/login.html" class="admin-link">
+            <img src="images/cog.png">
+          </a>
+      <img src="images/baskin_logo.png" alt="Baskin Robbins Logo">
+    </div>
+    <div class="touch-box">
+      <p>주문하시려면<br>화면을 터치하세요</p>
+    </div>
+  </div>
+
+  <script>
+    function goToKiosk() {
+      location.href = "./kiosk/BR.1_menu_hb/menu.html";
+    }
+  </script>
+</body>
+</html>
