@@ -36,8 +36,18 @@ public class PayController {
     }
 
     @GetMapping
-    public List<Pay> getPays() {
-        return payService.getAllPay();
+    public List<Pay> getPays(
+        @RequestParam(required = false) String fromDate,
+        @RequestParam(required = false) String toDate,
+        @RequestParam(defaultValue = "desc") String order
+    ) {
+        if (fromDate != null && toDate != null) {
+            return payService.getPaysBetweenDates(fromDate, toDate, order);
+        } else {
+            return payService.getAllPayOrdered(order);
+        }
     }
+
+
 }
 
