@@ -204,6 +204,10 @@ background-color: #f2ebff;
 color: #5A3D8B;
 }
 
+.modal-content {
+    position: static !important;
+    top: auto !important;
+  }
 /* -------------------- flatpickr 월 선택 스타일 커스터마이징 -------------------- */
 
 /* 월 선택 모드 전체 그리드 형태 */
