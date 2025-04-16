@@ -9,6 +9,6 @@ document.addEventListener("DOMContentLoaded", function() {
       sessionStorage.clear();
   
       // 첫 화면으로 돌아가기
-      window.location.href = '../index.html'; 
+      window.location.href = '../../index.html'; 
     });
   });
