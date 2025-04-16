@@ -12,6 +12,7 @@
 .data-table {
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
 }
 
 .data-table th {
@@ -21,15 +22,25 @@
     color: #666;
     font-weight: normal;
     font-size: 0.9rem;
+    overflow: hidden;           /* 내용이 넘칠 경우 숨김 */
+    text-overflow: ellipsis;    /* 넘친 텍스트에 ... 표시 */
+    white-space: nowrap;        /* 텍스트 줄바꿈 방지 */
+    border-bottom: 1px solid #e0e0e0;  /* 헤더 하단 경계선 */
 }
 
 .data-table td {
-    padding: 12px 15px;
-    text-align: center;
-    border-bottom: 1px solid #f1f1f1;
-    color: #333;
-    height: 47px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
+
+/* 각 컬럼 너비 고정 */
+.data-table th:nth-child(1), .data-table td:nth-child(1) { width: 10%; }  /* NO */
+.data-table th:nth-child(2), .data-table td:nth-child(2) { width: 20%; } /* 메뉴명 */
+.data-table th:nth-child(3), .data-table td:nth-child(3) { width: 15%; } /* 메뉴코드 */
+.data-table th:nth-child(4), .data-table td:nth-child(4) { width: 35%; } /* 이미지경로 */
+.data-table th:nth-child(5), .data-table td:nth-child(5) { width: 10%; } /* 판매상태 */
+.data-table th:nth-child(6), .data-table td:nth-child(6) { width: 10%; } /* 비고 */
 
 /* 모달 스타일 */
 .modal {
@@ -258,3 +269,14 @@
     90% { opacity: 1; transform: translate(-50%, 0); }
     100% { opacity: 0; transform: translate(-50%, -20px); }
 }
+
+.tbody-scroll {
+    max-height: calc(47px * 11); /* 행 높이 × 11줄 */
+    overflow-y: auto;
+  }
+  
+  .tbody-scroll table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
