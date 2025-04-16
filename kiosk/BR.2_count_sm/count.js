@@ -73,7 +73,8 @@ document.addEventListener("DOMContentLoaded", function() {
     { name: '하프갤런', price: '₩26,500', option: '(컵)' }
   ];
   //세션에서 가져옴
-  const selectedProductName = sessionStorage.getItem('productName');
+  const tempProductData = JSON.parse(sessionStorage.getItem('tempProductData'));
+  const selectedProductName = tempProductData[0]?.name;
   //세션에서 가져온 이름으로 비교해 정보 찾기
   const selectedProduct = products.find(product => product.name === selectedProductName);
 
@@ -234,8 +235,73 @@ optionItems.forEach(option => {
       console.log('cup:', cupQuantityInput.value);
       console.log('corn:', cornQuantityInput.value);
       console.log('waffle:', waffleQuantityInput.value);
+      updateProductData();
   }
 });
+
+function addSessionProductData() {
+  const tempProductData = JSON.parse(sessionStorage.getItem('tempProductData'));
+
+  // tempProductData의 각 항목을 초기 상태로 덮어쓰기
+  const addData = tempProductData.map(item => ({
+      ...item,
+      option: "",
+      quantity: 0,
+      totalPrice: 0
+  }));
+
+  sessionStorage.setItem('tempProductData', JSON.stringify(addData));
+}
+addSessionProductData();
+function updateProductData() {
+  let tempProductData = JSON.parse(sessionStorage.getItem('tempProductData')) || [];
+
+  const cupQuantity = parseInt(cupQuantityInput.value, 10);
+  const cornQuantity = parseInt(cornQuantityInput.value, 10);
+  const waffleQuantity = parseInt(waffleQuantityInput.value, 10);
+
+  // 첫 번째 제품 선택 (예시)
+  const selectedProduct = tempProductData[0] || {}; // 첫 번째 제품 예시, 필요에 따라 인덱스 변경
+
+  if (cupQuantity > 0) {
+    selectedProduct.option = 'cup';
+    selectedProduct.quantity = cupQuantity;
+  } else if (cornQuantity > 0) {
+    selectedProduct.option = 'corn';
+    selectedProduct.quantity = cornQuantity;
+  } else if (waffleQuantity > 0) {
+    selectedProduct.option = 'waffle';
+    selectedProduct.quantity = waffleQuantity;
+  }
+
+  // 수량이 0이 아닌 경우에만 세션 데이터에 반영
+  if (selectedProduct.quantity > 0) {
+    selectedProduct.totalPrice = selectedProduct.unitPrice * selectedProduct.quantity; // 총 가격 업데이트
+
+    // 세션에 업데이트된 데이터 저장
+    //tempProductData[0] = selectedProduct; // 첫 번째 제품에만 업데이트
+    sessionStorage.setItem('tempProductData', JSON.stringify(tempProductData));
+  }
+
+  console.log('Updated tempProductData:', tempProductData); // 디버깅 메시지 추가
+}
+
+
+
+function goBack() {
+  sessionStorage.removeItem("tempProductData");
+  history.back();
+}
+
+
+
+
+
+
+
+
+
+/*
 
 document.querySelector('.btn-choose').addEventListener('click', function() {
   // 각 옵션의 수량 값을 가져옴
@@ -274,4 +340,4 @@ document.querySelector('.btn-choose').addEventListener('click', function() {
   //다음 페이지 이동
   let url = '../BR.3_flavor_sy/flavor.html';
   window.location.href = url;
-});
+});*/

@@ -1,3 +1,9 @@
+
+const priceData = JSON.parse(sessionStorage.getItem('priceData'));
+const discountAmountElement = document.querySelector(".discount-amount");
+const totalAmountElement = document.querySelector(".total-amount");
+const orderAmountElement = document.querySelector('.order-amount');
+
 // 페이지 로드 시 초기화
 document.addEventListener('DOMContentLoaded', function() {
     // 현재 페이지 확인 및 탭 활성화
@@ -30,6 +36,10 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+    //수미 금액 관련 코드
+    orderAmountElement.innerText = `₩${priceData.totalAmount.toLocaleString()}`;  
+    discountAmountElement.innerText = `₩${priceData.discountAmount.toLocaleString()}`;  
+    totalAmountElement.innerText = `₩${priceData.paymentPrice.toLocaleString()}`; 
 });
 
 // 탭 전환 기능

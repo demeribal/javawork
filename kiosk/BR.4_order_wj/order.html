@@ -8,14 +8,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="order.css">
+    <script src="../all.js"></script>
 </head>
 <body onload="getPrice()">
     <!-- 헤더 영역 -->
     <header class="header">
         <div class="logo"></div>
-        <button class="close-btn" onclick="location.href='../BR.1_menu_hb/menu.html'">
-            <img src="images/delete-btn.png" alt="닫기">
-        </button>
+
+        <a href="#" id="exit-button"><img src="images/delete-btn.png" class="close-btn exit-button" alt="Exit Button"></a>
     </header>
 
     <!-- 주문 확인 섹션 -->
@@ -104,7 +104,7 @@
                 <span class="step-text">STEP01</span>
             </div>
             <span class="payment-title">결제 방법을 선택해주세요</span>
-            <span class="total-price">₩12,800</span>
+            <span class="total-price"></span>
         </div>
 
         <div class="payment-options">
@@ -161,18 +161,22 @@
             });
         });
 
-        function getPrice() {
-            const totalPrice = document.querySelector('.total-price');
-            let price = 0;
 
-            const quantityElement = document.querySelectorAll('.quantity');
-            quantityElement.forEach(element => {
-                price += parseInt(element.textContent) * 3200;
-            });
+        //총 금액
+        function updateTotalPrice() {
+    // 세션에서 priceData 객체 불러오기
+    const priceData = JSON.parse(sessionStorage.getItem('priceData')); 
 
-            let priceText = '₩'+price.toLocaleString();
-            totalPrice.textContent = priceText;
-        }
+    const paymentPriceElement = document.querySelector(".total-price"); // .total-price 클래스를 가진 요소 찾기
+
+    // priceData와 paymentPriceElement가 존재하면 totalAmount를 출력
+    if (priceData && priceData.totalAmount && paymentPriceElement) {
+        paymentPriceElement.textContent = `₩${parseInt(priceData.totalAmount).toLocaleString()}`; 
+    }
+}
+
+updateTotalPrice();
+
     </script>
 </body>
 </html>
