@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kiosk.pay.model.Pay;
-import com.kiosk.pay.model.PayDTO;
+import com.kiosk.pay.DTO.PayDTO;
 import com.kiosk.pay.service.PayService;
 
 import lombok.RequiredArgsConstructor;

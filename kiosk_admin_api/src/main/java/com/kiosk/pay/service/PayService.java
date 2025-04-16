@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kiosk.pay.mapper.PayMapper;
 import com.kiosk.pay.model.Pay;
-import com.kiosk.pay.model.PayDTO;
+import com.kiosk.pay.DTO.PayDTO;
 
 @Service
 public class PayService {
