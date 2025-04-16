@@ -11,8 +11,8 @@
 
         <div class="main">
         <div class="top">
-            <a href="#"><img src="images/로고-removebg-preview 2.png" class="BR-logo"></a>
-            <a href="../BR.2_count_sm/count.html"><img src="images/Icon.png" class="exit-button"></a>
+            <a href="/menu.html"><img src="images/로고-removebg-preview 2.png" class="BR-logo"></a>
+            <a href="/BR.1_menu_hb/menu.html"><img src="images/Icon.png" class="exit-button"></a>
         </div>
 
         <div class="select-text">
@@ -158,6 +158,18 @@
     </div>
 
     <script src="menu.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          const products = document.querySelectorAll(".product");
+          products.forEach(product => {
+            product.addEventListener("click", function() {
+              const productName = product.querySelector(".product-name").innerText;
+              sessionStorage.setItem("productName", productName);
+              window.location.href = "../BR.2_count_sm/count.html";
+            });
+          });
+        });
+  </script> 
 
 </body>
 </html>

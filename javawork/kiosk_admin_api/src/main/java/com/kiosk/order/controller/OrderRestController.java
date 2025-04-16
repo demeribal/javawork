@@ -24,26 +24,18 @@ import com.kiosk.order.service.OrderService;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://192.168.0.35:5500") //vscode 실행 시 나오는 url과 일치
 public class OrderRestController {
 	
 	@Autowired
 	OrderService service;
-	
-	//@Autowired
-	//StockService
-	
+
 	@PostMapping("order") 
 	public ResponseEntity <Map<String,Object>> postOrder(
 			@ModelAttribute OrdersDTO orderdto) {
 		System.out.println(orderdto.getQuantity());
-		//위 데이터를 mybatis를 이용해 db에 저장
-		//db저장 전 책 이미지 파일을 저장하고 데이터를 db에 저장
-		/********************코드 작성**********************/
-		//리턴할 상세정보를 Map을 이용하여 저장할 파일을 초기화
+
 		Map<String,Object> response = new HashMap<>();
 		
-		//db에 정보를 저장(dto에 있는 값을 전달하여 mybatis로 처리)
 		Orders order = Orders.builder()
 				.status("확인중")
 				.quantity(orderdto.getQuantity())
@@ -51,7 +43,6 @@ public class OrderRestController {
 				.build();
 		service.register(order);
 		
-		//클라이언트에게 성공 또는 실패 정보를 제공
 		response.put("status", "success");
 		response.put("messsage", "주문 등록 완료!");
 		response.put("id", order.getId());

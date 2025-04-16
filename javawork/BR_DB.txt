@@ -1,6 +1,6 @@
 최종 sql문
 
-[ 1. h2 테이블 생성문과 예시데이터 (create table & insert into) ]
+**************[ 1. h2 테이블 생성문과 예시데이터 (create table & insert into) ]**************
 
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -19,9 +19,9 @@ CREATE TABLE office (
 CREATE TABLE menu (
   id INT AUTO_INCREMENT PRIMARY KEY,
   menu_name VARCHAR(100) NOT NULL,
+  menu_code VARCHAR(25) NOT NULL,
   image_path VARCHAR(255)
 );
-
 
 CREATE TABLE orders (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -69,6 +69,14 @@ INSERT INTO users (username, password, is_Head) VALUES ('gangseo', '1234', 0);
 INSERT INTO users (username, password, is_Head) VALUES ('sangbong', '1234', 0);
 INSERT INTO users (username, password, is_Head) VALUES ('hanam', '1234', 0);
 
+INSERT INTO menu (menu_Name, menu_code, image_Path) VALUES ('사랑에빠진딸기', 'ICE001', '/images/사랑에_빠진_딸기.png');
+INSERT INTO menu (menu_Name, menu_code, image_Path) VALUES ('엄마는외계인', 'ICE002', '/images/엄마는_외계인.png');
+INSERT INTO menu (menu_Name, menu_code, image_Path) VALUES ('민트초코', 'ICE003', '/images/민트초코.png');
+
+INSERT INTO orders (status, quantity, last_Update) VALUES ('확인중', 10, NOW());
+INSERT INTO orders (status, quantity, last_Update) VALUES ('배송중', 5, NOW());
+INSERT INTO orders (status, quantity, last_Update) VALUES ('배송완료', 3, NOW());
+
 INSERT INTO office (user_Id, office_Name) 
 VALUES (1, '본사매장');
 INSERT INTO office (user_Id, office_Name)
@@ -77,18 +85,6 @@ INSERT INTO office (user_Id, office_Name)
 VALUES (3, '상봉본점');
 INSERT INTO office (user_Id, office_Name)
 VALUES (4, '하남본점');
-
-INSERT INTO menu (menu_Name, image_Path) VALUES ('사랑에빠진딸기', '/images/strawberryfallinlove.png');
-INSERT INTO menu (menu_Name, image_Path) VALUES ('엄마는외계인', '/images/momisalien.png');
-INSERT INTO menu (menu_Name, image_Path) VALUES ('민트초코', '/images/mintchocolate.png');
-
-INSERT INTO orders (status, quantity, last_Update) VALUES ('확인중', 10, NOW());
-INSERT INTO orders (status, quantity, last_Update) VALUES ('배송중', 5, NOW());
-INSERT INTO orders (status, quantity, last_Update) VALUES ('배송완료', 3, NOW());
-
-INSERT INTO stock (menu_Id, office_Id, order_id, quantity, is_use) VALUES (1, 2, 1, 100, 1);
-INSERT INTO stock (menu_Id, office_Id, order_id, quantity, is_use) VALUES (2, 3, 2, 50, 1);
-INSERT INTO stock (menu_Id, office_Id, order_id, quantity, is_use) VALUES (3, 4, 3, 30, 1);
 
 INSERT INTO pay (menu_Id, pay_Code, payment_Method, payment_Status, amount, paid_At)
 VALUES (1, 101, '현금', '결제완료', 3500, CURRENT_TIMESTAMP);
@@ -101,9 +97,34 @@ INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (1, '010-1
 INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (2, '010-2345-6789', NOW(), 1);
 INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (3, '010-3456-7890', NOW(), 0);
 
+INSERT INTO stock (menu_Id, office_Id, order_id, quantity, is_use) VALUES (1, 2, 1, 100, 1);
+INSERT INTO stock (menu_Id, office_Id, order_id, quantity, is_use) VALUES (2, 3, 2, 50, 1);
+INSERT INTO stock (menu_Id, office_Id, order_id, quantity, is_use) VALUES (3, 4, 3, 30, 1);
+
+---------------------------------------------------------------------------------------------------
+h2 데이터 삭제(무결성 제약 해제, 모든 데이터 삭제, 테이블 ID초기화(모든 테이블 적용해야함), 무결성 제약 다시 켜기)
+SET REFERENTIAL_INTEGRITY FALSE;
+
+TRUNCATE TABLE "USERS";
+TRUNCATE TABLE "OFFICE";
+TRUNCATE TABLE "MENU";
+TRUNCATE TABLE "ORDERS";
+TRUNCATE TABLE "PAY";
+TRUNCATE TABLE "MESSAGE";
+TRUNCATE TABLE "STOCK";
+
+ALTER TABLE USERS ALTER COLUMN ID RESTART WITH 1;
+ALTER TABLE OFFICE ALTER COLUMN ID RESTART WITH 1;
+ALTER TABLE MENU ALTER COLUMN ID RESTART WITH 1;
+ALTER TABLE ORDERS ALTER COLUMN ID RESTART WITH 1;
+ALTER TABLE PAY ALTER COLUMN ID RESTART WITH 1;
+ALTER TABLE MESSAGE ALTER COLUMN ID RESTART WITH 1;
+ALTER TABLE STOCK ALTER COLUMN ID RESTART WITH 1;
+
+SET REFERENTIAL_INTEGRITY TRUE;
 
 
-[ 2. MySQL 테이블 생성문과 예시데이터 (create table & insert into) ]
+**************[ 2. MySQL 테이블 생성문과 예시데이터 (create table & insert into) ]**************
 
 CREATE TABLE users (
   id INT NOT NULL AUTO_INCREMENT COMMENT '사용자 ID (PK)',
@@ -124,6 +145,7 @@ CREATE TABLE office (
 CREATE TABLE menu (
   id INT NOT NULL AUTO_INCREMENT COMMENT '메뉴 ID (PK)',
   menuName VARCHAR(100) NOT NULL COMMENT '메뉴 이름',
+  menuCode VARCHAR(25) NOT NULL COMMENT'메뉴코드',
   imagePath VARCHAR(255) DEFAULT NULL COMMENT '메뉴 이미지 경로',
   PRIMARY KEY (id)
 );
@@ -188,9 +210,10 @@ VALUES (3, '상봉본점');
 INSERT INTO office (userId, officeName)
 VALUES (4, '하남본점');
 
-INSERT INTO menu (menuName, imagePath) VALUES ('사랑에빠진딸기', '/images/strawberryfallinlove.png');
-INSERT INTO menu (menuName, imagePath) VALUES ('엄마는외계인', '/images/momisalien.png');
-INSERT INTO menu (menuName, imagePath) VALUES ('민트초코', '/images/mintchocolate.png');
+INSERT INTO menu (menuName, menucode, imagePath) VALUES ('사랑에빠진딸기', 'ICE001', '/images/사랑에_빠진_딸기.png');
+INSERT INTO menu (menuName, menucode, imagePath) VALUES ('엄마는외계인', 'ICE002', '/images/엄마는_외계인.png');
+INSERT INTO menu (menuName, menucode, imagePath) VALUES ('민트초코', 'ICE003', '/images/민트초코.png');
+
 
 INSERT INTO orders (status, quantity, lastUpdate) VALUES ('확인중', 10, NOW());
 INSERT INTO orders (status, quantity, lastUpdate) VALUES ('배송중', 5, NOW());
@@ -200,13 +223,30 @@ INSERT INTO stock (menuId, officeId, orderid, quantity, isuse) VALUES (1, 2, 1, 
 INSERT INTO stock (menuId, officeId, orderid, quantity, isuse) VALUES (2, 3, 2, 50, 1);
 INSERT INTO stock (menuId, officeId, orderid, quantity, isuse) VALUES (3, 4, 3, 30, 1);
 
-INSERT INTO pay (menu_id, pay_code, payment_method, payment_status, amount, paid_at)
-VALUES (1, 101, '현금', '결제완료', 3500, CURRENT_TIMESTAMP);
-INSERT INTO pay (menu_id, pay_code, payment_method, payment_status, amount, paid_at)
-VALUES (2, 102, '카카오페이', '결제완료', 4200, CURRENT_TIMESTAMP);
-INSERT INTO pay (menu_id, pay_code, payment_method, payment_status, amount, paid_at)
-VALUES (3, 103, '신용카드', '결제완료', 5500, CURRENT_TIMESTAMP);
+INSERT INTO pay (menuId, payCode, paymentMethod, paymentStatus, amount, paidAt)
+VALUES (1, 201, '현금', '결제완료', 3500, CURRENT_TIMESTAMP);
+INSERT INTO pay (menuId, payCode, paymentMethod, paymentStatus, amount, paidAt)
+VALUES (2, 202, '카카오페이', '결제완료', 4200, CURRENT_TIMESTAMP);
+INSERT INTO pay (menuId, payCode, paymentMethod, paymentStatus, amount, paidAt)
+VALUES (3, 203, '신용카드', '결제완료', 5500, CURRENT_TIMESTAMP);
 
 INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (1, '010-1234-5678', NOW(), 1);
 INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (2, '010-2345-6789', NOW(), 1);
 INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (3, '010-3456-7890', NOW(), 0);
+
+-------------------------------------------------------------------------------------------------
+-- 외래 키 제약 조건 비활성화
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- 데이터 삭제
+DELETE FROM your_table_name;
+ALTER TABLE your_table_name AUTO_INCREMENT = 1;
+
+-- 외래 키 제약 조건 다시 활성화
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- 테이블의 모든 데이터 삭제
+DELETE FROM your_table_name;
+
+-- AUTO_INCREMENT 초기화 (id 값을 1부터 다시 시작하게 함) - 모든 테이블에 적용
+ALTER TABLE your_table_name AUTO_INCREMENT = 1;

@@ -28,6 +28,25 @@
         SELECT * FROM stock WHERE menuId = #{menuId}
     </select>
     
+    <select id="getAllStockDTOs" resultType="com.kiosk.stock.DTO.StockDTO">
+    	SELECT 
+			S.id,
+			OFC.office_name,
+			M.menuName,
+			M.imagePath,
+			S.quantity,
+			S.is_use,
+			ODR.`status`
+		FROM
+			stock S
+		JOIN office OFC
+			ON S.office_id = OFC.id
+		JOIN menu M
+			ON S.menu_id = M.id
+		JOIN orders ODR
+			ON S.order_id = ODR.id
+    </select>
+    
     <insert id="insertStock" parameterType="com.kiosk.stock.model.Stock" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO stock (menuId, officeId, quantity, isUse)
         VALUES (#{menuId}, #{officeId}, #{quantity}, #{isUse})

@@ -1,5 +1,6 @@
 package com.kiosk.stock.controller;
 
+import com.kiosk.stock.DTO.StockDTO;
 import com.kiosk.stock.model.Stock;
 import com.kiosk.stock.service.StockService;
 import java.util.List;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/stocks")
-@CrossOrigin(origins = "http://222.109.216.30:5500", allowCredentials = "true")
 public class StockController {
     
     @Autowired
@@ -42,6 +42,12 @@ public class StockController {
     public ResponseEntity<List<Stock>> getStocksByMenuId(@PathVariable("menuId") int menuId) {
         List<Stock> stocks = stockService.getStocksByMenuId(menuId);
         return new ResponseEntity<>(stocks, HttpStatus.OK);
+    }
+    
+    @GetMapping("/dto")
+    public ResponseEntity<List<StockDTO>> getAllStockDTOs() {
+        List<StockDTO> stockdtos = stockService.getAllStockDTOs();
+        return new ResponseEntity<>(stockdtos, HttpStatus.OK);
     }
     
     @PostMapping

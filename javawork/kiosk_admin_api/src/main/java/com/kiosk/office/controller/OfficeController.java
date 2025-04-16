@@ -18,7 +18,6 @@ import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/api/office")
-@CrossOrigin(origins = "http://192.168.0.35:5500", allowCredentials = "true")
 public class OfficeController {
 
     private final OfficeService officeService;

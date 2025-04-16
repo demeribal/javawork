@@ -30,7 +30,7 @@ function initMenuPage() {
     });
             
     // 예 버튼: 모달 닫기 + 토스트 표시
-    statusConfirmYesBtn.addEventListener('click', function (e) {
+    statusConfirmYesBtn?.addEventListener('click', function (e) {
         if (currentCheckbox) {
             currentCheckbox.checked = !currentCheckbox.checked;
             showToast("판매상태가 변경되었습니다.");
@@ -40,7 +40,7 @@ function initMenuPage() {
     });
             
     // 아니요 버튼: 등록 확인 모달만 닫기
-    statusConfirmNoBtn.addEventListener('click', function () {
+    statusConfirmNoBtn?.addEventListener('click', function () {
         currentCheckbox = null;
         statusConfirmModal.style.display = 'none';
     });

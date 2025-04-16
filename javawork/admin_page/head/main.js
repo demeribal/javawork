@@ -57,6 +57,9 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((res) => res.text())
     .then((html) => {
       document.getElementById(`${defaultTab}-data-area`).innerHTML = html;
+      var hasRows = checkForData('stock', '.no-data');
+      if (hasRows) addEmptyRows('stock-table-body');
+      fetchOrderList();
     })
     .catch((err) => console.error("초기 stock.html 로딩 실패:", err));
   
@@ -97,7 +100,7 @@ function loadTabAssets(tabName) {
     script.onload = () => {
       console.log(`${tabName}.js 로드 완료`);
       if (tabName === 'pay' && typeof fetchPayList === 'function') {
-        fetchPayList(); // 초기 데이터 불러오기
+        fetchPayList();
       }
       if (tabName === "pay" && typeof initPayPage === "function") {
         initPayPage();
@@ -113,64 +116,52 @@ function loadTabAssets(tabName) {
 }
 
 //--2. 데이터 있을때 no-data hidden
-  const noDataDiv = document.querySelector('.no-data');
-  const showDataBtn = document.getElementById('showDataBtn');
-  const hideDataBtn = document.getElementById('hideDataBtn');
-  const tableBody = document.getElementById('orderTableBody');
-  
-  function checkForData() {
-      let hasData = false;
-      const orderRows = document.querySelectorAll('tr.order');
-      
-      orderRows.forEach(row => {
-          // Check if row has any non-empty cells
-          const cells = row.querySelectorAll('td');
-          for (let i = 0; i < cells.length; i++) {
-              const cellContent = cells[i].textContent.trim();
-              if (cellContent !== '') {
-                  hasData = true;
-                  break;
-              }
-          }
-      });
-      
-      // Toggle visibility of no-data div based on data presence
-      /*
-      if (hasData) {
-          noDataDiv.style.display = 'none';
-      } else {
-          noDataDiv.style.display = 'block';
-      }
-      */
-  }
-  
-  // Initial check for data
+const noDataDiv = document.querySelector('.no-data');
+const showDataBtn = document.getElementById('showDataBtn');
+const hideDataBtn = document.getElementById('hideDataBtn');
+const tableBody = document.getElementById('orderTableBody');
 
-  /*
-//--3.부족한 줄만큼 빈 <tr> 자동 추가
-fetch("stock.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("stock-data-area").innerHTML = data;
+function checkForData(tabname, noDataDiv) {
+    if (tabname=="stock") tabname="order";
 
-    // 활성화
-    document.querySelector('.tab[data-tab="stock"]').classList.add('active');
-    document.getElementById('stock-content').classList.add('active');
+    let hasData = false;
+    const orderRows = document.querySelectorAll(`tr.${tabname}`);
+    orderRows.forEach(row => {
+        // Check if row has any non-empty cells
+        const cells = row.querySelectorAll('td');
+        for (let i = 0; i < cells.length; i++) {
+            const cellContent = cells[i].textContent.trim();
+            if (cellContent !== '') {
+                hasData = true;
+                break;
+            }
+        }
+    });
+    
+    // Toggle visibility of no-data div based on data presence
+    noDataDiv = document.querySelector(noDataDiv);
+    if (hasData) {
+        noDataDiv.style.display = 'none';
+    } else {
+        noDataDiv.style.display = 'block';
+    }
+    return hasData;
+}
 
-    //테이블 로딩 후 빈 행 추가
-   // addEmptyRows();
-  });
-*/
-
-function addEmptyRows(tbodyId = 'pay-table-body', minRows = 11) {
+function addEmptyRows(tbodyId, minRows = 11) {
   const tbody = document.getElementById(tbodyId);
   if (!tbody) return;
+  
+  var t = "";
+  if (tbodyId.split('-')[0] == "stock") t = "order";
+  else t = tbodyId.split('-')[0];
 
   const currentRows = tbody.querySelectorAll('tr').length;
   const emptyCount = minRows - currentRows;
 
   for (let i = 0; i < emptyCount; i++) {
     const tr = document.createElement('tr');
+    tr.classList.add(t);
     tr.innerHTML = `<td colspan="7">&nbsp;</td>`;
     tbody.appendChild(tr);
   }

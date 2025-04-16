@@ -6,9 +6,22 @@
 	VALUES (#{status}, #{quantity}, #{lastUpdate});
 </insert>
 
-<select id="findAll" resultType="com.kiosk.order.model.Orders">
-	SELECT id, status, quantity, last_Update
-	FROM orders;
+<select id="findAll" resultType="com.kiosk.order.model.OrdersDTO">
+	SELECT
+		ODR.id,
+		OFC.office_name,
+		M.menuName,
+		ODR.quantity,
+		S.is_use,
+		ODR.`status`
+	FROM
+		orders ODR
+	JOIN stock S
+		ON ODR.id = S.order_id
+	JOIN office OFC
+		ON S.office_id = OFC.id
+	JOIN menu M
+		ON S.menu_id = M.id
 </select>
 
 <select id="findById" resultType="com.kiosk.order.model.Orders">

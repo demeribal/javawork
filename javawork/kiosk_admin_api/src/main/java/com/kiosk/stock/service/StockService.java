@@ -1,5 +1,6 @@
 package com.kiosk.stock.service;
 
+import com.kiosk.stock.DTO.StockDTO;
 import com.kiosk.stock.mapper.StockMapper;
 import com.kiosk.stock.model.Stock;
 import java.util.List;
@@ -28,6 +29,10 @@ public class StockService {
         return stockMapper.getStocksByMenuId(menuId);
     }
     
+	public List<StockDTO> getAllStockDTOs() {
+		return stockMapper.getAllStockDTOs();
+	}
+    
     public void addStock(Stock stock) {
         stockMapper.insertStock(stock);
     }
@@ -39,4 +44,5 @@ public class StockService {
     public void deleteStock(int id) {
         stockMapper.deleteStock(id);
     }
+    
 }

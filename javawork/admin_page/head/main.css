@@ -63,6 +63,8 @@ body {
 }
 
 .filter-btn {
+    width: 88px;
+    height: 40px;
     display: flex;
     align-items: center;
     background-color: white;

@@ -60,7 +60,7 @@ function removeDateModals() {
     toInput.value = '';
   });
 
-  applyBtn.addEventListener('click', () => {
+  applyBtn?.addEventListener('click', () => {
     // 필요한 필터 로직 추가 가능
     dim.style.display = 'none';
     modal.style.display = 'none';
@@ -192,11 +192,11 @@ window.fetchPayList = fetchPayList;
     const selected = document.getElementById("sort-selected");
     const options = document.getElementById("sort-options");
   
-    selected.addEventListener("click", () => {
+    selected?.addEventListener("click", () => {
       options.style.display = options.style.display === "block" ? "none" : "block";
     });
   
-    options.querySelectorAll("li").forEach(li => {
+    options?.querySelectorAll("li").forEach(li => {
       li.addEventListener("click", () => {
         selected.childNodes[0].nodeValue = li.textContent;
         options.style.display = "none";
@@ -250,8 +250,8 @@ function fetchPayList() {
         tbody.appendChild(row);
       });
 
-      addEmptyRows('pay-table-body');
-      checkForData('#pay-table-body', '.no-data');  
+      var hasRows = checkForData('pay', '.no-data');
+      if (hasRows) addEmptyRows('pay-table-body');
     })
     .catch(err => console.error("❌ 결제 데이터 불러오기 실패:", err));
 }

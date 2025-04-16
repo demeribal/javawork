@@ -12,11 +12,11 @@
 
 .order {
     white-space: nowrap;
-    overflow-x: auto;
-    height: 47px;
+    overflow-x: auto; 
 }
 
 .orderlist {
+    height: 517px;
     white-space: nowrap;
     overflow-x: auto; 
 }
@@ -52,44 +52,44 @@
 .stock-container {
     position: relative;
     width: 80px;
-}
+  }
+  
+  .stock-input {
+    width: 100%;
+    padding: 4px 24px 4px 8px; /* 아이콘 공간 확보 */
+    border: 1px solid transparent;
+    text-align: center;
+    transition: all 0.2s;
+    background: none;
+  }
 
-.stock-input {
-  width: 100%;
-  padding: 4px 24px 4px 8px; /* 아이콘 공간 확보 */
-  border: 1px solid transparent;
-  text-align: center;
-  transition: all 0.2s;
-  background: none;
-}
-
-/* 크롬 숫자 입력 화살표 제거 */
-.stock-input::-webkit-inner-spin-button,
-.stock-input::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* 포커스 상태 */
-.stock-input:focus {
-  border-color: #6E6893;
-  background: white;
-  cursor: text;
-}
-
-/* 비포커스 상태 */
-.stock-input:not(:focus) {
-  border-color: transparent;
-  background: none;
-  color: inherit; /* 기본 텍스트 색상 유지 */
-}
-
-/* 0 재고 상태 */
-.stock-input.zero-stock:not(:focus) {
-  color: transparent; /* 숫자 숨기기 */
-}
-
-/* 아이콘 스타일 */
+  /* 크롬 숫자 입력 화살표 제거 */
+  .stock-input::-webkit-inner-spin-button,
+  .stock-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  /* 포커스 상태 */
+  .stock-input:focus {
+    border-color: #6E6893;
+    background: white;
+    cursor: text;
+  }
+  
+  /* 비포커스 상태 */
+  .stock-input:not(:focus) {
+    border-color: transparent;
+    background: none;
+    color: inherit; /* 기본 텍스트 색상 유지 */
+  }
+  
+  /* 0 재고 상태 */
+  .stock-input.zero-stock:not(:focus) {
+    color: transparent; /* 숫자 숨기기 */
+  }
+  
+  /* 아이콘 스타일 */
 .stock-icon {
   position: absolute;
   right: 8px;
@@ -157,16 +157,6 @@
   width: 8px;
   height: 4px;
   margin-left: 8px; /* 텍스트와의 간격 */
-}
-
-.small-icon.is-use {
-  position: relative;
-  top: -6px;
-  right: 10px;
-  z-index: 2; /* 텍스트 위로 올림 */
-  width: 8px;
-  height: 4px;
-  margin-left: 10px; /* 텍스트와의 간격 */
 }
 
 .status-cell2 {

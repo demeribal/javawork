@@ -1,125 +1,99 @@
-document.addEventListener('DOMContentLoaded', () => {
-
-window.fetchOrderList = fetchOrderList;
-
-});
-
 function fetchOrderList() {
-  console.log('패치중')
   fetch("http://localhost:8080/api/orders")
   .then(res => res.json())
     .then(data => data.orders)
-    .then(order => {
+    .then(orders => { orders.order;
       const tbody = document.getElementById("stock-table-body");
+      
       if (!tbody) {
         console.warn("⚠️ stock-table-body 요소 없음!");
         return;
       }
-
       tbody.innerHTML = ""; // 기존 내용 비우기
 
-      order.forEach((orders) => {
+      orders.forEach((order) => {
+        if (order.use == true) { 
+          useImg = "../images/sale.svg";
+        } else if (order.use = false) {
+          useImg = "../images/salestop.svg";
+        }
+
+        if (order.status == "확인중") {
+          statusImg = "../images/checking.svg";
+        } else if (order.status == "배송중") {
+          statusImg = "../images/indelivery.svg";
+        } else if (order.status == "배송완료") {
+          statusImg = "../images/deliverycomplete.svg";
+        }
+
+        const useDropdown = `
+          <td class="status-cell">
+            <div class="custom-dropdown">
+              <div class="selected-stock-option" onclick="toggleDropdown(this)">
+                <img src="${useImg}" class="product-status-icon">
+              </div>
+              <ul class="dropdown-stock-options">
+                <li data-value="sale.svg" onclick="selectProductOption(this)">
+                  <img src="../images/sale.svg">
+                </li>
+                <li data-value="stopsale.svg" onclick="selectProductOption(this)">
+                  <img src="../images/stopsale.svg">
+                </li>
+              </ul>
+            </div>
+          </td>
+        `;
+
+        const statusDropdown = `
+          <td class="status-cell2">
+            <div class="custom-dropdown">
+              <div class="selected-stock-option" onclick="toggleDropdown(this)">
+                <img src="${statusImg}" class="order-status-icon"><img src="../images/underway.svg" class="small-icon">
+              </div>
+              <ul class="dropdown-stock-options">
+                <li data-value="checking.svg" onclick="handleOptionClick(event, this)">
+                  <img src="../images/checking.svg">
+                </li>
+                <li data-value="indelivery.svg" onclick="handleOptionClick(event, this)">
+                  <img src="../images/indelivery.svg">
+                </li>
+                <li data-value="deliverycomplete.svg" onclick="handleOptionClick(event, this)">
+                  <img src="../images/deliverycomplete.svg">
+                </li>
+              </ul>
+            </div>
+          </td>
+        `;
+        
         const row = document.createElement("tr");
         row.classList.add("order");
         row.setAttribute("data-branch", "gangseo");
-        row.setAttribute("data-product-status", "sale.svg");
-        row.setAttribute("data-current-selection", "checking.svg"); 
+        row.setAttribute("data-product-status", "");
+        row.setAttribute("data-current-selection", ""); 
         row.setAttribute("data-pending-selection", "");
         row.innerHTML = `
-          <td>${orders.id}</td>
-          <td>${orders.officeName}</td>
-          <td>${orders.menuName}</td>
-          <td>${orders.quantity}</td>
-          <td>${orders.use}</td>
-          <td>${orders.status}</td>
+          <td>${order.id}</td>
+          <td>${order.officeName}</td>
+          <td>${order.menuName}</td>
+          <td>${order.quantity}</td>
+          ${useDropdown}
+          ${statusDropdown}
         `;
         tbody.appendChild(row);
       });
 
-      addEmptyRows('stock-table-body');
-      checkForData('#stock-table-body', '.no-data');  
+      var hasRows = checkForData('stock', '.no-data');
+      if (hasRows) addEmptyRows('stock-table-body');
     })
     .catch(err => console.error("❌ 발주 데이터 불러오기 실패:", err));
 }
-  
-
-// 재고량 아이콘 업데이트
-// 실시간 입력 처리
-function handleStockInput(input) {
-  const value = parseInt(input.value);
-  const icon = input.parentElement.querySelector('.stock-icon');
-  
-  if(value === 0) {
-    input.classList.add('zero-stock');
-    icon.classList.remove('hidden');
-    icon.style.pointerEvents = 'auto';
-  } else {
-    input.classList.remove('zero-stock');
-    icon.classList.add('hidden');
-  }
-  saveStockValue(input.value); // 추가 기능 (필요시 구현)
-}
-
-// 포커스 아웃 시 처리
-function handleStockBlur(input) {
-  const value = parseInt(input.value);
-  if(isNaN(value) || value < 0) {
-    input.value = 0;
-    handleStockInput(input); // 아이콘 갱신
-  }
-}
-
-// 포커스 인 시 처리
-function handleStockFocus(input) {
-  if(input.value === '') {
-    input.value = 0;
-    handleStockInput(input); // 아이콘 갱신
-  }
-  input.select();
-}
-
-// 값 저장 함수 (예시)
-function saveStockValue(value) {
-  console.log('Saved stock:', value);
-  // 실제 저장 로직 구현
-}
-
-
-
-
-
-
-
-
-// 아이콘 클릭 핸들러
-function handleIconClick(icon) {
-  const input = icon.previousElementSibling;
-  
-  // 1. 아이콘 즉시 숨기기
-  icon.classList.add('hidden');
-  icon.style.pointerEvents = 'none';
-  
-  // 2. 입력 필드 활성화
-  input.focus();
-  input.select();
-  
-  // 3. 입력값 0으로 설정 (숫자 복구)
-  input.value = 0;
-  input.classList.remove('zero-stock');
-}
-
-
-
-
-
-
 
 
 // 상품 상태 선택 핸들러
 function selectProductOption(element) {
   const container = element.closest('.custom-dropdown');
   const selectedImg = container.querySelector('.product-status-icon');
-  selectedImg.src = `/images/${element.dataset.value}`;
+  selectedImg.src = `../images/${element.dataset.value}`;
   
   // 드롭다운 닫기
   container.querySelector('.dropdown-stock-options').style.display = 'none';
@@ -142,7 +116,7 @@ function updateStatusIcon(select) {
   const container = select.closest('.status-container');
   const icon = container.querySelector('.order-status-icon'); // 발주 상태 전용
   const selectedValue = select.options[select.selectedIndex].value;
-  icon.src = `/images/${selectedValue}`;
+  icon.src = `../images/${selectedValue}`;
 }
 
 function toggleDropdown(element) {
@@ -153,7 +127,7 @@ function toggleDropdown(element) {
 function selectOption(element) {
   const container = element.closest('.custom-dropdown');
   const selectedImg = container.querySelector('.order-status-icon'); // 발주 상태 전용
-  selectedImg.src = `/images/${element.dataset.value}`;
+  selectedImg.src = `../images/${element.dataset.value}`;
   container.querySelector('.dropdown-stock-options').style.display = 'none';
 }
 
@@ -171,8 +145,8 @@ document.body.addEventListener('click', (e) => {
   if(e.target.id === 'cancelBtn' || e.target.id === 'closeBtn') {
     const orderIcon = row.querySelector('.order-status-icon');
     const productIcon = row.querySelector('.product-status-icon');
-    orderIcon.src = `/images/${row.dataset.orderStatus}`;
-    productIcon.src = `/images/${row.dataset.productStatus}`;
+    orderIcon.src = `../images/${row.dataset.orderStatus}`;
+    productIcon.src = `../images/${row.dataset.productStatus}`;
     closeModal(row);
   }
 });
@@ -182,7 +156,7 @@ function handleOptionClick(event, element) {
   const row = element.closest('tr.order');
   row.dataset.pendingSelection = element.dataset.value;
   const display = row.querySelector('.selected-stock-option .order-status-icon'); // 발주 상태 전용
-  display.src = `/images/${element.dataset.value}`;
+  display.src = `../images/${element.dataset.value}`;
   
   const modal = row.querySelector('[data-modal-for="delivery"]');
   const dropdown = row.querySelector('.dropdown-stock-options');
@@ -201,11 +175,11 @@ function closeModal(row) {
 // 발주 상태 아이콘 업데이트
 function updateOrderStatusIcon(row) {
   const icon = row.querySelector('.status-cell2 .order-status-icon'); // 발주 상태 전용
-  icon.src = `/images/${row.dataset.orderCurrentSelection}`;
+  icon.src = `../images/${row.dataset.orderCurrentSelection}`;
 }
 
 // 상태 관리 변수
-let currentModalRow = null;
+var currentModalRow = null;
 
 // 모달 닫기 + 드롭다운 닫기
 function closeAll(row) {
@@ -244,7 +218,7 @@ document.body.addEventListener('click', (e) => {
 
   if(e.target.id === 'cancelBtn' || e.target.id === 'closeBtn') {
     const tempIcon = row.querySelector('.selected-stock-option .order-status-icon'); // 발주 상태 전용
-    tempIcon.src = `/images/${row.dataset.orderCurrentSelection}`;
+    tempIcon.src = `../images/${row.dataset.orderCurrentSelection}`;
     closeAll(row);
   }
 });
@@ -277,14 +251,14 @@ function toggleProductDropdown(element) {
 function selectOrderOption(element) {
   const container = element.closest('.custom-dropdown');
   const selectedImg = container.querySelector('.order-status-icon');
-  selectedImg.src = `/images/${element.dataset.value}`;
+  selectedImg.src = `../images/${element.dataset.value}`;
   container.querySelector('.dropdown-order-options').style.display = 'none';
 }
 
 function selectProductOption(element) {
   const container = element.closest('.custom-dropdown');
   const selectedImg = container.querySelector('.product-status-icon');
-  selectedImg.src = `/images/${element.dataset.value}`;
+  selectedImg.src = `../images/${element.dataset.value}`;
   container.querySelector('.dropdown-product-options').style.display = 'none';
 }
 
@@ -303,7 +277,7 @@ document.body.addEventListener('click', (e) => {
   // 발주 상태 Cancel
   if(e.target.id === 'cancelBtn' || e.target.id === 'closeBtn') {
     const orderIcon = row.querySelector('.order-status-icon');
-    orderIcon.src = `/images/${row.dataset.orderStatus}`;
+    orderIcon.src = `../images/${row.dataset.orderStatus}`;
     closeModal(row);
   }
 });
