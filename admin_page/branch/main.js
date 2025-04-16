@@ -26,9 +26,6 @@ document.addEventListener("DOMContentLoaded", () => {
           if (targetArea) {
             targetArea.innerHTML = html;
 
-          if (tabName === "menu" && typeof initPayPage === "function") {
-            initPayPage();
-          }
           // pay 탭일 때만 initPayPage 실행
           if (tabName === "pay" && typeof initPayPage === "function") {
             initPayPage();
@@ -63,7 +60,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // ✅ 공통 CSS & JS 동적 로딩 함수
 function loadTabAssets(tabName) {
   // CSS 로딩
-/*
   const styleId = `${tabName}-style`;
   if (!document.getElementById(styleId)) {
     const link = document.createElement("link");
@@ -72,7 +68,6 @@ function loadTabAssets(tabName) {
     link.href = `${tabName}.css`;
     document.head.appendChild(link);
   }
-   */ 
 
   // JS 로딩
   const scriptId = `${tabName}-script`;
@@ -107,7 +102,7 @@ function loadTabAssets(tabName) {
   function checkForData() {
       let hasData = false;
       const orderRows = document.querySelectorAll('tr.order');
-
+      
       orderRows.forEach(row => {
           // Check if row has any non-empty cells
           const cells = row.querySelectorAll('td');
@@ -120,17 +115,15 @@ function loadTabAssets(tabName) {
           }
       });
       
-      /*
       // Toggle visibility of no-data div based on data presence
-
+      /*
       if (hasData) {
           noDataDiv.style.display = 'none';
       } else {
           noDataDiv.style.display = 'block';
       }
-*/
+      */
   }
-
   
   // Initial check for data
 
