@@ -32,6 +32,8 @@ function updateArrowsAndDots() {
 
 //--4.맛 항목 선택 시 처리 함수
 function onFlavorItemClick(e) {
+  if (!e || !e.currentTarget) return;
+
   const item = e.currentTarget;
   const imgSrc = item.querySelector('img').src;
   const flavorName = item.querySelector('p').innerText;
@@ -216,7 +218,7 @@ tempProductData.forEach(product => {
     }));
 
     // 페이지 이동
-      location.href = '../BR.3-1_menu2_hb/menu.html';
+      location.href = '../BR.1_menu_hb/menu.html';
     }, 100);
   });
   
