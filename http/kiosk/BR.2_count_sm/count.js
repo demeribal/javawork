@@ -169,29 +169,39 @@ document.addEventListener("DOMContentLoaded", function() {
   
       
     }
-  } else {
-    console.error('해당하는 상품을 찾을 수 없습니다:', name);
   }
-  
+
+
 })
+  //-+ 비활성
+
+  
+
+
+  
 optionItems.forEach(option => {
   const decreaseButton = option.querySelector('.btn-decrease');
   const increaseButton = option.querySelector('.btn-increase');
-  const quantityDisplay = option.querySelector('.quantity');
+  //const quantity = option.querySelector(".quantity");
 
   // 수량 초기화 함수
   function resetOtherQuantities() {
       optionItems.forEach(item => {
-          // 선택되지 않은 옵션의 수량을 초기화
-          if (item !== option) {
-              const itemQuantity = item.querySelector('.quantity');
-              const itemInput = item.querySelector('.quantity-input');  // 'quantity-input' 정확히 찾기
-              if (itemQuantity) {
-                  itemQuantity.textContent = 1; // 수량 초기화
-              }
-              if (itemInput) {
-                  itemInput.value = 0; // hidden input 수량 초기화
-              }
+        const decreaseButton = item.querySelector('.btn-decrease');
+        const increaseButton = item.querySelector('.btn-increase');
+        // 선택되지 않은 옵션의 수량을 초기화
+        if (item !== option) {
+          
+            const itemQuantity = item.querySelector('.quantity');
+            const itemInput = item.querySelector('.quantity-input'); 
+            decreaseButton.style.visibility = 'hidden';
+            increaseButton.style.visibility = 'hidden';
+            if (itemQuantity) {
+                itemQuantity.textContent = 0; // 수량 초기화
+            }
+            if (itemInput) {
+                itemInput.value = 0; // hidden input 수량 초기화
+            }
           }
       });
       
@@ -199,55 +209,76 @@ optionItems.forEach(option => {
       cupQuantityInput.value = 0;
       cornQuantityInput.value = 0;
       waffleQuantityInput.value = 0;
+      
   }
 
-  // 옵션 선택 시 수량을 초기화하고 hidden input에 반영
+ 
   option.addEventListener('click', () => {
-      optionItems.forEach(item => item.classList.remove('selected'));
-      option.classList.add('selected');
-      
-      // 수량 초기화 및 업데이트
-      resetOtherQuantities();
-      updateQuantity(option);
+    // 버튼을 해당 option에서 찾아서 보이게 처리
+    const decreaseButton = option.querySelector('.btn-decrease');
+    const increaseButton = option.querySelector('.btn-increase');
+    
+    // - + 버튼 보이기
+    decreaseButton.style.visibility = 'visible';
+    increaseButton.style.visibility = 'visible';
+  
+    // 다른 옵션 선택 해제
+    optionItems.forEach(item => item.classList.remove('selected'));
+    option.classList.add('selected');
+  
+    // 다른 옵션 수량 초기화
+    resetOtherQuantities();
+  
+    // 수량을 1로 설정
+    const quantityDisplay = option.querySelector('.quantity');
+    if (parseInt(quantityDisplay.textContent, 10) === 0) {
+      quantityDisplay.textContent = '1';
+    }
+  
+    // hidden input 반영
+    updateQuantity(option);
   });
-
+  
   // 수량 감소
   decreaseButton.addEventListener('click', function() {
-      let quantity = parseInt(quantityDisplay.textContent, 10);
-      if (quantity > 1) {
-          quantity--;
-          quantityDisplay.textContent = quantity;
-          updateQuantity(option); // 수량 변경 시 hidden input에 반영
-      }
-  });
-
-  // 수량 증가
-  increaseButton.addEventListener('click', function() {
-      let quantity = parseInt(quantityDisplay.textContent, 10);
-      quantity++;
+    const quantityDisplay = option.querySelector('.quantity');
+    let quantity = parseInt(quantityDisplay.textContent, 10);
+    if (quantity > 1) {
+      quantity--;
       quantityDisplay.textContent = quantity;
       updateQuantity(option); // 수량 변경 시 hidden input에 반영
+    }
   });
-
+  
+  // 수량 증가
+  increaseButton.addEventListener('click', function() {
+    const quantityDisplay = option.querySelector('.quantity');
+    let quantity = parseInt(quantityDisplay.textContent, 10);
+    quantity++;
+    quantityDisplay.textContent = quantity;
+    updateQuantity(option); // 수량 변경 시 hidden input에 반영
+  });
+  
   // 수량을 hidden input에 반영하는 함수
   function updateQuantity(option) {
-      const quantity = parseInt(option.querySelector('.quantity').textContent, 10);
-
-      // 각 옵션에 맞는 hidden input에 수량을 반영
-      if (option.id === 'cup-option') {
-          cupQuantityInput.value = quantity > 0 ? quantity : 0;
-      } else if (option.id === 'corn-option') {
-          cornQuantityInput.value = quantity > 0 ? quantity : 0;
-      } else if (option.id === 'waffle-option') {
-          waffleQuantityInput.value = quantity > 0 ? quantity : 0;
-      }
-
-      // 디버깅을 위한 로그
-      console.log('cup:', cupQuantityInput.value);
-      console.log('corn:', cornQuantityInput.value);
-      console.log('waffle:', waffleQuantityInput.value);
-      updateProductData();
+    const quantity = parseInt(option.querySelector('.quantity').textContent, 10);
+  
+    // 각 옵션에 맞는 hidden input에 수량을 반영
+    if (option.id === 'cup-option') {
+      cupQuantityInput.value = quantity > 0 ? quantity : 0;
+    } else if (option.id === 'corn-option') {
+      cornQuantityInput.value = quantity > 0 ? quantity : 0;
+    } else if (option.id === 'waffle-option') {
+      waffleQuantityInput.value = quantity > 0 ? quantity : 0;
+    }
+  
+    // 디버깅을 위한 로그
+    console.log('cup:', cupQuantityInput.value);
+    console.log('corn:', cornQuantityInput.value);
+    console.log('waffle:', waffleQuantityInput.value);
+    updateProductData();
   }
+  
 });
 
 function addSessionProductData() {

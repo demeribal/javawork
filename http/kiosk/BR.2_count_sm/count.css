@@ -196,6 +196,7 @@ main, footer {
     all: unset;
     cursor: pointer;
     margin: 10px;
+    font-size: 25px;
     
 }
 .option-item-box:focus .quantity-container {
