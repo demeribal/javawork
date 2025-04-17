@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.kiosk.pay.model.Pay;
-import com.kiosk.pay.model.PayDTO;
+import com.kiosk.pay.DTO.PayDTO;
 
 @Mapper
 public interface PayMapper{

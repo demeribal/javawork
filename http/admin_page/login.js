@@ -4,7 +4,7 @@ document.querySelector("form").addEventListener("submit", function (event) {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    fetch("http://192.168.0.35:8080/api/user/login", { 
+    fetch("http://tomhoon.duckdns.org/api/user/login", { 
         method: "POST",
         credentials: "include",
         headers: {

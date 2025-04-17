@@ -14,11 +14,12 @@ import lombok.NoArgsConstructor;
 public class Pay {
     private int id;
     //private int orderId;
-    private int paycode;
     private String paymentmethod;
     private String paymentstatus;
     private int amount;
+    private int paycode;
     private LocalDateTime paidat;
+    
 }
 
 /*

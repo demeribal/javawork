@@ -232,7 +232,7 @@ tempProductData.forEach(product => {
 });
 
   //--10. menuAPI fetch
-  fetch("http://localhost:8080/api/menus")
+  fetch("http://tomhoon.duckdns.org/api/menus")
   // API 주소 확인
     .then(res => res.json())
     .then(data => {
@@ -243,7 +243,7 @@ tempProductData.forEach(product => {
         const item = document.createElement("div");
         item.className = "flavor-item";
 
-      const serverURL = 'http://localhost:8080';
+      const serverURL = 'tomhoon.duckdns.org:8080';
       
       const encodedImagePath = encodeURI(menu.imagePath);
       item.innerHTML = `
