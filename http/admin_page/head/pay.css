@@ -1,0 +1,334 @@
+/* -------------------- 기본 dim 처리 -------------------- */
+.dimmed {
+position: fixed;
+top: 0; left: 0;
+width: 100vw;
+height: 100vh;
+background-color: rgba(0, 0, 0, 0.3);
+z-index: 99;
+}
+
+/* -------------------- 모달 전체 -------------------- */
+.date-modal {
+width: 443px;
+height: 417px;
+padding: 24px;
+border-radius: 8px;
+box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+background-color: white;
+position: fixed;
+top: 50%; left: 50%;
+transform: translate(-50%, -50%);
+z-index: 100;
+display: flex;
+justify-content: space-between;
+}
+
+/* -------------------- From / To 입력 -------------------- */
+.modal-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 12px;
+margin-bottom: 12px;
+}
+.date-input-group {
+width: 190.25px;
+height: 84.49px;
+display: flex;
+flex-direction: column;
+gap: 6px;
+}
+
+/* input + 아이콘 wrapper */
+.input-icon-wrapper {
+position: relative;
+}
+
+.input-icon-wrapper input[type="text"] {
+width: 100%;
+padding:12px 14px;
+font-size: 14px;
+border: 1px solid #E5E5ED;
+border-radius: 12px;
+background-color: #F8F8FA;
+color: #333;
+box-sizing: border-box;
+}
+
+.calendar-icon {
+width: 40px;
+height: 40px;
+position: absolute;
+right: 12px;
+top: 50%;
+transform: translateY(-50%);
+cursor: pointer;
+opacity: 0.7;
+}
+
+/* -------------------- Today / Week / Month 버튼 -------------------- */
+.modal-shortcuts {
+width: 398.58px;
+height: 54.2px;
+display: flex;
+gap: 10px;
+margin: 12px 0;
+}
+.modal-shortcuts button {
+flex: 1;
+padding: 8px 10px;
+border-radius: 10px;
+background-color: #f5f5fa;
+border: none;
+cursor: pointer;
+font-weight: 500;
+color: #555E67;
+}
+.modal-shortcuts button.active {
+background-color: #f2ebff;
+color: #5A3D8B;
+}
+
+/* -------------------- Sort by 영역 -------------------- */
+/* 정렬 영역 */
+.sort-dropdown {
+position: relative;
+width: 100%;
+user-select: none;
+}
+
+.selected-option {
+display: flex;
+align-items: center;
+justify-content: space-between;
+background-color: #f9f9fb;
+border: 1px solid #ddd;
+border-radius: 10px;
+padding: 10px 12px;
+font-size: 14px;
+cursor: pointer;
+}
+
+.selected-option img {
+width: 47.78px;
+height: 41.78px;
+margin-left: 6px;
+}
+
+.dropdown-options {
+position: absolute;
+top: 105%;
+left: 0;
+width: 100%;
+background-color: white;
+border: 1px solid #ddd;
+border-radius: 10px;
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+list-style: none;
+padding: 0;
+margin: 6px 0 0;
+display: none; /* 기본은 숨김 */
+z-index: 10;
+}
+
+.dropdown-options li {
+padding: 10px 12px;
+cursor: pointer;
+font-size: 14px;
+}
+
+.dropdown-options li:hover {
+background-color: #f2ebff;
+color: #5A3D8B;
+}
+
+
+/* -------------------- 구분선 -------------------- */
+.date-modal hr {
+border: none;
+border-top: 1px solid #eee;
+margin: 30px 0;
+}
+
+/* -------------------- 하단 버튼 -------------------- */
+.modal-footer {
+width: 398px;
+height: 59.14px;
+display: flex;
+justify-content: space-between;
+gap: 10px;
+}  
+.modal-footer button {
+flex: 1;
+padding: 12px 0;
+border-radius: 10px;
+font-weight: bold;
+cursor: pointer;
+font-size: 14px;
+border: none;
+}
+#reset-btn {
+background-color: #f4f2ff;
+color: #5A3D8B;
+}
+#apply-btn {
+background-color: #5A3D8B;
+color: white;
+}
+
+/* -------------------- flatpickr 기본 컨테이너 조정 -------------------- */
+.flatpickr-calendar {
+box-shadow: none !important;
+width: 400px !important;
+}
+
+.month-grid, .day-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 12px;
+justify-items: center;
+margin-top: 16px;
+}
+
+.month-grid button, .day-grid button {
+padding: 12px;
+border-radius: 10px;
+background-color: #f2f2f2;
+border: none;
+cursor: pointer;
+}
+
+.month-grid button:hover, .day-grid button:hover {
+background-color: #f2ebff;
+color: #5A3D8B;
+}
+
+/* -------------------- flatpickr 월 선택 스타일 커스터마이징 -------------------- */
+
+/* 월 선택 모드 전체 그리드 형태 */
+.flatpickr-monthSelect-months {
+display: grid;
+grid-template-columns: repeat(3, 1fr); /* 3열 정렬 */
+grid-template-rows: repeat(4, 1fr);
+gap: 45px;
+margin: auto;
+}
+
+/* 개별 월 버튼 스타일 */
+.flatpickr-monthSelect-month {
+background: none;
+border: none;
+font-size: 23px;
+color: #333;
+border-radius: 12px;
+min-width: 80px;
+padding: 10px;
+}
+
+.flatpickr-innerContainer {
+flex: 1;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+box-sizing: border-box;
+padding: 0;
+}
+
+.date-modal .flatpickr-calendar {
+width: 100%;
+height: 100%;
+display: flex;
+flex-direction: column;
+box-sizing: border-box;
+}
+
+/* -------------------- flatpickr 일 선택 스타일 커스터마이징 -------------------- */  
+.flatpickr-rContainer {
+width:100%;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+}
+
+.dayContainer {
+width:100% !important;
+max-width: 100%;
+display: grid;
+grid-template-columns: repeat(7, 1fr);
+justify-items: center;
+align-items: center;
+box-sizing: border-box;
+}
+
+.flatpickr-day {
+height: auto;
+width:100%;
+}
+
+/* --------------------글자 색-------------------- */  
+.flatpickr-day.today {
+width: 100%;
+border-radius: 15px;
+background-color: #f2ebff;
+color: #6C6C6C !important;
+background-color: #F3F0FF !important;
+border: none !important;
+font-weight: bold;
+}
+
+.flatpickr-current-month {
+color: #6D5BD0 !important;
+font-weight: bold !important;
+}
+
+/* 월 hover 효과 */
+.flatpickr-monthSelect-month:hover {
+background-color: #F2F0F9 !important;
+color: #6E6893 !important;
+border-radius: 15px;
+}
+
+.flatpickr-monthSelect-month {
+border:none !important;
+}
+
+.flatpickr-current-month .numInput.cur-year {
+color: #6D5BD0;
+font-weight: bold;
+font-size: 20px;
+}
+
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+color: #6D5BD0 !important;
+font-weight: bold !important;
+}
+
+/* 선택된 월 */
+.flatpickr-monthSelect-month.selected,
+.flatpickr-monthSelect-month:focus,
+.flatpickr-monthSelect-month:active {
+background-color: #F2F0F9 ;
+color: #6E6893;
+font-weight: bold !important;
+}
+
+/* 상단 연도/월 타이틀 색상 */
+.flatpickr-months .flatpickr-current-month {
+color: #6D5BD0;
+}A
+
+.table-wrapper {
+width: 100%;
+}
+
+.tbody-scroll {
+max-height: calc(47px * 11); /* 행 높이 × 11줄 */
+overflow-y: auto;
+}
+
+.tbody-scroll table {
+width: 100%;
+border-collapse: collapse;
+}

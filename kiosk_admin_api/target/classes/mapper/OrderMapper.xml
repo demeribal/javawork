@@ -6,7 +6,7 @@
 	VALUES (#{status}, #{quantity}, #{lastUpdate});
 </insert>
 
-<select id="findAll" resultType="com.kiosk.order.model.Orders">
+<select id="findAll" resultType="com.kiosk.order.model.OrdersDTO">
 	SELECT
 		ODR.id,
 		OFC.office_name,
