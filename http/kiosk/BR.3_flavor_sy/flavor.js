@@ -216,7 +216,7 @@ tempProductData.forEach(product => {
     }));
 
     // 페이지 이동
-      location.href = '../BR.3-1_menu2_hb/menu.html';
+      location.href = '../BR.1_menu_hb/menu.html';
     }, 100);
   });
   
