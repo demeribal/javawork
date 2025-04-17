@@ -1,85 +1,46 @@
-  
-// 지점 선택 가능
-
-// 지점 필터 버튼 기능
-
-const branchButtons = document.querySelectorAll('.branch-btn');
-
-branchButtons.forEach(button => {
-button.addEventListener('click', () => {
-// 버튼의 active 상태 토글
-button.classList.toggle('active');
-
-// 활성화된 지점 필터 확인
-const activeBranches = [];
-document.querySelectorAll('.branch-btn.active').forEach(btn => {
-activeBranches.push(btn.getAttribute('data-branch'));
-});
-
-// 여기서 필터링된 데이터를 표시하는 로직을 추가할 수 있습니다
-console.log('활성화된 지점:', activeBranches);
-});
-});
-
-// const branchButtons = document.querySelectorAll('.branch-btn'); 위에 이미 있음
 document.addEventListener('DOMContentLoaded', () => {
-const orderRows = document.querySelectorAll('tr.order');
-const noDataMessage = document.querySelector('.no-data');
 
-// Set the "All branches" button as active by default
-//document.querySelector('.branch-btn[data-branch="all"]').classList.add('active');
+  window.fetchOrderList = fetchOrderList;
 
-// Function to filter table by branch
-function filterTableByBranch(branchName) {
-let visibleRowCount = 0;
+});
 
-// Process each row
-orderRows.forEach(row => {
-// Skip empty rows
-if (row.classList.contains('empty-row')) return;
+function fetchOrderList() {
+  fetch("http://localhost:8080/api/orders")
+  .then(res => res.json())
+    .then(data => data.orders)
+    .then(order => {
+      const tbody = document.getElementById("stock-table-body");
+      if (!tbody) {
+        console.warn("⚠️ stock-table-body 요소 없음!");
+        return;
+      }
 
-// Get this row's branch name
-const rowBranch = row.getAttribute('data-branch');
+      tbody.innerHTML = ""; // 기존 내용 비우기
 
-// Show or hide based on selected branch
-if (branchName === 'all' || rowBranch === branchName) {
-row.style.display = '';
-visibleRowCount++;
-} else {
-row.style.display = 'none';
+      order.forEach((orders) => {
+        const row = document.createElement("tr");
+        row.classList.add("order");
+        row.setAttribute("data-branch", "gangseo");
+        row.setAttribute("data-product-status", "sale.svg");
+        row.setAttribute("data-current-selection", "checking.svg"); 
+        row.setAttribute("data-pending-selection", "");
+        row.innerHTML = `
+          <td>${orders.id}</td>
+          <td>${orders.officeName}</td>
+          <td>${orders.menuName}</td>
+          <td>${orders.quantity}</td>
+          <td>${orders.use}</td>
+          <td>${orders.status}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      addEmptyRows('stock-table-body');
+      checkForData('#stock-table-body', '.no-data');  
+    })
+    .catch(err => console.error("❌ 발주 데이터 불러오기 실패:", err));
 }
-});
-
-// Show/hide no-data message based on visible rows
-if (visibleRowCount === 0) {
-noDataMessage.classList.remove('hidden');
-} else {
-noDataMessage.classList.add('hidden');
-}
-}
-
-// Add click event for branch buttons
-branchButtons.forEach(button => {
-button.addEventListener('click', function() {
-// Remove active class from all buttons
-branchButtons.forEach(btn => btn.classList.remove('active'));
-
-// Add active class to clicked button
-this.classList.add('active');
-
-// Filter table based on selected branch
-const branchName = this.getAttribute('data-branch');
-filterTableByBranch(branchName);
-});
-});
-
-// Initialize the table to show all branches
-filterTableByBranch('all');
-});
-
-
   
-
 // 재고량 아이콘 업데이트
 // 실시간 입력 처리
 function handleStockInput(input) {

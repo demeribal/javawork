@@ -243,3 +243,9 @@
   #modalCancel:hover {
     background-color: #d0d0d0;
   }
+
+
+
+  .alarm-png.hidden {
+    display: none;
+  }

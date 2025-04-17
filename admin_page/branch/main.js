@@ -26,14 +26,23 @@ document.addEventListener("DOMContentLoaded", () => {
           if (targetArea) {
             targetArea.innerHTML = html;
 
-          // pay 탭일 때만 initPayPage 실행
-          if (tabName === "pay" && typeof initPayPage === "function") {
-            initPayPage();
-          }
-          //pay 탭일 때 데이터도 같이 로드
-          if (tabName === "pay" && typeof fetchPayList === "function") {
-            fetchPayList();
-          }
+            if (tabName === "pay") {
+              loadStylesheetOnce('pay-style', 'pay.css'); // ← 네가 만든 기본 스타일
+
+              // CSS 먼저 로드
+              loadStylesheetOnce('flatpickr-style', 'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css');
+              loadStylesheetOnce('month-select-style', 'https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css');
+      
+              // JS 순차 로딩
+              loadScriptOnce('flatpickr-js', 'https://cdn.jsdelivr.net/npm/flatpickr', () => {
+                loadScriptOnce('flatpickr-month', 'https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js', () => {
+                  loadScriptOnce('flatpickr-ko', 'https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js', () => {
+                    loadPayJS(); // pay.js 불러온 다음 initPayPage 실행
+                  });
+                });
+              });
+            }
+
           if (tabName === 'menu' && typeof initMenuPage === 'function') {
             initMenuPage();
           }
@@ -59,7 +68,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ✅ 공통 CSS & JS 동적 로딩 함수
 function loadTabAssets(tabName) {
+  
   // CSS 로딩
+/*
   const styleId = `${tabName}-style`;
   if (!document.getElementById(styleId)) {
     const link = document.createElement("link");
@@ -68,30 +79,26 @@ function loadTabAssets(tabName) {
     link.href = `${tabName}.css`;
     document.head.appendChild(link);
   }
+ */   
 
   // JS 로딩
-  const scriptId = `${tabName}-script`;
-  if (!document.getElementById(scriptId)) {
-    const script = document.createElement("script");
-    script.id = scriptId;
-    script.src = `${tabName}.js`;
-    script.onload = () => {
-      console.log(`${tabName}.js 로드 완료`);
-      if (tabName === 'pay' && typeof fetchPayList === 'function') {
-        fetchPayList(); // 초기 데이터 불러오기
-      }
-      if (tabName === "pay" && typeof initPayPage === "function") {
-        initPayPage();
-      }
-      if (tabName === "menu" && typeof initMenuPage === "function") {
-        setTimeout(() => {
-          initMenuPage();
-        }, 0);
-      }
-    };
-    document.body.appendChild(script);
+    const scriptId = `${tabName}-script`;
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement("script");
+      script.id = scriptId;
+      script.src = `${tabName}.js`;
+      script.onload = () => {
+        console.log(`${tabName}.js 로드 완료`);
+  
+        if (tabName === "menu" && typeof initMenuPage === "function") {
+          setTimeout(() => {
+            initMenuPage();
+          }, 0);
+        }
+      };
+      document.body.appendChild(script);
+    }
   }
-}
 
 //--2. 데이터 있을때 no-data hidden
   const noDataDiv = document.querySelector('.no-data');
@@ -102,7 +109,7 @@ function loadTabAssets(tabName) {
   function checkForData() {
       let hasData = false;
       const orderRows = document.querySelectorAll('tr.order');
-      
+
       orderRows.forEach(row => {
           // Check if row has any non-empty cells
           const cells = row.querySelectorAll('td');
@@ -114,34 +121,7 @@ function loadTabAssets(tabName) {
               }
           }
       });
-      
-      // Toggle visibility of no-data div based on data presence
-      /*
-      if (hasData) {
-          noDataDiv.style.display = 'none';
-      } else {
-          noDataDiv.style.display = 'block';
-      }
-      */
   }
-  
-  // Initial check for data
-
-  /*
-//--3.부족한 줄만큼 빈 <tr> 자동 추가
-fetch("stock.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("stock-data-area").innerHTML = data;
-
-    // 활성화
-    document.querySelector('.tab[data-tab="stock"]').classList.add('active');
-    document.getElementById('stock-content').classList.add('active');
-
-    //테이블 로딩 후 빈 행 추가
-   // addEmptyRows();
-  });
-*/
 
 function addEmptyRows(tbodyId = 'pay-table-body', minRows = 11) {
   const tbody = document.getElementById(tbodyId);
@@ -155,4 +135,35 @@ function addEmptyRows(tbodyId = 'pay-table-body', minRows = 11) {
     tr.innerHTML = `<td colspan="7">&nbsp;</td>`;
     tbody.appendChild(tr);
   }
+}
+
+//pay탭에 css와 js한번씩만 로딩 
+function loadStylesheetOnce(id, href) {
+  if (!document.getElementById(id)) {
+    const link = document.createElement('link');
+    link.id = id;
+    link.rel = 'stylesheet';
+    link.href = href;
+    document.head.appendChild(link);
+  }
+}
+
+function loadScriptOnce(id, src, onload) {
+  if (!document.getElementById(id)) {
+    const script = document.createElement('script');
+    script.id = id;
+    script.src = src;
+    if (onload) script.onload = onload;
+    document.body.appendChild(script);
+  } else {
+    if (onload) onload(); // 이미 로드된 경우에도 실행 보장
+  }
+}
+
+function loadPayJS() {
+  loadScriptOnce('pay-script', 'pay.js', () => {
+    if (typeof initPayPage === 'function') {
+      initPayPage(); // ✅ pay.js 로딩 후 확실히 실행
+    }
+  });
 }
