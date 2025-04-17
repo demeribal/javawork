@@ -59,7 +59,7 @@ function closeAlert() {
     };
   
   // 🔽 API 요청 (POST)
-  fetch('http://localhost:8080/api/pay', {
+  fetch('http://tomhoon.duckdns.org/api/pay', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
