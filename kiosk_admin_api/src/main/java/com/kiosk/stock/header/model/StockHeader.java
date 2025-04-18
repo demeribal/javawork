@@ -1,17 +1,15 @@
-package com.kiosk.order.model;
-
-import java.time.LocalDateTime;
+package com.kiosk.stock.header.model;
 
 import lombok.Builder;
 import lombok.Data;
 
 @Builder
 @Data
-public class Orders {
-	private int id;
-	private String status;
-	private int quantity;
-	private LocalDateTime lastUpdate;
+public class StockHeader {
+  private int id;        // 주문 ID (PK)
+  private String status;   // 주문 상태
+  private int quantity;    // 수량
+  private String lastUpdate; // 마지막 업데이트 시간
 }
 
 /*
