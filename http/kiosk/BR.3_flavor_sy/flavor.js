@@ -1,3 +1,5 @@
+
+
 //--1.초기 페이지 설정
 const itemsPerPage = 4 * 3;
 let flavors = [];
@@ -209,6 +211,12 @@ document.addEventListener("DOMContentLoaded", () => {
 //세션에서 데이터 불러옴
 const tempProductData = JSON.parse(sessionStorage.getItem('tempProductData') || '{}'); 
 
+console.log(tempProductData)
+if (Object.keys(tempProductData).length === 0) {
+  location.href = "/kiosk/BR.1_menu_hb/menu.html";
+  return;
+}
+
 //tempProductData name과 수량 추출
 tempProductData.forEach(product => {
   const productName = product.name;
@@ -271,7 +279,7 @@ tempProductData.forEach(product => {
     }));
 
     // 페이지 이동
-      location.href = '../BR.1_menu_hb/menu.html';
+      location.href = '/kiosk/BR.1_menu_hb/menu.html';
     }, 100);
   });
   
@@ -301,6 +309,8 @@ tempProductData.forEach(product => {
       const serverURL = 'http://localhost:8080';
       
       const encodedImagePath = encodeURI(menu.imagePath);
+      console.log(serverURL + encodedImagePath);
+      
       item.innerHTML = `
         <img src="${serverURL + encodedImagePath}" alt="${menu.menuName}">
         <p>${menu.menuName}</p>
