@@ -114,18 +114,17 @@ body {
     width: 100px;
     height: 100px;
     margin-left: 51px;
-    background-image: url('images/single-regular.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
 }
 
 .item-details {
-    width: 320px;
-    margin-left: 50px;
+    width: 350px;
+    margin-left: 100px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 }
 
@@ -142,13 +141,23 @@ body {
     font-size: 17px;
     line-height: 22px;
     letter-spacing: -0.408px;
+    margin-bottom: 3px;
+}
+
+.item-flavor {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 22px;
+    letter-spacing: -0.408px;
+    color: #999;
 }
 
 .quantity-controls {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 300px;
+    margin-right: 50px;
+    width: 200px;
 }
 
 .quantity-btn {
