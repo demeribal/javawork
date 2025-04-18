@@ -43,14 +43,13 @@ CREATE TABLE stock (
 );
 
 CREATE TABLE pay (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  menu_id INT NOT NULL,
-  pay_code INT NOT NULL,
-  payment_method VARCHAR(50) NOT NULL,
-  payment_status VARCHAR(50) NOT NULL,
-  amount INT NOT NULL,
-  paid_at TIMESTAMP NOT NULL,
-  FOREIGN KEY (menu_id) REFERENCES menu(id)
+    id INT AUTO_INCREMENT PRIMARY KEY COMMENT '결제 식별자',
+    paymentmethod VARCHAR(50) NOT NULL COMMENT '결제수단',
+    paymenthistory VARCHAR(50) COMMENT '결제이력',
+    amount INT NOT NULL COMMENT '결제금액',
+    paidat DATETIME COMMENT '결제일',
+    store_location VARCHAR(100) COMMENT '결제지점',
+    paycode VARCHAR(50) COMMENT '결제 코드'
 );
 
 CREATE TABLE message (
@@ -120,12 +119,12 @@ VALUES (3, '상봉본점');
 INSERT INTO office (user_Id, office_Name)
 VALUES (4, '하남본점');
 
-INSERT INTO pay (menu_Id, pay_Code, payment_Method, payment_Status, amount, paid_At)
-VALUES (1, 101, '현금', '결제완료', 3500, CURRENT_TIMESTAMP);
-INSERT INTO pay (menu_Id, pay_Code, payment_Method, payment_Status, amount, paid_At)
-VALUES (2, 102, '카카오페이', '결제완료', 4200, CURRENT_TIMESTAMP);
-INSERT INTO pay (menu_Id, pay_Code, payment_Method, payment_Status, amount, paid_At)
-VALUES (3, 103, '신용카드', '결제완료', 5500, CURRENT_TIMESTAMP);
+INSERT INTO pay (paymentmethod, paymenthistory, amount, paidat, store_location, paycode)
+VALUES ('카드', '싱글킹', 4800, '2025-04-18 10:30:00', '강서지점', 'P10001');
+INSERT INTO pay (paymentmethod, paymenthistory, amount, paidat, store_location, paycode)
+VALUES ('현금', '쿼터', 14500, '2025-04-18 11:00:00', '강서지점', 'P10002');
+INSERT INTO pay (paymentmethod, paymenthistory, amount, paidat, store_location, paycode)
+VALUES ('카카오페이', '파인트', 9100, '2025-04-18 11:15:00', '강서지점', 'P10003');
 
 INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (1, '010-1234-5678', NOW(), 1);
 INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (2, '010-2345-6789', NOW(), 1);
@@ -206,15 +205,13 @@ CREATE TABLE stock (
 );
 
 CREATE TABLE pay (
-  id INT NOT NULL AUTO_INCREMENT COMMENT '결제 ID (PK)',
-  menuId INT NOT NULL COMMENT '메뉴 ID (FK)',
-  payCode INT NOT NULL COMMENT '일련번호 (UNIQUE)',
-  paymentMethod VARCHAR(50) NOT NULL COMMENT '결제 수단',
-  paymentStatus VARCHAR(50) NOT NULL COMMENT '결제 상태',
-  amount INT NOT NULL COMMENT '가격',
-  paidAt DATETIME NOT NULL COMMENT '결제 일자',
-  PRIMARY KEY (id),
-  FOREIGN KEY (menuId) REFERENCES menu(id)
+  id INT AUTO_INCREMENT PRIMARY KEY,         -- 결제 식별자
+  pay_code VARCHAR(255) NOT NULL,            -- 결제번호
+  payment_method VARCHAR(50) NOT NULL,       -- 결제수단 (ex. 카드, 페이코 등)
+  payment_history TEXT NOT NULL,             -- 결제내역 (상품 이름 등)
+  amount INT NOT NULL,                       -- 결제금액
+  paid_at DATETIME NOT NULL,                 -- 결제일
+  store_location VARCHAR(100)                -- 결제지점
 );
 
 CREATE TABLE message (
@@ -290,12 +287,11 @@ INSERT INTO stock (menuId, officeId, orderid, quantity, isuse) VALUES (1, 2, 1, 
 INSERT INTO stock (menuId, officeId, orderid, quantity, isuse) VALUES (2, 3, 2, 50, 1);
 INSERT INTO stock (menuId, officeId, orderid, quantity, isuse) VALUES (3, 4, 3, 30, 1);
 
-INSERT INTO pay (menuId, payCode, paymentMethod, paymentStatus, amount, paidAt)
-VALUES (1, 201, '현금', '결제완료', 3500, CURRENT_TIMESTAMP);
-INSERT INTO pay (menuId, payCode, paymentMethod, paymentStatus, amount, paidAt)
-VALUES (2, 202, '카카오페이', '결제완료', 4200, CURRENT_TIMESTAMP);
-INSERT INTO pay (menuId, payCode, paymentMethod, paymentStatus, amount, paidAt)
-VALUES (3, 203, '신용카드', '결제완료', 5500, CURRENT_TIMESTAMP);
+NSERT INTO pay (pay_code, payment_method, payment_history, amount, paid_at, store_location)
+VALUES 
+('PAY-001', '카드', '쿼터', 8900, '2025-04-01 10:10:00', '강서지점'),
+('PAY-002', '카카오페이', '파인트', 7900, '2025-04-01 14:30:00', '강서지점'),
+('PAY-003', '네이버페이', '더블주니어', 6400, '2025-04-02 09:00:00', '강서지점');
 
 INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (1, '010-1234-5678', NOW(), 1);
 INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (2, '010-2345-6789', NOW(), 1);
