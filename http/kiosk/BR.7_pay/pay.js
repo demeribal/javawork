@@ -33,8 +33,6 @@ function closeAlert() {
 
   //필수 버튼 선택 후 결제하기 버튼 활성화
   document.getElementById('payBtn').addEventListener('click', async function (e) {
-    e.preventDefault();
-
     const isChecked = document.getElementById('terms').checked;
   
     if (!isChecked) {
@@ -42,33 +40,35 @@ function closeAlert() {
       return;
     }
   
-  // 세션에서 결제 정보 가져오기
-  const paymentmethod = sessionStorage.getItem('paymentmethod') || '카드';
-  const paymentstatus = sessionStorage.getItem('paymentstatus') || '결제완료';
-  const amount = parseInt(sessionStorage.getItem('amount')) || 0;
-  const storelocation = sessionStorage.getItem('storelocation') || '강서지점';
-  const paycode = sessionStorage.getItem('paycode') || `PAY-${Date.now()}`;
-  const paidat = new Date().toISOString();
-
-  // payDTO 객체 생성
-  const payDTO = {
-    paymentmethod,
-    paymentstatus,
-    amount,
-    storelocation,
-    paycode,
-    paidat
-  };
+    // 세션 값 불러오기
+    const priceData = JSON.parse(sessionStorage.getItem('priceData')) || {};
+    const productData = JSON.parse(sessionStorage.getItem('productData')) || [];
+    const paymentmethod = document.querySelector('.method.active')?.innerText || '카드';
+    const paymenthistory = productData.map(p => p.name).join(', ');
+    const amount = priceData.paymentPrice || 0;
+    const paidat = new Date().toISOString();
+    const storelocation = '강서지점';
+    const paycode = 'PAY-' + Date.now();
   
-  // API 요청 (POST)
+    const payload = {
+      paymentmethod,
+      paymenthistory,
+      amount,
+      paidat,
+      storelocation,
+      paycode,
+      menuId: null
+    };
+    
+  // 🔽 API 요청 (POST)
   fetch('http://localhost:8080/api/pay', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payDTO)
+    body: JSON.stringify(payload)
   })
     .then(res => {
       if (!res.ok) throw new Error('서버 응답 오류');
-      return res;
+      return res.text(); // 또는 res.json()
     })
     .then(() => {
       // 성공 시 페이지 이동
