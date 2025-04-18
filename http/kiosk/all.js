@@ -15,6 +15,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
   const favicon = document.createElement("link");
   favicon.rel = "icon";
-  favicon.href = "../../images/baskin_logo.png";
+  favicon.href = "../../images/BR_favicon.png";
   favicon.type = "image/png";
   document.head.appendChild(favicon);
