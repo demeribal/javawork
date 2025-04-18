@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
           if (targetArea) {
             targetArea.innerHTML = html;
 
-          if (tabName === "menu" && typeof initPayPage === "function") {
+          if (tabName === "stock" && typeof initPayPage === "function") {
             initPayPage();
           }
           // pay 탭일 때만 initPayPage 실행
@@ -37,8 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
           if (tabName === "pay" && typeof fetchPayList === "function") {
             fetchPayList();
           }
-          if (tabName === 'menu' && typeof initMenuPage === 'function') {
-            initMenuPage();
+          if (tabName === 'stock' && typeof fetchOrderList === 'function') {
+            fetchOrderList();
           }
           }
         })
@@ -58,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById(`${defaultTab}-data-area`).innerHTML = html;
     })
     .catch((err) => console.error("초기 stock.html 로딩 실패:", err));
+    
 });
 
 // ✅ 공통 CSS & JS 동적 로딩 함수
@@ -88,9 +89,9 @@ function loadTabAssets(tabName) {
       if (tabName === "pay" && typeof initPayPage === "function") {
         initPayPage();
       }
-      if (tabName === "menu" && typeof initMenuPage === "function") {
+      if (tabName === "stock" && typeof fetchOrderList === "function") {
         setTimeout(() => {
-          initMenuPage();
+          fetchOrderList();
         }, 0);
       }
     };
@@ -134,7 +135,7 @@ function loadTabAssets(tabName) {
   
   // Initial check for data
 
-  /*
+  
 //--3.부족한 줄만큼 빈 <tr> 자동 추가
 fetch("stock.html")
   .then(response => response.text())
@@ -148,7 +149,7 @@ fetch("stock.html")
     //테이블 로딩 후 빈 행 추가
    // addEmptyRows();
   });
-*/
+
 
 function addEmptyRows(tbodyId = 'pay-table-body', minRows = 11) {
   const tbody = document.getElementById(tbodyId);
@@ -163,3 +164,8 @@ function addEmptyRows(tbodyId = 'pay-table-body', minRows = 11) {
     tbody.appendChild(tr);
   }
 }
+
+
+
+
+
