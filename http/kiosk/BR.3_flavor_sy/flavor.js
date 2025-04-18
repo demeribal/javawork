@@ -46,16 +46,24 @@ function onFlavorItemClick(e) {
   currentFlavors.push({ imgSrc, name: flavorName });
 
   updateSelectionUI();
+<<<<<<< HEAD
 /*
   // 선택 완료됐으면 다음 슬롯으로 이동
   if (currentFlavors.length === currentProduct.flavorsRequired &&
     currentSlotIndex < selectedProducts.length) {
+=======
+
+  // 선택 완료됐으면 다음 슬롯으로 이동
+  if (currentFlavors.length === currentProduct.flavorsRequired &&
+    currentSlotIndex < selectedProducts.length - 1) {
+>>>>>>> upload
 
     setTimeout(() => {
       currentSlotIndex++;
       updateSelectionUI();
   }, 400);
   }
+<<<<<<< HEAD
   if(currentFlavors.length === currentProduct.flavorsRequired &&
     currentSlotIndex < selectedProducts.length-1){
     
@@ -86,6 +94,8 @@ function onFlavorItemClick(e) {
     }
 
     
+=======
+>>>>>>> upload
 } 
 
   //슬롯 화살표 위치 함수
@@ -246,7 +256,11 @@ tempProductData.forEach(product => {
     }));
 
     // 페이지 이동
+<<<<<<< HEAD
       location.href = '../BR.1_menu_hb/menu.html';
+=======
+      location.href = '../BR.3-1_menu2_hb/menu.html';
+>>>>>>> upload
     }, 100);
   });
   
@@ -262,7 +276,11 @@ tempProductData.forEach(product => {
 });
 
   //--10. menuAPI fetch
+<<<<<<< HEAD
   fetch("http://localhost:8080/api/menus")
+=======
+  fetch("http://tomhoon.duckdns.org/api/menus")
+>>>>>>> upload
   // API 주소 확인
     .then(res => res.json())
     .then(data => {
@@ -273,7 +291,11 @@ tempProductData.forEach(product => {
         const item = document.createElement("div");
         item.className = "flavor-item";
 
+<<<<<<< HEAD
       const serverURL = 'http://localhost:8080';
+=======
+      const serverURL = 'tomhoon.duckdns.org:8080';
+>>>>>>> upload
       
       const encodedImagePath = encodeURI(menu.imagePath);
       item.innerHTML = `

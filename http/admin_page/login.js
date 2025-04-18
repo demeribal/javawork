@@ -7,6 +7,10 @@ function onSubmit() {
         alert("사람 인증을 진행해주세요.");
         return;
     }
+<<<<<<< HEAD
+=======
+console.log("리캡챠 토큰: " + token);
+>>>>>>> upload
 
     fetch("http://192.168.0.17:8080/api/user/login", {
         method: "POST",

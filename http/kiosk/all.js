@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
       // 첫 화면으로 돌아가기
       window.location.href = '../../index.html'; 
     });
+<<<<<<< HEAD
   });
 
   const favicon = document.createElement("link");
@@ -18,3 +19,6 @@ document.addEventListener("DOMContentLoaded", function() {
   favicon.href = "../../images/BR_favicon.png";
   favicon.type = "image/png";
   document.head.appendChild(favicon);
+=======
+  });
+>>>>>>> upload

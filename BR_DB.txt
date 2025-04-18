@@ -1,0 +1,322 @@
+최종 sql문
+
+**************[ 1. h2 테이블 생성문과 예시데이터 (create table & insert into) ]**************
+
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(20) NOT NULL,
+  password VARCHAR(60) NOT NULL,
+  is_head BOOLEAN DEFAULT FALSE NOT NULL
+);
+
+CREATE TABLE office (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  office_name VARCHAR(20),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE menu (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  menu_name VARCHAR(100) NOT NULL,
+  menu_code VARCHAR(25) NOT NULL,
+  image_path VARCHAR(255)
+);
+
+CREATE TABLE orders (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  status VARCHAR(20) NOT NULL DEFAULT '확인중',
+  quantity INT NOT NULL,
+  last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE stock (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  menu_id INT NOT NULL,
+  office_id INT NOT NULL,
+  order_id INT NOT NULL,
+  quantity INT NOT NULL,
+  is_use BOOLEAN NOT NULL,
+  FOREIGN KEY (menu_id) REFERENCES menu(id),
+  FOREIGN KEY (office_id) REFERENCES office(id),
+  FOREIGN KEY (order_id) REFERENCES orders(id)
+);
+
+CREATE TABLE pay (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  menu_id INT NOT NULL,
+  pay_code INT NOT NULL,
+  payment_method VARCHAR(50) NOT NULL,
+  payment_status VARCHAR(50) NOT NULL,
+  amount INT NOT NULL,
+  paid_at TIMESTAMP NOT NULL,
+  FOREIGN KEY (menu_id) REFERENCES menu(id)
+);
+
+CREATE TABLE message (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  pay_id INT NOT NULL,
+  phone_number VARCHAR(20) NOT NULL,
+  send_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  is_sent BOOLEAN DEFAULT FALSE NOT NULL,
+  FOREIGN KEY (pay_id) REFERENCES pay(id)
+);
+
+---------------------------------------------------------------------------------------------------
+
+INSERT INTO users (username, password, is_Head) VALUES ('admin', '1234', 1);
+INSERT INTO users (username, password, is_Head) VALUES ('gangseo', '1234', 0);
+INSERT INTO users (username, password, is_Head) VALUES ('sangbong', '1234', 0);
+INSERT INTO users (username, password, is_Head) VALUES ('hanam', '1234', 0);
+
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE301', '31요거트', '/images/31요거트.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE302', '그린티', '/images/그린티.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE303', '나주배소르베', '/images/나주배_소르베.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE304', '너는참달고나', '/images/너는_참_달고나.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE305', '뉴욕치즈케이크', '/images/뉴욕_치즈케이크.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE306', '딸기연유퐁당', '/images/딸기연유퐁당.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE307', '레인보우샤베트', '/images/레인보우샤베트.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE308', '말랑꿀떡모찌', '/images/말랑꿀떡모찌.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE309', '민트초코', '/images/민트초코.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE310', '바람과함께사라지다', '/images/바람과_함께_사라지다.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE311', '베리베리스토로베리', '/images/베리베리_스토로베리.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE312', '봉쥬르마카롱', '/images/봉쥬르_마카롱.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE313', '블루베리파나코타', '/images/블루베리_파나코타.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE314', '사랑에빠진딸기', '/images/사랑에_빠진_딸기.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE315', '소금우유아이스크림', '/images/소금_우유_아이스크림.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE316', '슈팅스타', '/images/슈팅스타.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE317', '아몬드봉봉', '/images/아몬드_봉봉.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE318', '아이스도쿄바나나', '/images/아이스도쿄바나나.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE319', '아이스호떡', '/images/아이스호떡.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE320', '아이스초코도쿄바나나', '/images/아이스초코도쿄바나나.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE321', '애플민트', '/images/애플민트.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE322', '엄마는외계인', '/images/엄마는_외계인.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE323', '에스프레소앤크림', '/images/에스프레소_앤_크림.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE324', '오레오쿠키앤크림', '/images/오레오_쿠키_앤_크림.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE325', '이상한나라의솜사탕', '/images/이상한_나라의_솜사탕.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE326', '자모카아몬드훠지', '/images/자모카_아몬드_훠지.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE327', '체리쥬빌레', '/images/체리쥬빌레.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE328', '초코나무숲', '/images/초코나무_숲.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE329', '초코아몬드봉봉', '/images/초코_아몬드_봉봉.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE330', '초콜릿무스', '/images/초콜릿_무스.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE331', '초콜릿칩', '/images/초콜릿_칩.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE332', '춘식이의고구마얌', '/images/춘식이의고구마얌.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE333', '치토스밀크쉐이크아이스크림', '/images/치토스_밀크쉐이크_아이스크림.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE334', '키세스브라우니초콜릿', '/images/키세스_브라우니_초콜릿.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE335', '팥있는말차당', '/images/팥있는_말차당.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE336', '피스타치오아몬드', '/images/피스타치오_아몬드.png');
+INSERT INTO MENU (MENU_CODE, MENU_NAME, IMAGE_PATH) VALUES ('ICE337', '허니크런치', '/images/허니_크런치.png');
+
+
+INSERT INTO orders (status, quantity, last_Update) VALUES ('확인중', 10, NOW());
+INSERT INTO orders (status, quantity, last_Update) VALUES ('배송중', 5, NOW());
+INSERT INTO orders (status, quantity, last_Update) VALUES ('배송완료', 3, NOW());
+
+INSERT INTO office (user_Id, office_Name) 
+VALUES (1, '본사매장');
+INSERT INTO office (user_Id, office_Name)
+VALUES (2, '강서본점');
+INSERT INTO office (user_Id, office_Name)
+VALUES (3, '상봉본점');
+INSERT INTO office (user_Id, office_Name)
+VALUES (4, '하남본점');
+
+INSERT INTO pay (menu_Id, pay_Code, payment_Method, payment_Status, amount, paid_At)
+VALUES (1, 101, '현금', '결제완료', 3500, CURRENT_TIMESTAMP);
+INSERT INTO pay (menu_Id, pay_Code, payment_Method, payment_Status, amount, paid_At)
+VALUES (2, 102, '카카오페이', '결제완료', 4200, CURRENT_TIMESTAMP);
+INSERT INTO pay (menu_Id, pay_Code, payment_Method, payment_Status, amount, paid_At)
+VALUES (3, 103, '신용카드', '결제완료', 5500, CURRENT_TIMESTAMP);
+
+INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (1, '010-1234-5678', NOW(), 1);
+INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (2, '010-2345-6789', NOW(), 1);
+INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (3, '010-3456-7890', NOW(), 0);
+
+INSERT INTO stock (menu_Id, office_Id, order_id, quantity, is_use) VALUES (1, 2, 1, 100, 1);
+INSERT INTO stock (menu_Id, office_Id, order_id, quantity, is_use) VALUES (2, 3, 2, 50, 1);
+INSERT INTO stock (menu_Id, office_Id, order_id, quantity, is_use) VALUES (3, 4, 3, 30, 1);
+
+---------------------------------------------------------------------------------------------------
+h2 데이터 삭제(무결성 제약 해제, 모든 데이터 삭제, 테이블 ID초기화(모든 테이블 적용해야함), 무결성 제약 다시 켜기)
+SET REFERENTIAL_INTEGRITY FALSE;
+
+TRUNCATE TABLE "USERS";
+TRUNCATE TABLE "OFFICE";
+TRUNCATE TABLE "MENU";
+TRUNCATE TABLE "ORDERS";
+TRUNCATE TABLE "PAY";
+TRUNCATE TABLE "MESSAGE";
+TRUNCATE TABLE "STOCK";
+
+ALTER TABLE USERS ALTER COLUMN ID RESTART WITH 1;
+ALTER TABLE OFFICE ALTER COLUMN ID RESTART WITH 1;
+ALTER TABLE MENU ALTER COLUMN ID RESTART WITH 1;
+ALTER TABLE ORDERS ALTER COLUMN ID RESTART WITH 1;
+ALTER TABLE PAY ALTER COLUMN ID RESTART WITH 1;
+ALTER TABLE MESSAGE ALTER COLUMN ID RESTART WITH 1;
+ALTER TABLE STOCK ALTER COLUMN ID RESTART WITH 1;
+
+SET REFERENTIAL_INTEGRITY TRUE;
+
+
+**************[ 2. MySQL 테이블 생성문과 예시데이터 (create table & insert into) ]**************
+
+CREATE TABLE users (
+  id INT NOT NULL AUTO_INCREMENT COMMENT '사용자 ID (PK)',
+  username VARCHAR(20) NOT NULL COMMENT '아이디',
+  password VARCHAR(60) NOT NULL COMMENT '비밀번호',
+  isHead TINYINT(1) DEFAULT 0 NOT NULL COMMENT '본사 여부 (본사1 지점0)',
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE office (
+  id INT NOT NULL AUTO_INCREMENT COMMENT '가맹점 ID (PK)',
+  userId INT NOT NULL COMMENT '사용자 ID (FK)',
+  officeName VARCHAR(20) DEFAULT NULL COMMENT '매장명',
+  PRIMARY KEY (id),
+  FOREIGN KEY (userId) REFERENCES users(id)
+);
+
+CREATE TABLE menu (
+  id INT NOT NULL AUTO_INCREMENT COMMENT '메뉴 ID (PK)',
+  menuName VARCHAR(100) NOT NULL COMMENT '메뉴 이름',
+  menuCode VARCHAR(25) NOT NULL COMMENT'메뉴코드',
+  imagePath VARCHAR(255) DEFAULT NULL COMMENT '메뉴 이미지 경로',
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE orders (
+  id INT NOT NULL AUTO_INCREMENT COMMENT '발주 ID (PK)',
+  status ENUM('확인중', '배송중', '배송완료') NOT NULL DEFAULT '확인중' COMMENT '주문 상태',
+  quantity INT NOT NULL COMMENT '발주 수량',
+  lastUpdate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '마지막 업데이트 날짜',
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE stock (
+  id INT NOT NULL AUTO_INCREMENT COMMENT '재고 ID (PK)',
+  menuId INT NOT NULL COMMENT '메뉴 ID (FK)',
+  officeId INT NOT NULL COMMENT '가맹점 ID (FK)',
+  orderId INT NOT NULL COMMENT '발주 ID (FK)',
+  quantity INT NOT NULL COMMENT '재고 수량',
+  isUse TINYINT NOT NULL COMMENT '사용 여부',
+  PRIMARY KEY (id),
+  FOREIGN KEY (menuId) REFERENCES menu(id),
+  FOREIGN KEY (officeId) REFERENCES office(id),
+  FOREIGN KEY (orderId) REFERENCES orders(id)
+);
+
+CREATE TABLE pay (
+  id INT NOT NULL AUTO_INCREMENT COMMENT '결제 ID (PK)',
+  menuId INT NOT NULL COMMENT '메뉴 ID (FK)',
+  payCode INT NOT NULL COMMENT '일련번호 (UNIQUE)',
+  paymentMethod VARCHAR(50) NOT NULL COMMENT '결제 수단',
+  paymentStatus VARCHAR(50) NOT NULL COMMENT '결제 상태',
+  amount INT NOT NULL COMMENT '가격',
+  paidAt DATETIME NOT NULL COMMENT '결제 일자',
+  PRIMARY KEY (id),
+  FOREIGN KEY (menuId) REFERENCES menu(id)
+);
+
+CREATE TABLE message (
+  id INT NOT NULL AUTO_INCREMENT COMMENT '문자 ID (PK)',
+  payId INT NOT NULL COMMENT '결제 ID (FK)',
+  phoneNumber VARCHAR(20) NOT NULL COMMENT '전화번호',
+  sendTime DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '보낸 시간',
+  isSent TINYINT(1) NOT NULL DEFAULT 0 COMMENT '전송 여부 (0: 미전송, 1: 전송)',
+  PRIMARY KEY (id),
+  FOREIGN KEY (payId) REFERENCES pay(id)
+);
+
+---------------------------------------------------------------------------------------------------
+
+INSERT INTO users (username, password, isHead) VALUES
+('admin', '1234', 1),
+('gangseo', '1234', 0),
+('sangbong', '1234', 0),
+('hanam', '1234', 0);
+
+INSERT INTO office (userId, officeName) 
+VALUES (1, '본사매장');
+INSERT INTO office (userId, officeName)
+VALUES (2, '강서본점');
+INSERT INTO office (userId, officeName)
+VALUES (3, '상봉본점');
+INSERT INTO office (userId, officeName)
+VALUES (4, '하남본점');
+
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE301', '31요거트', '/images/31요거트.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE302', '그린티', '/images/그린티.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE303', '나주배소르베', '/images/나주배_소르베.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE304', '너는참달고나', '/images/너는_참_달고나.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE305', '뉴욕치즈케이크', '/images/뉴욕_치즈케이크.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE306', '딸기연유퐁당', '/images/딸기연유퐁당.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE307', '레인보우샤베트', '/images/레인보우샤베트.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE308', '말랑꿀떡모찌', '/images/말랑꿀떡모찌.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE309', '민트초코', '/images/민트초코.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE310', '바람과함께사라지다', '/images/바람과_함께_사라지다.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE311', '베리베리스토로베리', '/images/베리베리_스토로베리.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE312', '봉쥬르마카롱', '/images/봉쥬르_마카롱.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE313', '블루베리파나코타', '/images/블루베리_파나코타.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE314', '사랑에빠진딸기', '/images/사랑에_빠진_딸기.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE315', '소금우유아이스크림', '/images/소금_우유_아이스크림.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE316', '슈팅스타', '/images/슈팅스타.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE317', '아몬드봉봉', '/images/아몬드_봉봉.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE318', '아이스도쿄바나나', '/images/아이스도쿄바나나.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE319', '아이스호떡', '/images/아이스호떡.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE320', '아이스초코도쿄바나나', '/images/아이스초코도쿄바나나.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE321', '애플민트', '/images/애플민트.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE322', '엄마는외계인', '/images/엄마는_외계인.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE323', '에스프레소앤크림', '/images/에스프레소_앤_크림.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE324', '오레오쿠키앤크림', '/images/오레오_쿠키_앤_크림.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE325', '이상한나라의솜사탕', '/images/이상한_나라의_솜사탕.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE326', '자모카아몬드훠지', '/images/자모카_아몬드_훠지.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE327', '체리쥬빌레', '/images/체리쥬빌레.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE328', '초코나무숲', '/images/초코나무_숲.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE329', '초코아몬드봉봉', '/images/초코_아몬드_봉봉.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE330', '초콜릿무스', '/images/초콜릿_무스.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE331', '초콜릿칩', '/images/초콜릿_칩.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE332', '춘식이의고구마얌', '/images/춘식이의고구마얌.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE333', '치토스밀크쉐이크아이스크림', '/images/치토스_밀크쉐이크_아이스크림.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE334', '키세스브라우니초콜릿', '/images/키세스_브라우니_초콜릿.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE335', '팥있는말차당', '/images/팥있는_말차당.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE336', '피스타치오아몬드', '/images/피스타치오_아몬드.png');
+INSERT INTO MENU (menuCode, menuName, imagePath) VALUES ('ICE337', '허니크런치', '/images/허니_크런치.png');
+
+
+
+INSERT INTO orders (status, quantity, lastUpdate) VALUES ('확인중', 10, NOW());
+INSERT INTO orders (status, quantity, lastUpdate) VALUES ('배송중', 5, NOW());
+INSERT INTO orders (status, quantity, lastUpdate) VALUES ('배송완료', 3, NOW());
+
+INSERT INTO stock (menuId, officeId, orderid, quantity, isuse) VALUES (1, 2, 1, 100, 1);
+INSERT INTO stock (menuId, officeId, orderid, quantity, isuse) VALUES (2, 3, 2, 50, 1);
+INSERT INTO stock (menuId, officeId, orderid, quantity, isuse) VALUES (3, 4, 3, 30, 1);
+
+INSERT INTO pay (menuId, payCode, paymentMethod, paymentStatus, amount, paidAt)
+VALUES (1, 201, '현금', '결제완료', 3500, CURRENT_TIMESTAMP);
+INSERT INTO pay (menuId, payCode, paymentMethod, paymentStatus, amount, paidAt)
+VALUES (2, 202, '카카오페이', '결제완료', 4200, CURRENT_TIMESTAMP);
+INSERT INTO pay (menuId, payCode, paymentMethod, paymentStatus, amount, paidAt)
+VALUES (3, 203, '신용카드', '결제완료', 5500, CURRENT_TIMESTAMP);
+
+INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (1, '010-1234-5678', NOW(), 1);
+INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (2, '010-2345-6789', NOW(), 1);
+INSERT INTO message (payId, phoneNumber, sendTime, isSent) VALUES (3, '010-3456-7890', NOW(), 0);
+
+-------------------------------------------------------------------------------------------------
+-- 외래 키 제약 조건 비활성화
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- 데이터 삭제
+DELETE FROM your_table_name;
+ALTER TABLE your_table_name AUTO_INCREMENT = 1;
+
+-- 외래 키 제약 조건 다시 활성화
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- 테이블의 모든 데이터 삭제
+DELETE FROM your_table_name;
+
+-- AUTO_INCREMENT 초기화 (id 값을 1부터 다시 시작하게 함) - 모든 테이블에 적용
+ALTER TABLE your_table_name AUTO_INCREMENT = 1;

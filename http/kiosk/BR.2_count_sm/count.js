@@ -8,6 +8,7 @@ const waffleQuantityInput = document.querySelector('#waffle_quantity');
 const optionBox = document.querySelector(".option-item-box");
 const nextBtn = document.querySelector(".btn-choose");
 
+<<<<<<< HEAD
 
 nextBtn.addEventListener("click", (e) => {
   e.preventDefault();
@@ -44,6 +45,33 @@ optionItems.forEach(option => {
 // 페이지 로드시 비활성화
 window.addEventListener("DOMContentLoaded", () => {
   nextBtn.classList.add("disabled");
+=======
+function checkActive() {
+  const isActive = Array.from(optionItems).some(item => item.classList.contains('active'));
+  if (isActive) {
+      nextBtn.disabled = false;
+      nextBtn.classList.add('enabled');
+  } else {
+      nextBtn.disabled = true;
+      nextBtn.classList.remove('enabled');
+  }
+}
+
+
+
+// 옵션 클릭하면 활성화
+optionItems.forEach(option => {
+  option.addEventListener('click', () => {
+      // 클릭되면 'active' 추가
+      option.classList.add('active');
+      checkActive();
+  });
+});
+
+// 페이지 로드시 비활성화
+window.addEventListener('DOMContentLoaded', () => {
+  nextBtn.disabled = true;
+>>>>>>> upload
 });
 
 function updateNextButtonState() {
@@ -64,6 +92,10 @@ function updateNextButtonState() {
   }
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> upload
 // html 요소 가져오기
 const productNameEl = document.getElementById('product-name');
 const productPriceEl = document.getElementById('product-price');
@@ -156,10 +188,13 @@ document.addEventListener("DOMContentLoaded", function() {
           cupOption.parentElement.style.display = 'flex';
           cupOption.parentElement.style.justifyContent = 'center';
         }
+<<<<<<< HEAD
         const cupName = cupOption.querySelector('.option-name');
         if (cupName) {
           cupName.textContent = '컵';
         }
+=======
+>>>>>>> upload
       } else {
         // 콘이나 와플콘도 선택지에 있으면 다 보이게
         if (cornOption) cornOption.parentElement.style.display = 'flex';
@@ -167,6 +202,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (cupOption) cupOption.parentElement.style.display = 'flex';
       }
   
+<<<<<<< HEAD
       
     }
   }
@@ -183,10 +219,27 @@ optionItems.forEach(option => {
   const decreaseButton = option.querySelector('.btn-decrease');
   const increaseButton = option.querySelector('.btn-increase');
   //const quantity = option.querySelector(".quantity");
+=======
+      const cupName = cupOption.querySelector('.option-name');
+      if (cupName) {
+        cupName.textContent = '컵';
+      }
+    }
+  } else {
+    console.error('해당하는 상품을 찾을 수 없습니다:', name);
+  }
+  
+})
+optionItems.forEach(option => {
+  const decreaseButton = option.querySelector('.btn-decrease');
+  const increaseButton = option.querySelector('.btn-increase');
+  const quantityDisplay = option.querySelector('.quantity');
+>>>>>>> upload
 
   // 수량 초기화 함수
   function resetOtherQuantities() {
       optionItems.forEach(item => {
+<<<<<<< HEAD
         const decreaseButton = item.querySelector('.btn-decrease');
         const increaseButton = item.querySelector('.btn-increase');
         // 선택되지 않은 옵션의 수량을 초기화
@@ -202,6 +255,18 @@ optionItems.forEach(option => {
             if (itemInput) {
                 itemInput.value = 0; // hidden input 수량 초기화
             }
+=======
+          // 선택되지 않은 옵션의 수량을 초기화
+          if (item !== option) {
+              const itemQuantity = item.querySelector('.quantity');
+              const itemInput = item.querySelector('.quantity-input');  // 'quantity-input' 정확히 찾기
+              if (itemQuantity) {
+                  itemQuantity.textContent = 1; // 수량 초기화
+              }
+              if (itemInput) {
+                  itemInput.value = 1; // hidden input 수량 초기화
+              }
+>>>>>>> upload
           }
       });
       
@@ -209,6 +274,7 @@ optionItems.forEach(option => {
       cupQuantityInput.value = 0;
       cornQuantityInput.value = 0;
       waffleQuantityInput.value = 0;
+<<<<<<< HEAD
       
   }
 
@@ -279,6 +345,57 @@ optionItems.forEach(option => {
     updateProductData();
   }
   
+=======
+  }
+
+  // 옵션 선택 시 수량을 초기화하고 hidden input에 반영
+  option.addEventListener('click', () => {
+      optionItems.forEach(item => item.classList.remove('selected'));
+      option.classList.add('selected');
+
+      // 수량 초기화 및 업데이트
+      resetOtherQuantities();
+      updateQuantity(option);
+  });
+
+  // 수량 감소
+  decreaseButton.addEventListener('click', function() {
+      let quantity = parseInt(quantityDisplay.textContent, 10);
+      if (quantity > 1) {
+          quantity--;
+          quantityDisplay.textContent = quantity;
+          updateQuantity(option); // 수량 변경 시 hidden input에 반영
+      }
+  });
+
+  // 수량 증가
+  increaseButton.addEventListener('click', function() {
+      let quantity = parseInt(quantityDisplay.textContent, 10);
+      quantity++;
+      quantityDisplay.textContent = quantity;
+      updateQuantity(option); // 수량 변경 시 hidden input에 반영
+  });
+
+  // 수량을 hidden input에 반영하는 함수
+  function updateQuantity(option) {
+      const quantity = parseInt(option.querySelector('.quantity').textContent, 10);
+
+      // 각 옵션에 맞는 hidden input에 수량을 반영
+      if (option.id === 'cup-option') {
+          cupQuantityInput.value = quantity > 0 ? quantity : 0;
+      } else if (option.id === 'corn-option') {
+          cornQuantityInput.value = quantity > 0 ? quantity : 0;
+      } else if (option.id === 'waffle-option') {
+          waffleQuantityInput.value = quantity > 0 ? quantity : 0;
+      }
+
+      // 디버깅을 위한 로그
+      console.log('cup:', cupQuantityInput.value);
+      console.log('corn:', cornQuantityInput.value);
+      console.log('waffle:', waffleQuantityInput.value);
+      updateProductData();
+  }
+>>>>>>> upload
 });
 
 function addSessionProductData() {
@@ -332,11 +449,24 @@ function updateProductData() {
 
 function goBack() {
   sessionStorage.removeItem("tempProductData");
+<<<<<<< HEAD
   window.location.href = "../BR.1_menu_hb/menu.html";
+=======
+  history.back();
+>>>>>>> upload
 }
 
 
 
+<<<<<<< HEAD
+=======
+
+
+
+
+
+
+>>>>>>> upload
 /*
 
 document.querySelector('.btn-choose').addEventListener('click', function() {

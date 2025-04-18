@@ -161,7 +161,11 @@ main, footer {
 }
 
 .option-item-box.selected {
+<<<<<<< HEAD
     border: solid 5px #EF9BCD;
+=======
+    border: solid 3px #EF9BCD;
+>>>>>>> upload
     color: #F20C93;
 }
 
@@ -196,7 +200,10 @@ main, footer {
     all: unset;
     cursor: pointer;
     margin: 10px;
+<<<<<<< HEAD
     font-size: 25px;
+=======
+>>>>>>> upload
     
 }
 .option-item-box:focus .quantity-container {

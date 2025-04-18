@@ -6,7 +6,11 @@
 	VALUES (#{status}, #{quantity}, #{lastUpdate});
 </insert>
 
+<<<<<<< HEAD
 <select id="findAll" resultType="com.kiosk.order.model.Orders">
+=======
+<select id="findAll" resultType="com.kiosk.order.model.OrdersDTO">
+>>>>>>> upload
 	SELECT
 		ODR.id,
 		OFC.office_name,

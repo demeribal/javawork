@@ -90,7 +90,11 @@ body {
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 14px;
+<<<<<<< HEAD
     background-image: url(/images/Search.png);
+=======
+    background-image: url(images/Search.png);
+>>>>>>> upload
     background-repeat : no-repeat;
     background-size : 16px;
     background-position: 10px;
