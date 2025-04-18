@@ -309,7 +309,6 @@ tempProductData.forEach(product => {
       const serverURL = 'http://localhost:8080';
       
       const encodedImagePath = encodeURI(menu.imagePath);
-      console.log(serverURL + encodedImagePath);
       
       item.innerHTML = `
         <img src="${serverURL + encodedImagePath}" alt="${menu.menuName}">
