@@ -14,7 +14,7 @@ nextBtn.addEventListener("click", (e) => {
   if (nextBtn.classList.contains("disabled")) {
     alert("옵션 / 수량을 선택해 주세요");
   } else {
-    location.href = '../BR.3_flavor_sy/flavor.html';
+    location.href = '/kiosk/BR.3_flavor_sy/flavor.html';
   }
 });
 
@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function() {
   
       if (guideTextEl.includes('콘')) {
         const cornImg = document.createElement('img');
-        cornImg.src = 'images/corn.png';
+        cornImg.src = '/kiosk/BR.2_count_sm/images/corn.png';
         cornImg.alt = '콘';
         cornImg.classList.add('corn-img');
         imgList.push(cornImg);
@@ -112,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
   
       if (guideTextEl.includes('컵')) {
         const cupImg = document.createElement('img');
-        cupImg.src = 'images/cup.png';
+        cupImg.src = '/kiosk/BR.2_count_sm/images/cup.png';
         cupImg.alt = '컵';
         cupImg.classList.add('cup-img');
         imgList.push(cupImg);
@@ -332,7 +332,7 @@ function updateProductData() {
 
 function goBack() {
   sessionStorage.removeItem("tempProductData");
-  window.location.href = "../BR.1_menu_hb/menu.html";
+  window.location.href = "/kiosk/BR.1_menu_hb/menu.html";
 }
 
 
