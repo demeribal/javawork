@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<head><link rel="stylesheet" href="stock.css"></head>
+<body>
+
+  <div class="table-wrapper">
+  <table class="orderlist">
+    
+    <thead class="thead-bar">
+        <tr>
+            <th>NO</th>
+            <th>지점명</th>
+            <th>메뉴명</th>
+            <th>이미지</th>
+            <th>재고량</th>
+            <th>상품상태</th>
+            <th>발주상태</th>
+            <th>발주하기</th>
+        </tr>
+    </thead>
+    </table>
+    <div class="tbody-scroll">
+      <table class="stocklist">
+      <tbody id="stock-table-body">
+        
+      </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="no-data">
+    조회 내용이 없습니다.
+  </div>
+
+  <div id="orderModal" class="modal hidden">
+    <div class="modal-content">
+      <img src="/images/stockordermodal.svg" class="modal-svg">
+  
+      <div class="icecream-img">
+        <img id="icecreamImage" src="" alt="상품 이미지">
+      </div>
+
+      <div class="icecream-name" id="icecreamName"></div>
+  
+      <div class="number-control">
+        <button class="minus-btn">−</button>
+        <input type="number" class="quantity-input" value="1" min="1">
+        <button class="plus-btn">+</button>
+      </div>
+  
+      <div class="modal-buttons">
+        <button class="modalCancel">취소</button>
+        <button class="modalConfirm">확인</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="stock.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
