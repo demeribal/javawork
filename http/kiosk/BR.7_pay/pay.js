@@ -71,7 +71,7 @@ function closeAlert() {
       return res.text(); // 또는 res.json()
     })
     .then(() => {
-      // 성공 시 페이지 이동
+      alert('✅ 결제 정보가 전송되었습니다.');
       window.location.href = '../BR.8_success_wj/success.html';
     })
     .catch(err => {

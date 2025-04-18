@@ -25,13 +25,14 @@ function selectMenu() {
       const productPrice = parseFloat(
         this.querySelector('.product-price').textContent.replace(/[^0-9]/g, '')
       );
+      const productImageUrl = this.querySelector('.product-image').src;
       // 상품 데이터 처리
-      sessionUpdate(productName, productPrice);
+      sessionUpdate(productName, productPrice, productImageUrl);
     });
   });
 }
 
-function sessionUpdate(productName, productPrice) {
+function sessionUpdate(productName, productPrice,productImageUrl) {
   const productData = JSON.parse(sessionStorage.getItem('productData')) || [];
   const tempProductData = JSON.parse(sessionStorage.getItem('tempProductData')) || [];
 
@@ -40,7 +41,8 @@ function sessionUpdate(productName, productPrice) {
     name: productName,
     unitPrice: productPrice,
     quantity: 1, 
-    totalPrice: productPrice
+    totalPrice: productPrice,
+    imageUrl: productImageUrl
   });
 
   const existingProduct = productData.find(item => item.name === productName);
