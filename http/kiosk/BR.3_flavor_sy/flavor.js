@@ -122,6 +122,31 @@ function updateSelectionUI() {
     div.addEventListener('click', () => {
       selectedFlavorsBySlot[currentSlotIndex].splice(index, 1);
       updateSelectionUI();
+
+      // 선택 개수에 따라 slot-image 추가/제거
+      const slotBoxes = document.querySelectorAll('.slot-box');
+      const currentBox = slotBoxes[currentSlotIndex];
+      const currentProduct = selectedProducts[currentSlotIndex];
+      const tempProductData = JSON.parse(sessionStorage.getItem('tempProductData')) || [];
+      const imageUrl = tempProductData[0]?.imageUrl;
+
+      if (currentBox) {
+        const existingImage = currentBox.querySelector('.slot-image');
+        if (currentFlavors.length === currentProduct.flavorsRequired) {
+          if (!existingImage && imageUrl) {
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = "상품 이미지";
+            img.classList.add('slot-image');
+            currentBox.appendChild(img);
+          }
+        } else {
+          if (existingImage) {
+            existingImage.remove();
+          }
+        }
+      }
+
     });
     selectedFlavorArea.appendChild(div);
   });
