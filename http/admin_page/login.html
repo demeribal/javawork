@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+<script src="https://www.google.com/recaptcha/api.js"></script>
 </head>
 <body>
     <div class="login-container">
@@ -16,7 +17,9 @@
             <form method="post" onsubmit="return false;">
                 <input type="text" id="username" name="username" class="input-field" placeholder="id" />
                 <input type="password" id="password" name="password" class="input-field" placeholder="Password" />
-                <button type="submit" class="login-button">Login</button>
+                <div class="g-recaptcha" id="recaptcha" data-sitekey="6LegjhwrAAAAAFu8TsLl3ipZl-h8PAy11SCVIyA7"></div>
+                <button type="button" class="login-button" onclick="onSubmit()">Login</button>
+
             </form>
         </div>
     </div>

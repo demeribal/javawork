@@ -6,12 +6,14 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import com.kiosk.login.DTO.LoginDTO;
 import com.kiosk.login.entity.User;
@@ -31,6 +33,11 @@ public class LoginController {
 	public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO, HttpServletRequest request) {
 	    System.out.println("로그인 요청 들어옴!"); // 디버깅용 추후에 삭제
 	    System.out.println("입력값: " + loginDTO); // 디버깅용 추후에 삭제
+	    
+	    String recaptchaToken = loginDTO.getRecaptchaToken();
+	    if (!verifyRecaptcha(recaptchaToken)) {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("message", "reCAPTCHA 인증 실패"));
+	    }
 
 	    String username = loginDTO.getUsername();
 	    String password = loginDTO.getPassword();
@@ -61,6 +68,30 @@ public class LoginController {
 	}
 
 	
+	private boolean verifyRecaptcha(String token) {
+	    String secret ="6LegjhwrAAAAAKvCs6RcSUSjeCyk3btxjkek3CIE";
+	    String url = "https://www.google.com/recaptcha/api/siteverify";
+
+	    RestTemplate restTemplate = new RestTemplate();
+
+	    MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+	    params.add("secret", secret);
+	    params.add("response", token);
+
+	    try {
+	        Map<String, Object> response = restTemplate.postForObject(url, params, Map.class);
+	        if (response != null && Boolean.TRUE.equals(response.get("success"))) {
+	            Double score = (Double) response.get("score");
+	            System.out.println("리캡챠 점수: " + score);
+	            return score >= 0.5; // 0.5 이상이면 통과
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return false;
+	}
+
+
 	//user api
 	@GetMapping("/all")
     public List<User> getAllUsers() {
