@@ -1,5 +1,5 @@
 http 변경사항
-tomhoon.duckdns.org
+tomhoon.duckdns.org:8882
 
 <KIOSK>
 BR.3_flavor_sy/flavor.js
