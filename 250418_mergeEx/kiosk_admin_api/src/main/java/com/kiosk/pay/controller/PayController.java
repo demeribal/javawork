@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kiosk.pay.model.Pay;
-import com.kiosk.pay.DTO.PayDTO;
+import com.kiosk.pay.model.PayDTO;
 import com.kiosk.pay.service.PayService;
 
 import lombok.RequiredArgsConstructor;
@@ -36,18 +36,8 @@ public class PayController {
     }
 
     @GetMapping
-    public List<Pay> getPays(
-        @RequestParam(required = false) String fromDate,
-        @RequestParam(required = false) String toDate,
-        @RequestParam(defaultValue = "desc") String order
-    ) {
-        if (fromDate != null && toDate != null) {
-            return payService.getPaysBetweenDates(fromDate, toDate, order);
-        } else {
-            return payService.getAllPayOrdered(order);
-        }
+    public List<Pay> getPays() {
+        return payService.getAllPay();
     }
-
-
 }
 

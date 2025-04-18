@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kiosk.pay.mapper.PayMapper;
 import com.kiosk.pay.model.Pay;
-import com.kiosk.pay.DTO.PayDTO;
+import com.kiosk.pay.model.PayDTO;
 
 @Service
 public class PayService {
@@ -25,17 +25,4 @@ public class PayService {
 	public List<Pay> getAllPay() {
 		return mapper.getAllPay();
 	}
-
-	public List<Pay> getPaysFiltered(String date, String order) {
-		return mapper.getPaysFiltered(date, order);
-	}
-	
-	public List<Pay> getPaysBetweenDates(String fromDate, String toDate, String order) {
-	    return mapper.getPaysBetweenDates(fromDate, toDate, order);
-	}
-
-	public List<Pay> getAllPayOrdered(String order) {
-	    return mapper.getAllPayOrdered(order);
-	}
-
 }

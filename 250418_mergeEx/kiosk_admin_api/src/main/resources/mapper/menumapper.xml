@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kiosk.menu.mapper.MenuMapper">
 
-    <!-- [1] 메뉴 등록 -->
-    <insert id="insert" parameterType="com.kiosk.menu.model.Menu">
-        INSERT INTO menu (menuName, isUse, imagePath)
-        VALUES (#{menuName}, #{isUse}, #{imagePath})
-    </insert>
-
-    <!-- [2] 전체 메뉴 조회 -->
-    <select id="selectAll" resultType="com.kiosk.menu.model.Menu">
-        SELECT * FROM menu
-    </select>
-
-    <!-- [3] 메뉴 수정 -->
-    <update id="update" parameterType="com.kiosk.menu.model.Menu">
-        UPDATE menu
-        SET menuName = #{menuName},
-            isUse = #{isUse},
-            imagePath = #{imagePath}
-        WHERE id = #{id}
-    </update>
-
-    <!-- [4] 메뉴 삭제 -->
-    <delete id="delete" parameterType="int">
-        DELETE FROM menu WHERE id = #{id}
-    </delete>
+	<!-- [1] 메뉴 등록 -->
+	<insert id="insert" parameterType="com.kiosk.menu.model.Menu">
+	INSERT INTO menu (menuName, isUse, imagePath)
+	VALUES (#{menuName}, #{isUse}, #{imagePath})
+	</insert>
+	
+	<!-- [2] 전체 메뉴 조회 -->
+	<select id="selectAll" resultType="com.kiosk.menu.model.Menu">
+	SELECT * FROM menu
+	</select>
+	
+	<!-- [3] 메뉴 수정 -->
+	<update id="update" parameterType="com.kiosk.menu.model.Menu">
+	UPDATE menu
+	SET menuName = #{menuName},
+	isUse = #{isUse},
+	imagePath = #{imagePath}
+	WHERE id = #{id}
+	</update>
+	
+	<!-- [4] 메뉴 삭제 -->
+	<delete id="delete" parameterType="int">
+	DELETE FROM menu WHERE id = #{id}
+	</delete>
 </mapper>
