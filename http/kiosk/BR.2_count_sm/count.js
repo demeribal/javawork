@@ -8,31 +8,42 @@ const waffleQuantityInput = document.querySelector('#waffle_quantity');
 const optionBox = document.querySelector(".option-item-box");
 const nextBtn = document.querySelector(".btn-choose");
 
-function checkActive() {
-  const isActive = Array.from(optionItems).some(item => item.classList.contains('active'));
-  if (isActive) {
-      nextBtn.disabled = false;
-      nextBtn.classList.add('enabled');
+
+nextBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (nextBtn.classList.contains("disabled")) {
+    alert("옵션 / 수량을 선택해 주세요");
   } else {
-      nextBtn.disabled = true;
-      nextBtn.classList.remove('enabled');
+    location.href = '../BR.3_flavor_sy/flavor.html';
+  }
+});
+
+
+
+function checkActive() {
+  const isActive = Array.from(optionItems).some(item => item.classList.contains("active")
+  );
+
+  if (isActive) {
+    nextBtn.classList.remove("disabled");
+    nextBtn.classList.add("enabled");
+  } else {
+    nextBtn.classList.add("disabled");
+    nextBtn.classList.remove("enabled");
   }
 }
-
-
-
 // 옵션 클릭하면 활성화
 optionItems.forEach(option => {
-  option.addEventListener('click', () => {
-      // 클릭되면 'active' 추가
-      option.classList.add('active');
-      checkActive();
+  option.addEventListener("click", () => {
+    option.classList.add("active");
+    checkActive();
   });
 });
 
+
 // 페이지 로드시 비활성화
-window.addEventListener('DOMContentLoaded', () => {
-  nextBtn.disabled = true;
+window.addEventListener("DOMContentLoaded", () => {
+  nextBtn.classList.add("disabled");
 });
 
 function updateNextButtonState() {
@@ -52,7 +63,6 @@ function updateNextButtonState() {
     nextBtn.classList.add('disabled'); // 필요하면 스타일 조정
   }
 }
-
 
 // html 요소 가져오기
 const productNameEl = document.getElementById('product-name');
@@ -146,6 +156,10 @@ document.addEventListener("DOMContentLoaded", function() {
           cupOption.parentElement.style.display = 'flex';
           cupOption.parentElement.style.justifyContent = 'center';
         }
+        const cupName = cupOption.querySelector('.option-name');
+        if (cupName) {
+          cupName.textContent = '컵';
+        }
       } else {
         // 콘이나 와플콘도 선택지에 있으면 다 보이게
         if (cornOption) cornOption.parentElement.style.display = 'flex';
@@ -153,34 +167,41 @@ document.addEventListener("DOMContentLoaded", function() {
         if (cupOption) cupOption.parentElement.style.display = 'flex';
       }
   
-      const cupName = cupOption.querySelector('.option-name');
-      if (cupName) {
-        cupName.textContent = '컵';
-      }
+      
     }
-  } else {
-    console.error('해당하는 상품을 찾을 수 없습니다:', name);
   }
-  
+
+
 })
+  //-+ 비활성
+
+  
+
+
+  
 optionItems.forEach(option => {
   const decreaseButton = option.querySelector('.btn-decrease');
   const increaseButton = option.querySelector('.btn-increase');
-  const quantityDisplay = option.querySelector('.quantity');
+  //const quantity = option.querySelector(".quantity");
 
   // 수량 초기화 함수
   function resetOtherQuantities() {
       optionItems.forEach(item => {
-          // 선택되지 않은 옵션의 수량을 초기화
-          if (item !== option) {
-              const itemQuantity = item.querySelector('.quantity');
-              const itemInput = item.querySelector('.quantity-input');  // 'quantity-input' 정확히 찾기
-              if (itemQuantity) {
-                  itemQuantity.textContent = 1; // 수량 초기화
-              }
-              if (itemInput) {
-                  itemInput.value = 1; // hidden input 수량 초기화
-              }
+        const decreaseButton = item.querySelector('.btn-decrease');
+        const increaseButton = item.querySelector('.btn-increase');
+        // 선택되지 않은 옵션의 수량을 초기화
+        if (item !== option) {
+          
+            const itemQuantity = item.querySelector('.quantity');
+            const itemInput = item.querySelector('.quantity-input'); 
+            decreaseButton.style.visibility = 'hidden';
+            increaseButton.style.visibility = 'hidden';
+            if (itemQuantity) {
+                itemQuantity.textContent = 0; // 수량 초기화
+            }
+            if (itemInput) {
+                itemInput.value = 0; // hidden input 수량 초기화
+            }
           }
       });
       
@@ -188,55 +209,76 @@ optionItems.forEach(option => {
       cupQuantityInput.value = 0;
       cornQuantityInput.value = 0;
       waffleQuantityInput.value = 0;
+      
   }
 
-  // 옵션 선택 시 수량을 초기화하고 hidden input에 반영
+ 
   option.addEventListener('click', () => {
-      optionItems.forEach(item => item.classList.remove('selected'));
-      option.classList.add('selected');
-
-      // 수량 초기화 및 업데이트
-      resetOtherQuantities();
-      updateQuantity(option);
+    // 버튼을 해당 option에서 찾아서 보이게 처리
+    const decreaseButton = option.querySelector('.btn-decrease');
+    const increaseButton = option.querySelector('.btn-increase');
+    
+    // - + 버튼 보이기
+    decreaseButton.style.visibility = 'visible';
+    increaseButton.style.visibility = 'visible';
+  
+    // 다른 옵션 선택 해제
+    optionItems.forEach(item => item.classList.remove('selected'));
+    option.classList.add('selected');
+  
+    // 다른 옵션 수량 초기화
+    resetOtherQuantities();
+  
+    // 수량을 1로 설정
+    const quantityDisplay = option.querySelector('.quantity');
+    if (parseInt(quantityDisplay.textContent, 10) === 0) {
+      quantityDisplay.textContent = '1';
+    }
+  
+    // hidden input 반영
+    updateQuantity(option);
   });
-
+  
   // 수량 감소
   decreaseButton.addEventListener('click', function() {
-      let quantity = parseInt(quantityDisplay.textContent, 10);
-      if (quantity > 1) {
-          quantity--;
-          quantityDisplay.textContent = quantity;
-          updateQuantity(option); // 수량 변경 시 hidden input에 반영
-      }
-  });
-
-  // 수량 증가
-  increaseButton.addEventListener('click', function() {
-      let quantity = parseInt(quantityDisplay.textContent, 10);
-      quantity++;
+    const quantityDisplay = option.querySelector('.quantity');
+    let quantity = parseInt(quantityDisplay.textContent, 10);
+    if (quantity > 1) {
+      quantity--;
       quantityDisplay.textContent = quantity;
       updateQuantity(option); // 수량 변경 시 hidden input에 반영
+    }
   });
-
+  
+  // 수량 증가
+  increaseButton.addEventListener('click', function() {
+    const quantityDisplay = option.querySelector('.quantity');
+    let quantity = parseInt(quantityDisplay.textContent, 10);
+    quantity++;
+    quantityDisplay.textContent = quantity;
+    updateQuantity(option); // 수량 변경 시 hidden input에 반영
+  });
+  
   // 수량을 hidden input에 반영하는 함수
   function updateQuantity(option) {
-      const quantity = parseInt(option.querySelector('.quantity').textContent, 10);
-
-      // 각 옵션에 맞는 hidden input에 수량을 반영
-      if (option.id === 'cup-option') {
-          cupQuantityInput.value = quantity > 0 ? quantity : 0;
-      } else if (option.id === 'corn-option') {
-          cornQuantityInput.value = quantity > 0 ? quantity : 0;
-      } else if (option.id === 'waffle-option') {
-          waffleQuantityInput.value = quantity > 0 ? quantity : 0;
-      }
-
-      // 디버깅을 위한 로그
-      console.log('cup:', cupQuantityInput.value);
-      console.log('corn:', cornQuantityInput.value);
-      console.log('waffle:', waffleQuantityInput.value);
-      updateProductData();
+    const quantity = parseInt(option.querySelector('.quantity').textContent, 10);
+  
+    // 각 옵션에 맞는 hidden input에 수량을 반영
+    if (option.id === 'cup-option') {
+      cupQuantityInput.value = quantity > 0 ? quantity : 0;
+    } else if (option.id === 'corn-option') {
+      cornQuantityInput.value = quantity > 0 ? quantity : 0;
+    } else if (option.id === 'waffle-option') {
+      waffleQuantityInput.value = quantity > 0 ? quantity : 0;
+    }
+  
+    // 디버깅을 위한 로그
+    console.log('cup:', cupQuantityInput.value);
+    console.log('corn:', cornQuantityInput.value);
+    console.log('waffle:', waffleQuantityInput.value);
+    updateProductData();
   }
+  
 });
 
 function addSessionProductData() {
@@ -290,14 +332,8 @@ function updateProductData() {
 
 function goBack() {
   sessionStorage.removeItem("tempProductData");
-  history.back();
+  window.location.href = "../BR.1_menu_hb/menu.html";
 }
-
-
-
-
-
-
 
 
 

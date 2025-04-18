@@ -313,7 +313,7 @@ function fetchPayList({ fromDate = '', toDate = '', order = 'desc' } = {}) {
     queryParams.append('toDate', toDate);
   }
 
-  fetch(`http://tomhoon.duckdns.org/api/pay?${queryParams.toString()}`)
+  fetch(`http://tomhoon.duckdns.org:8882/api/pay?${queryParams.toString()}`)
   .then(res => res.json())
   .then(data => {
     const tbody = document.getElementById("pay-table-body");
@@ -338,7 +338,7 @@ function fetchPayList({ fromDate = '', toDate = '', order = 'desc' } = {}) {
       row.innerHTML = `
         <td>${index + 1}</td>
         <td>${pay.paymentmethod}</td>
-        <td>${pay.paymentstatus}</td>
+        <td>${pay.paymenthistory}</td>
         <td>${pay.amount.toLocaleString()}</td>
         <td>${formatDate(pay.paidat)}</td>
         <td>강서지점</td>

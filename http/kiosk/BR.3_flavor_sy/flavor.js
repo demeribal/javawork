@@ -46,16 +46,46 @@ function onFlavorItemClick(e) {
   currentFlavors.push({ imgSrc, name: flavorName });
 
   updateSelectionUI();
-
+/*
   // 선택 완료됐으면 다음 슬롯으로 이동
   if (currentFlavors.length === currentProduct.flavorsRequired &&
-    currentSlotIndex < selectedProducts.length - 1) {
+    currentSlotIndex < selectedProducts.length) {
 
     setTimeout(() => {
       currentSlotIndex++;
       updateSelectionUI();
   }, 400);
   }
+  if(currentFlavors.length === currentProduct.flavorsRequired &&
+    currentSlotIndex < selectedProducts.length-1){
+    
+  }*/
+
+    const tempProductData = JSON.parse(sessionStorage.getItem('tempProductData')) || [];
+    const imageUrl = tempProductData[0]?.imageUrl;
+    
+    if (currentFlavors.length === currentProduct.flavorsRequired) {
+      const slotBoxes = document.querySelectorAll('.slot-box');
+      const currentBox = slotBoxes[currentSlotIndex];
+    
+      if (imageUrl && currentBox && !currentBox.querySelector('img')) {
+        const img = document.createElement('img');
+        img.src = imageUrl; 
+        img.alt = "상품 이미지"; 
+        img.classList.add('slot-image');
+        currentBox.appendChild(img);
+      }
+    
+      // 마지막 슬롯이 아니면 다음 슬롯으로 이동
+      if (currentSlotIndex < selectedProducts.length - 1) {
+        setTimeout(() => {
+          currentSlotIndex++;
+          updateSelectionUI();
+        }, 400);
+      }
+    }
+
+    
 } 
 
   //슬롯 화살표 위치 함수
@@ -92,6 +122,31 @@ function updateSelectionUI() {
     div.addEventListener('click', () => {
       selectedFlavorsBySlot[currentSlotIndex].splice(index, 1);
       updateSelectionUI();
+
+      // 선택 개수에 따라 slot-image 추가/제거
+      const slotBoxes = document.querySelectorAll('.slot-box');
+      const currentBox = slotBoxes[currentSlotIndex];
+      const currentProduct = selectedProducts[currentSlotIndex];
+      const tempProductData = JSON.parse(sessionStorage.getItem('tempProductData')) || [];
+      const imageUrl = tempProductData[0]?.imageUrl;
+
+      if (currentBox) {
+        const existingImage = currentBox.querySelector('.slot-image');
+        if (currentFlavors.length === currentProduct.flavorsRequired) {
+          if (!existingImage && imageUrl) {
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = "상품 이미지";
+            img.classList.add('slot-image');
+            currentBox.appendChild(img);
+          }
+        } else {
+          if (existingImage) {
+            existingImage.remove();
+          }
+        }
+      }
+
     });
     selectedFlavorArea.appendChild(div);
   });
@@ -216,7 +271,7 @@ tempProductData.forEach(product => {
     }));
 
     // 페이지 이동
-      location.href = '../BR.3-1_menu2_hb/menu.html';
+      location.href = '../BR.1_menu_hb/menu.html';
     }, 100);
   });
   
@@ -232,7 +287,7 @@ tempProductData.forEach(product => {
 });
 
   //--10. menuAPI fetch
-  fetch("http://tomhoon.duckdns.org/api/menus")
+  fetch("http://tomhoon.duckdns.org:8882/api/menus")
   // API 주소 확인
     .then(res => res.json())
     .then(data => {
@@ -243,7 +298,7 @@ tempProductData.forEach(product => {
         const item = document.createElement("div");
         item.className = "flavor-item";
 
-      const serverURL = 'tomhoon.duckdns.org:8080';
+      const serverURL = 'http://tomhoon.duckdns.org:8882';
       
       const encodedImagePath = encodeURI(menu.imagePath);
       item.innerHTML = `

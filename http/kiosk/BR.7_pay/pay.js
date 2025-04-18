@@ -42,8 +42,9 @@ function closeAlert() {
   
     // 세션 값 불러오기
     const priceData = JSON.parse(sessionStorage.getItem('priceData')) || {};
+    const productData = JSON.parse(sessionStorage.getItem('productData')) || [];
     const paymentmethod = document.querySelector('.method.active')?.innerText || '카드';
-    const paymentstatus = '결제완료';
+    const paymenthistory = productData.map(p => p.name).join(', ');
     const amount = priceData.paymentPrice || 0;
     const paidat = new Date().toISOString();
     const storelocation = '강서지점';
@@ -51,15 +52,16 @@ function closeAlert() {
   
     const payload = {
       paymentmethod,
-      paymentstatus,
+      paymenthistory,
       amount,
       paidat,
       storelocation,
-      paycode
+      paycode,
+      menuId: null
     };
-  
+    
   // 🔽 API 요청 (POST)
-  fetch('http://tomhoon.duckdns.org/api/pay', {
+  fetch('http://tomhoon.duckdns.org:8882/api/pay', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
@@ -69,7 +71,7 @@ function closeAlert() {
       return res.text(); // 또는 res.json()
     })
     .then(() => {
-      // 성공 시 페이지 이동
+      alert('✅ 결제 정보가 전송되었습니다.');
       window.location.href = '../BR.8_success_wj/success.html';
     })
     .catch(err => {
