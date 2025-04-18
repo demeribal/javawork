@@ -43,13 +43,13 @@ CREATE TABLE stock (
 );
 
 CREATE TABLE pay (
-    id INT AUTO_INCREMENT PRIMARY KEY COMMENT '결제 식별자',
-    paymentmethod VARCHAR(50) NOT NULL COMMENT '결제수단',
-    paymenthistory VARCHAR(50) COMMENT '결제이력',
-    amount INT NOT NULL COMMENT '결제금액',
-    paidat DATETIME COMMENT '결제일',
-    store_location VARCHAR(100) COMMENT '결제지점',
-    paycode VARCHAR(50) COMMENT '결제 코드'
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    pay_code VARCHAR(50),
+    payment_method VARCHAR(50),
+    payment_history VARCHAR(255),
+    amount INT,
+    paid_at TIMESTAMP,
+    store_location VARCHAR(100)
 );
 
 CREATE TABLE message (
@@ -119,12 +119,11 @@ VALUES (3, '상봉본점');
 INSERT INTO office (user_Id, office_Name)
 VALUES (4, '하남본점');
 
-INSERT INTO pay (paymentmethod, paymenthistory, amount, paidat, store_location, paycode)
-VALUES ('카드', '싱글킹', 4800, '2025-04-18 10:30:00', '강서지점', 'P10001');
-INSERT INTO pay (paymentmethod, paymenthistory, amount, paidat, store_location, paycode)
-VALUES ('현금', '쿼터', 14500, '2025-04-18 11:00:00', '강서지점', 'P10002');
-INSERT INTO pay (paymentmethod, paymenthistory, amount, paidat, store_location, paycode)
-VALUES ('카카오페이', '파인트', 9100, '2025-04-18 11:15:00', '강서지점', 'P10003');
+INSERT INTO pay (pay_code, payment_method, payment_history, amount, paid_at, store_location)
+VALUES 
+('PAY-001', '카드', '파인트', 7900, '2025-04-18T10:00:00', '강서지점'),
+('PAY-002', '네이버페이', '쿼터', 15500, '2025-04-18T10:30:00', '강서지점'),
+('PAY-003', '카카오페이', '하프갤런', 24500, '2025-04-18T11:00:00', '강서지점');
 
 INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (1, '010-1234-5678', NOW(), 1);
 INSERT INTO message (pay_Id, phone_Number, send_Time, is_Sent) VALUES (2, '010-2345-6789', NOW(), 1);
