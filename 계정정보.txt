@@ -1,0 +1,150 @@
+#mac mini server
+tomhoon.duckdns.org:20022
+
+#docker
+ssh:22222:22 / nginx:9998:80 /tomcat(restpai):8882:8080 / mariadb:33302:3306
+
+webserver: ssh, nginx, tomcat: 동일한 docker linux => ssh를 통해 접속
+mariadb 별도 docker 사용
+문제: webserver에서 22, 80만 열려있는 docker때문에 8080 서비스 할 수 없음
+8882:8080을 추가하여 docker를 새로 열기 (기존 docker는 제거 후 container생성)
+
+#AWS에 위 프로그램 등록: 개발원에서 제공
+
+#보안 리뉴얼
+
+포트번호
+B(김수윤)팀 nginx 9998 db 33302
+
+id: john
+pw: johnadzc1313!
+
+DB정보
+hostname: tomhoon.duckdns.org
+port: 13306
+id: sangbong1
+pw: qead1313!
+
+putty
+포트 번호: 20022
+
+restAPI: 8882
+
+------------------------------
+**웹사이트 여는 법**
+
+1. Putty 실행
+
+2.접속 로그인
+tomhoon.duckdns.org
+20022
+
+3. 원격 dockr확인
+docker ps
+
+4. 원격 도커 ngnix서버 실행
+docker exec -it <컨테이너 ID입력> /bin/bash
+ex) docker exec -it 9c /bin/bash
+=> 중복 없으면 ID는 단축해서 사용 가능
+=> 우리 container: 9c69b8ce571c
+
+5. ssh 실행
+service ssh start
+
+6. 파일질라 실행 후 접속
+hostname: tomhoon.duckdns.org
+사용자명: root
+비밀번호: 1234
+포트: 22222
+=> 안될경우 파일 -> 사이트관리자에서 
+프로토콜: SFTP로 변경 후 다시 입력하여 연결
+
+7. 원격 사이트의 /usr/share/nginx/html 이동 후 배포
+(원격 사이트의 파일을 더블클릭 시 다운로드됨.)
+
+---------------------------- 
+**mariaDB 접속**
+mariadb -u root -p
+비밀번호: 1234
+
+--DB목록 조회
+show databases;
+
+--DB 삭제
+DROP DATABASE 데이터베이스이름;
+=> ex) DROP DATABASE BR_Table
+
+--DB 생성
+CREATE DATABASE 데이터베이스이름;
+=> ex) CREATE DATABASE BR_Table
+
+--생성한 DB로 이동
+use 이동할 DB이름
+=> ex) use BR_Table
+
+--테이블 생성, insert문 삽입
+
+---------------------------- 
+**jar파일 실행**
+
+ssh root@tomhoon.duckdns.org -p 22222
+비밀번호:1234
+cd /opt/myapp
+ls => 여기에 파일질라에서 올린 jar파일 있음
+java -jar adminPage.jar 
+=>여기서 -bash: java: command not found 이렇게 뜨면 아래 java 설치 참고
+java -jar adminPage.jar
+
+java -jar kiosk-0.0.1-SNAPSHOT.jar
+
+
+----------------------------------------------
+**java 설치**
+apt update
+apt install openjdk-17-jdk
+export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
+
+---------------------------------------------------------------------
+**git 설치**
+apt install git 
+git clone git주소 ( 대신 docker cp ./test-0.0.1-SNAPSHOT.jar f3:/) ->f3은 컨테이너아이디
+docker commit b3ed864ffd02 backendserver:v1
+
+---------------------------------------------------------------------------------------
+배포시 수정사항
+fetch url 변경
+tomhoon.duckdns.org:8882
+수정해도 안되면 ctrl + 
+-------------------------------------------------------
+**sping 백그라운드 실행**
+kill [PID]
+=>기존에 사용 중인 프로세스 있으면 종료 
+=>ex) kill 36985
+
+ps -ef | grep kiosk
+=> 실행확인
+
+nohup java -jar kiosk-0.0.1-SNAPSHOT.jar &
+=> 백그라운드 실행
+
+tail -f output.log
+=>실시간 로그 확인
+
+ps -ef | grep kiosk
+=> 실행 확인
+
+지금 실행된 프로세스 종료
+kill -9 [PID]
+
+확인
+ps -ef | grep kiosk
+tail -f output.log
+-------------------------------------------------------------------
+rm -rf /usr/share/nginx/html/kiosk/*
+=> 컨테이너 이동 후 파일 안에 내용 삭제
+rm -rf /opt/myapp/*
+
+docker cp kiosk/. b81de0f45337:/usr/share/nginx/html/kiosk/
+
+docker cp kiosk-0.0.1-SNAPSHOT.jar b8:/opt/myapp/
+=> 파일 카피
