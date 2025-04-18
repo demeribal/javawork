@@ -12,3 +12,9 @@ document.addEventListener("DOMContentLoaded", function() {
       window.location.href = '../../index.html'; 
     });
   });
+
+  const favicon = document.createElement("link");
+  favicon.rel = "icon";
+  favicon.href = "../../images/baskin_logo.png";
+  favicon.type = "image/png";
+  document.head.appendChild(favicon);

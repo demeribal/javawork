@@ -1,16 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kiosk.pay.mapper.PayMapper">
-  <insert id="insert" parameterType="com.kiosk.pay.model.PayDTO">
-    INSERT INTO pay (pay_code, menu_id, payment_method, payment_status, amount, paid_at)
-    VALUES (#{paycode}, #{menuId}, #{paymentmethod}, #{paymentstatus}, #{amount}, #{paidat})
-  </insert>
+<insert id="insert" parameterType="com.kiosk.pay.DTO.PayDTO">
+  INSERT INTO pay (pay_code, payment_method, payment_history, amount, paid_at, store_location)
+  VALUES (#{paycode}, #{paymentmethod}, #{paymenthistory}, #{amount}, #{paidat}, #{storeLocation})
+</insert>
 
-  <select id="getAllPay" resultType="com.kiosk.pay.model.Pay">
-    SELECT id, pay_code AS paycode,
-           payment_method AS paymentmethod, payment_status AS paymentstatus,
-           amount, paid_at AS paidat
-    FROM pay
-    ORDER BY paid_at DESC
-  </select>
+<select id="getAllPay" resultType="com.kiosk.pay.DTO.PayDTO">
+  SELECT
+    p.id,
+    p.pay_code AS paycode,
+    p.payment_method AS paymentmethod,
+    p.payment_history AS paymenthistory,
+    p.amount,
+    p.paid_at AS paidat,
+    p.store_location AS storeLocation
+  FROM pay p
+  ORDER BY p.paid_at DESC
+</select>
+  
+  <select id="getPaysFiltered" resultType="com.kiosk.pay.model.Pay">
+  SELECT id, pay_code AS paycode,
+         payment_method AS paymentmethod, payment_history AS paymenthistory,
+         amount, paid_at AS paidat
+  FROM pay
+  <where>
+    <if test="date != null and date != ''">
+      DATE(paid_at) = #{date}
+    </if>
+  </where>
+  ORDER BY paid_at
+  <choose>
+    <when test="order == 'asc'">ASC</when>
+    <otherwise>DESC</otherwise>
+  </choose>
+</select>
+
+<select id="getPaysBetweenDates" resultType="com.kiosk.pay.model.Pay">
+  SELECT id, pay_code AS paycode,
+         payment_method AS paymentmethod, payment_history AS paymenthistory,
+         amount, paid_at AS paidat
+  FROM pay
+  WHERE DATE(paid_at) BETWEEN #{fromDate} AND #{toDate}
+  ORDER BY paid_at
+  <choose>
+    <when test="order == 'asc'">ASC</when>
+    <otherwise>DESC</otherwise>
+  </choose>
+</select>
+
+<select id="getAllPayOrdered" resultType="com.kiosk.pay.model.Pay">
+  SELECT id, pay_code AS paycode,
+         payment_method AS paymentmethod, payment_history AS paymenthistory,
+         amount, paid_at AS paidat
+  FROM pay
+  ORDER BY paid_at
+  <choose>
+    <when test="order == 'asc'">ASC</when>
+    <otherwise>DESC</otherwise>
+  </choose>
+</select>
+
 </mapper>

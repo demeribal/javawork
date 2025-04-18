@@ -46,16 +46,46 @@ function onFlavorItemClick(e) {
   currentFlavors.push({ imgSrc, name: flavorName });
 
   updateSelectionUI();
-
+/*
   // 선택 완료됐으면 다음 슬롯으로 이동
   if (currentFlavors.length === currentProduct.flavorsRequired &&
-    currentSlotIndex < selectedProducts.length - 1) {
+    currentSlotIndex < selectedProducts.length) {
 
     setTimeout(() => {
       currentSlotIndex++;
       updateSelectionUI();
   }, 400);
   }
+  if(currentFlavors.length === currentProduct.flavorsRequired &&
+    currentSlotIndex < selectedProducts.length-1){
+    
+  }*/
+
+    const tempProductData = JSON.parse(sessionStorage.getItem('tempProductData')) || [];
+    const imageUrl = tempProductData[0]?.imageUrl;
+    
+    if (currentFlavors.length === currentProduct.flavorsRequired) {
+      const slotBoxes = document.querySelectorAll('.slot-box');
+      const currentBox = slotBoxes[currentSlotIndex];
+    
+      if (imageUrl && currentBox && !currentBox.querySelector('img')) {
+        const img = document.createElement('img');
+        img.src = imageUrl; 
+        img.alt = "상품 이미지"; 
+        img.classList.add('slot-image');
+        currentBox.appendChild(img);
+      }
+    
+      // 마지막 슬롯이 아니면 다음 슬롯으로 이동
+      if (currentSlotIndex < selectedProducts.length - 1) {
+        setTimeout(() => {
+          currentSlotIndex++;
+          updateSelectionUI();
+        }, 400);
+      }
+    }
+
+    
 } 
 
   //슬롯 화살표 위치 함수
@@ -216,7 +246,7 @@ tempProductData.forEach(product => {
     }));
 
     // 페이지 이동
-      location.href = '../BR.3-1_menu2_hb/menu.html';
+      location.href = '../BR.1_menu_hb/menu.html';
     }, 100);
   });
   
