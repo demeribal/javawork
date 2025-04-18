@@ -1,5 +1,12 @@
+
+const priceData = JSON.parse(sessionStorage.getItem('priceData'));
+const discountAmountElement = document.querySelector(".discount-amount");
+const totalAmountElement = document.querySelector(".total-amount");
+const orderAmountElement = document.querySelector('.order-amount');
+
 // 페이지 로드 시 초기화
 document.addEventListener('DOMContentLoaded', function() {
+    
     // 현재 페이지 확인 및 탭 활성화
     const currentPage = window.location.pathname.split('/').pop();
     if (currentPage.includes('../BR.5_point_hm/point.html')) {
@@ -30,6 +37,11 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
     }
+
+    //수미 금액 관련 코드
+    orderAmountElement.innerText = `₩${priceData.totalAmount.toLocaleString()}`;  
+    discountAmountElement.innerText = `₩${priceData.discountAmount.toLocaleString()}`;  
+    totalAmountElement.innerText = `₩${priceData.paymentPrice.toLocaleString()}`; 
 });
 
 // 탭 전환 기능
@@ -50,6 +62,7 @@ function showTab(tabName) {
     } else if (tabName === 'coupon') {
         window.location.href = '../BR.6_coupon_hm/coupon.html';
     }
+    
 }
 
 // 옵션 선택 기능
@@ -69,7 +82,7 @@ function selectOption(button) {
     const buttonText = button.querySelector('p') ? 
                        button.querySelector('p').innerText : 
                        button.innerText;
-    
+    /*
     if (buttonText.includes("KT 할인")) {
         document.querySelector(".discount-amount").innerText = "₩500";
         document.querySelector(".total-amount").innerText = "₩12,300";
@@ -79,8 +92,30 @@ function selectOption(button) {
     } else {
         document.querySelector(".discount-amount").innerText = "₩0";
         document.querySelector(".total-amount").innerText = "₩12,800";
+    }*/
+
+    //수미 할인 적용
+    if (buttonText.includes("KT 할인")) {
+        discountAmount = 500; 
+        finalAmount = priceData.totalAmount - discountAmount;
+    } else if (buttonText.includes("임직원 할인")) {
+        discountAmount = 300;
+        finalAmount = priceData.totalAmount - discountAmount;
+    } else {
+        discountAmount = 0;
+        finalAmount = priceData.totalAmount;
     }
+    priceData.discountAmount = discountAmount;
+    priceData.paymentPrice = finalAmount;
+    
+    discountAmountElement.innerText = `₩${discountAmount.toLocaleString()}`;
+    totalAmountElement.innerText = `₩${finalAmount.toLocaleString()}`;
+    
+    sessionStorage.setItem('priceData', JSON.stringify(priceData));
+
 }
+
+
 
 // 결제 취소
 function cancelPayment() {
