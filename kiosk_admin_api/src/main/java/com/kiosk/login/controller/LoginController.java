@@ -69,7 +69,7 @@ public class LoginController {
 
 	
 	private boolean verifyRecaptcha(String token) {
-	    String secret ="6LegjhwrAAAAAKvCs6RcSUSjeCyk3btxjkek3CIE";
+	    String secret = "6LegjhwrAAAAAKvCs6RcSUSjeCyk3btxjkek3CIE";
 	    String url = "https://www.google.com/recaptcha/api/siteverify";
 
 	    RestTemplate restTemplate = new RestTemplate();
@@ -79,16 +79,18 @@ public class LoginController {
 	    params.add("response", token);
 
 	    try {
+	        // 리캡챠 확인 요청
 	        Map<String, Object> response = restTemplate.postForObject(url, params, Map.class);
+	        
+	        // "success"가 true이면 인증 성공
 	        if (response != null && Boolean.TRUE.equals(response.get("success"))) {
-	            Double score = (Double) response.get("score");
-	            System.out.println("리캡챠 점수: " + score);
-	            return score >= 0.5; // 0.5 이상이면 통과
+	            return true;
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
-	    return false;
+	    return false;  // 인증 실패
+	    
 	}
 
 
