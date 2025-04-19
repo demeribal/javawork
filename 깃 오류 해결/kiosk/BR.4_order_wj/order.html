@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>베스킨라빈스 키오스크</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/kiosk/BR.4_order_wj/order.css">
+    <script src="/kiosk/all.js"></script>
+</head>
+<body>
+    <!-- 헤더 영역 -->
+    <header class="header">
+        <div class="logo"></div>
+
+        <a href="#" id="exit-button"><img src="/kiosk/BR.4_order_wj/images/close-btn.png" class="close-btn exit-button" alt="Exit Button"></a>
+    </header>
+
+    <!-- 주문 확인 섹션 -->
+    <section class="step-section">
+        <div class="step-badge">
+            <span class="step-text">STEP01</span>
+        </div>
+        <span class="step-title">주문 내역을 확인해주세요</span>
+    </section>
+
+    <!-- 주문 아이템 목록 컨테이너 -->
+    <div class="item-container">
+        <div class="item-list">
+            
+        </div>
+    </div>
+
+    <!-- 결제 섹션 -->
+    <section class="payment-section">
+        <div class="payment-header">
+            <div class="payment-step-badge">
+                <span class="step-text">STEP01</span>
+            </div>
+            <span class="payment-title">결제 방법을 선택해주세요</span>
+            <span class="total-price"></span>
+        </div>
+
+        <div class="payment-options">
+            <div class="cash-option">
+                <span class="cash-text">현금</span>
+            </div>
+            <div class="card-option">
+                <span class="card-main-text">신용카드</span>
+                <div class="card-sub-options">
+                    <div class="card-sub-option">모바일상품권</div>
+                    <div class="card-sub-option">각종PAY</div>
+                    <div class="card-sub-option">APP카드</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="/kiosk/BR.4_order_wj/order.js"></script>
+</body>
+</html>
