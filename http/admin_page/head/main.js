@@ -52,11 +52,16 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(`.tab[data-tab="${defaultTab}"]`).classList.add("active");
   document.getElementById(`${defaultTab}-content`).classList.add("active");
 
-  loadTabAssets(defaultTab);
   fetch(`${defaultTab}.html`)
     .then((res) => res.text())
     .then((html) => {
       document.getElementById(`${defaultTab}-data-area`).innerHTML = html;
+      
+      loadTabAssets(defaultTab, () => {
+        if (defaultTab === 'stock' && typeof window.fetchOrderList === 'function') {
+          window.fetchOrderList();
+        }
+      });
     })
     .catch((err) => console.error("초기 stock.html 로딩 실패:", err));
 

@@ -1,242 +1,47 @@
-<!DOCTYPE html>
-<link rel="stylesheet" href="stock.css">
+<div class="table-wrapper">
+    <div class="tbody-scroll">
+      <table class="stocklist">
+        <thead class="thead-bar">
+            <tr>
+                <th>NO</th>
+                <th>지점명</th>
+                <th>메뉴명</th>
+                <th>이미지</th>
+                <th>재고량</th>
+                <th>상품상태</th>
+                <th>발주상태</th>
+                <th>발주하기</th>
+            </tr>
+        </thead>
+      <tbody id="stock-table-body">
+        <tr class="no-data" style="display: none;">
+          <td colspan="7" style="text-align:center; padding: 30px; color: #888;">
+            조회 내역이 없습니다
+          </td>
+        </tr>
+      </tbody>
+      </table>
+  </div>
 
-            <table class="orderlist">
-                <thead>
-                    <tr>
-                        <th>NO</th>
-                        <th>지점명</th>
-                        <th>메뉴명</th>
-                        <th>이미지파일주소</th>
-                        <th>재고량</th>
-                        <th>상품상태</th>
-                        <th>발주상태</th>
-                        <th>발주하기</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- 데이터가 없는 상태 -->
-                    <tr class="order" data-branch="gangseo">
-                        <td>1</td>
-                        <td>강서지점</td>
-                        <td>초코나무숲</td>
-                        <td>http://본사주소.com/images/test.png</td>
-                        <td>
-                            <img src="/images/nostock.svg">
-                        </td>
-                        <td>
-                            <img src="/images/stopsale.svg">
-                        </td>
-                        <td>
-                            <img src="/images/checking.svg">
-                        </td>
-                        <td>
-                            <button class="orderbutton" onclick="openOrderModal(this)">
-                                <img src="/images/orderbutton.svg">
-                              </button>
-                        </td>
+  <div id="orderModal" class="modal hidden">
+    <div class="modal-content">
+      <img src="/images/stockordermodal.svg" class="modal-svg">
+  
+      <div class="icecream-img">
+        <img id="icecreamImage" src="" alt="상품 이미지">
+      </div>
 
-                        <!-- 모달 창 -->
-                        <div id="orderModal-gangseo" class="modal hidden">
-                            <div class="modal-content">
-                                <img src="/images/stockordermodal.svg" class="modal-svg">
-                                <!-- 이미지 추가 -->
-                                <div class="icecream-img">
-                                    <img src="/images/초코나무_숲-removebg-preview.png">
-                                </div>
-                                <!-- 숫자 조절 영역 추가 -->
-                                <div class="number-control">
-                                    <button class="minus-btn">−</button>
-                                    <input type="number" class="quantity-input" value="1" min="1">
-                                    <button class="plus-btn">+</button>
-                                </div>
-                            
-                                <div class="modal-buttons">
-                                    <button class="modalCancel">취소</button>
-                                    <button class="modalConfirm">확인</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <td>
-                            <img src="/images/Frame1043.png" class="alarm-png hidden">
-                          </td>
-                        
-                    </tr>
-                    <tr class="order" data-branch="sangbong">
-                        <td>2</td>
-                        <td>상봉지점</td>
-                        <td>엄마는 외계인</td>
-                        <td>http://본사주소.com/images/test.png</td>
-                        <td>30</td>
-                        <td>
-                            <img src="/images/sale.svg">
-                        </td>
-                        <td>
-                            <img src="/images/deliverycomplete.svg">
-                        </td>
-                        <td>
-                            <button class="orderbutton" onclick="openOrderModal(this)">
-                                <img src="/images/orderbutton.svg">
-                              </button>
-                        </td>
-                        <div id="orderModal-sangbong" class="modal hidden">
-                            <div class="modal-content">
-                                <img src="/images/stockordermodal.svg" class="modal-svg">
-                                <!-- 이미지 추가 -->
-                                <div class="icecream-img">
-                                    <img src="/images/엄마는_외계인-removebg-preview.png">
-                                </div>
-                                <!-- 숫자 조절 영역 추가 -->
-                                <div class="number-control">
-                                    <button class="minus-btn">−</button>
-                                    <input type="number" class="quantity-input" value="1" min="1">
-                                    <button class="plus-btn">+</button>
-                                </div>
-                            
-                                <div class="modal-buttons">
-                                    <button class="modalCancel">취소</button>
-                                    <button class="modalConfirm">확인</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <td>
-                            <img src="/images/Frame1043.png" class="alarm-png hidden">
-                          </td>
-                    </tr>
-                    <tr class="order" data-branch="hanam">
-                        <td>3</td>
-                        <td>하남지점</td>
-                        <td>사랑에 빠진 딸기</td>
-                        <td>http://본사주소.com/images/test.png</td>
-                        <td>30</td>
-                        <td>
-                            <img src="/images/stopsale.svg">
-                        </td>
-                        
-                        <td>
-                            <img src="/images/indelivery.svg">
-                        </td>
-                        <td>
-                            <button class="orderbutton" onclick="openOrderModal(this)">
-                                <img src="/images/orderbutton.svg">
-                              </button>
-                        </td>
-
-                        <!-- 모달 창 -->
-                        <div id="orderModal-hanam" class="modal hidden">
-                            <div class="modal-content">
-                                <img src="/images/stockordermodal.svg" class="modal-svg">
-                                <!-- 이미지 추가 -->
-                                <div class="icecream-img">
-                                    <img src="/images/사랑에_빠진_딸기-removebg-preview.png">
-                                </div>
-                                <!-- 숫자 조절 영역 추가 -->
-                                <div class="number-control">
-                                    <button class="minus-btn">−</button>
-                                    <input type="number" class="quantity-input" value="1" min="1">
-                                    <button class="plus-btn">+</button>
-                                </div>
-                            
-                                <div class="modal-buttons">
-                                    <button class="modalCancel">취소</button>
-                                    <button class="modalConfirm">확인</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <td>
-                            <img src="/images/Frame1043.png" class="alarm-png hidden">
-                          </td>
-                    </tr>
-                    <tr class="order">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="order">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="order">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="order">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="order">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="order">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="order">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="order">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="no-data">
-                조회 내용이 없습니다.
-            </div>
-            
-    <script src="main.js"></script>
-</body>
-</html>
+      <div class="icecream-name" id="icecreamName"></div>
+  
+      <div class="number-control">
+        <button class="minus-btn">−</button>
+        <input type="number" class="quantity-input" value="1" min="1">
+        <button class="plus-btn">+</button>
+      </div>
+  
+      <div class="modal-buttons">
+        <button class="modalCancel">취소</button>
+        <button class="modalConfirm">확인</button>
+      </div>
+    </div>
+  </div>
