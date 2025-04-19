@@ -102,26 +102,66 @@ function loadTabAssets(tabName, callback) {
     link.setAttribute("data-tab-css", tabName);
     document.head.appendChild(link);
 
-    // JS 로딩
-    setTimeout(() => {
-      const script = document.createElement('script');
-      script.id = 'tab-script';
-      script.src = `${tabName}.js`;
 
-      script.onload = () => {
-        console.log(`${tabName}.js 로드 완료`);
-        // 로드 후 약간의 지연 시간을 두고 callback 실행
-        setTimeout(() => {
-          if (callback && typeof callback === 'function') {
-            console.log(`${tabName} 탭의 콜백 함수 실행`);
-            setTimeout(() => callback(), 50);
-          }
-        }, 50);
-      };
-      
-      document.body.appendChild(script);
-    }, 100);
+//pay탭에서만 달력 로딩
+if (tabName === 'pay') {
+  // flatpickr CSS
+  const flatpickrCSS = document.createElement('link');
+  flatpickrCSS.rel = 'stylesheet';
+  flatpickrCSS.href = 'https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css';
+  document.head.appendChild(flatpickrCSS);
+
+  const monthCSS = document.createElement('link');
+  monthCSS.rel = 'stylesheet';
+  monthCSS.href = 'https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css';
+  document.head.appendChild(monthCSS);
+
+  // flatpickr JS → 순차 로딩 필요
+  const flatpickrJS = document.createElement('script');
+  flatpickrJS.src = 'https://cdn.jsdelivr.net/npm/flatpickr';
+  flatpickrJS.onload = () => {
+    const pluginJS = document.createElement('script');
+    pluginJS.src = 'https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js';
+    pluginJS.onload = () => {
+      const langJS = document.createElement('script');
+      langJS.src = 'https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js';
+      langJS.onload = () => {
+      loadTabScript(tabName, callback); // pay.js 로드
+      loadTabScript(tabName, callback);
+    };
+    document.body.appendChild(langJS);
+  };
+  document.body.appendChild(pluginJS);
+};
+document.body.appendChild(flatpickrJS);
+
+} else {
+  // 다른 탭은 기존처럼 바로 js 로드
+  loadTabScript(tabName, callback);
 }
+}
+
+//JS 로드
+function loadTabScript(tabName, callback) {
+  setTimeout(() => {
+    const script = document.createElement('script');
+    script.id = 'tab-script';
+    script.src = `${tabName}.js`;
+
+    script.onload = () => {
+      console.log(`${tabName}.js 로드 완료`);
+      setTimeout(() => {
+        if (typeof callback === 'function') {
+          console.log(`${tabName} 탭의 콜백 함수 실행`);
+          setTimeout(() => callback(), 50);
+        }
+      }, 50);
+    };
+
+    document.body.appendChild(script);
+  }, 100);
+}
+
 
 // 통합된 행 추가 함수 - 이전의 빈 행 추가 기능도 포함
 function addEmptyRows(tbodyId, minRows = 11) {
@@ -191,7 +231,7 @@ fetch("stock.html")
    // addEmptyRows();
   });
 
-
+/*
 function addEmptyRows(tbodyId = 'pay-table-body', minRows = 11) {
   const tbody = document.getElementById(tbodyId);
   if (!tbody) return;
@@ -205,3 +245,4 @@ function addEmptyRows(tbodyId = 'pay-table-body', minRows = 11) {
     tbody.appendChild(tr);
   }
 }
+  */
