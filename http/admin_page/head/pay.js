@@ -4,7 +4,7 @@ window.fetchPayList = fetchPayList;
 
 let currentOrder = 'desc'; // 실제 적용된 정렬 값
 let tempOrder = ''; 
-let calendarIconListeners = [];
+
   
   function initPayPage() {
   // DOM 요소 참조
@@ -115,12 +115,25 @@ resetBtn?.addEventListener('click', () => {
   currentOrder = 'desc';
   fetchPayList({ order: currentOrder });
 });
+/*
+applyBtn.addEventListener('click', () => {
+  // 필요한 필터 로직 추가 가능
+  dim.style.display = 'none';
+  modal.style.display = 'none';
+
+   // 월 선택 모달 제거
+  const monthModal = document.getElementById("month-modal");
+  if (monthModal) monthModal.remove();
+
+  // 일 선택 모달 제거
+  const dayModal = document.getElementById("day-modal");
+  if (dayModal) dayModal.remove();
+});
+*/
 
 // ---------------- 달력 아이콘 클릭 시 흐름 ----------------
-document.body.addEventListener("click", function (e) {
-  const icon = e.target.closest(".calendar-icon");
-  if (!icon) return;
-  
+document.querySelectorAll(".calendar-icon").forEach(icon => {
+  icon.addEventListener("click", (e) => {
     const targetId = icon.dataset.target;
     const targetInput = document.getElementById(targetId);
 
@@ -163,36 +176,6 @@ document.body.addEventListener("click", function (e) {
           theme: "light"
         })
       ],
-
-      //월 비활성화
-      onReady: function (_, __, fp) {
-        const fromValue = fromInput?.value;
-        if (targetId === 'to-date' && fromValue) {
-          const min = new Date(fromValue);
-          const minYear = min.getFullYear();
-          const minMonth = min.getMonth(); // 0-based (0 = Jan)
-    
-          const months = fp.calendarContainer.querySelectorAll('.flatpickr-monthSelect-month');
-          months.forEach((el, i) => {
-            const monthIndex = i % 12;
-            const year = minYear + Math.floor(i / 12);
-            if (year < minYear || (year === minYear && monthIndex < minMonth)) {
-              el.classList.add('disabled');
-              el.style.pointerEvents = 'none';
-              el.style.opacity = '0.3';
-            }
-          });
-          //연도 화살표 비활성화
-          const prevBtn = fp.calendarContainer.querySelector('.flatpickr-prev-month');
-          const currentYear = fp.currentYear;
-      
-          if (currentYear <= minYear) {
-            prevBtn.classList.add('disabled');
-            prevBtn.style.pointerEvents = 'none';
-            prevBtn.style.opacity = '0.3';
-          }
-        }
-      },
       onChange: function (selectedDates) {
         const selected = selectedDates[0];
         const year = selected.getFullYear();
@@ -278,6 +261,7 @@ document.body.addEventListener("click", function (e) {
       }
     });
   });
+});
 
 window.initPayPage = initPayPage;
 window.fetchPayList = fetchPayList;
@@ -317,22 +301,6 @@ function restoreModalContent() {
 
   //페이지 처음 로드 시 전체 목록 불러오기
   fetchPayList({ order: currentOrder });
-
-
-  //---------------- 필터링---------------
-  const branchButtons = document.querySelectorAll('.branch-btn');
-
-branchButtons.forEach(button => {
-  button.addEventListener('click', function () {
-    this.classList.toggle('active');
-
-    const activeBranches = Array.from(document.querySelectorAll('.branch-btn.active'))
-      .map(btn => btn.dataset.branch);
-
-    filterByBranches(activeBranches);
-  });
-});
-
 };
 
 //---------------- 결제 목록 불러오기---------------
@@ -359,22 +327,19 @@ function fetchPayList({ fromDate = '', toDate = '', order = 'desc' } = {}) {
     data.forEach((pay, index) => {
       const row = document.createElement("tr");
       row.classList.add("order");
-      row.setAttribute("data-branch", pay.storeLocation);
       row.innerHTML = `
         <td>${index + 1}</td>
         <td>${pay.paymentmethod}</td>
-        <td>${pay.paymenthistory}</td>
+        <td>${pay.paymentstatus}</td>
         <td>${pay.amount.toLocaleString()}</td>
         <td>${formatDate(pay.paidat)}</td>
-        <td>${pay.storeLocation}</td>
+        <td>강서지점</td>
         <td>${pay.paycode}</td>
       `;
       tbody.appendChild(row);
     });
 
-    if (typeof window.addEmptyRows === 'function') {
-      window.addEmptyRows('pay-table-body');
-    }
+    addEmptyRows('pay-table-body');
     checkForData('#pay-table-body', '.no-data');  
   })
   .catch(err => console.error("❌ 결제 데이터 불러오기 실패:", err));
@@ -384,54 +349,3 @@ function formatDate(dateStr) {
 const date = new Date(dateStr);
 return `${date.getFullYear()}-${(date.getMonth()+1).toString().padStart(2, "0")}-${date.getDate().toString().padStart(2, "0")}`;
 }
-
-//---------------- 지점 필터 기능 추가---------------
-
-// 1. 버튼 이벤트 핸들러 통합
-document.querySelectorAll('.branch-btn').forEach(button => {
-    button.addEventListener('click', function() {
-      this.classList.toggle('active');
-      
-      // 활성화된 버튼 목록
-      const activeBranches = Array.from(document.querySelectorAll('.branch-btn.active'))
-        .map(btn => btn.dataset.branch);
-  
-      // 필터링 실행
-      filterByBranches(activeBranches);
-    });
-  });
-  
-  // 2. 통합 필터링 함수
-  function filterByBranches(activeBranches) {
-    const rows = document.querySelectorAll('#pay-table-body tr');
-    const branchMap = {
-      gangseo: '강서지점',
-      sangbong: '상봉지점',
-      hanam: '하남지점'
-    };
-
-    let visibleCount = 0;
-
-    rows.forEach(row => {
-      if(row.classList.contains('empty-row')) return;
-      
-      const branchName = row.getAttribute('data-branch')?.trim();
-      const isVisible = activeBranches.length === 0 || 
-      activeBranches.some(code => branchMap[code] === branchName);
-      
-      row.style.display = isVisible ? '' : 'none';
-      if (isVisible) visibleCount++;
-    });
-
-  
-  if (typeof window.addEmptyRows === 'function') {
-    window.addEmptyRows('pay-table-body');
-  }
-  
-    checkForData('#pay-table-body', '.no-data');
-  }
-  
-  // 3. 초기화 코드 유지
-  document.addEventListener('DOMContentLoaded', () => {
-    fetchPayList();
-  });
