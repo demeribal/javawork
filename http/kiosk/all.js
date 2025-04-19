@@ -9,12 +9,12 @@ document.addEventListener("DOMContentLoaded", function() {
       sessionStorage.clear();
   
       // 첫 화면으로 돌아가기
-      window.location.href = '../../index.html'; 
+      window.location.href = '/index.html'; 
     });
   });
 
   const favicon = document.createElement("link");
   favicon.rel = "icon";
-  favicon.href = "../../images/BR_favicon.png";
+  favicon.href = "/images/BR_favicon.png";
   favicon.type = "image/png";
   document.head.appendChild(favicon);

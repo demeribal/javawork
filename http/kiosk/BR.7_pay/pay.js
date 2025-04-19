@@ -47,7 +47,7 @@ function closeAlert() {
     const paymenthistory = productData.map(p => p.name).join(', ');
     const amount = priceData.paymentPrice || 0;
     const paidat = new Date().toISOString();
-    const storeLocation = '강서지점';
+    const storelocation = '강서지점';
     const paycode = 'PAY-' + Date.now();
   
     const payload = {
@@ -55,7 +55,7 @@ function closeAlert() {
       paymenthistory,
       amount,
       paidat,
-      storeLocation,
+      storelocation,
       paycode,
       menuId: null
     };
