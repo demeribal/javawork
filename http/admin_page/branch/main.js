@@ -127,7 +127,6 @@ if (tabName === 'pay') {
       langJS.src = 'https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js';
       langJS.onload = () => {
       loadTabScript(tabName, callback); // pay.js 로드
-      loadTabScript(tabName, callback);
     };
     document.body.appendChild(langJS);
   };
@@ -164,12 +163,19 @@ function loadTabScript(tabName, callback) {
 
 
 // 통합된 행 추가 함수 - 이전의 빈 행 추가 기능도 포함
-function addEmptyRows(tbodyId, minRows = 11) {
+window.addEmptyRows = function(tbodyId, minRows = 11) {
   const tbody = document.getElementById(tbodyId);
   if (!tbody) return;
 
-  const currentRows = tbody.querySelectorAll('tr').length;
-  const emptyCount = minRows - currentRows;
+  // ✅ 현재 보이는 행만 count (display !== 'none')
+  const visibleRows = Array.from(tbody.querySelectorAll('tr.order:not(.empty-row)'))
+    .filter(row => row.style.display !== 'none');
+
+  const emptyCount = minRows - visibleRows.length;
+
+  // 기존 empty-row 제거
+  tbody.querySelectorAll('.empty-row').forEach(row => row.remove());
+
 
   for (let i = 0; i < emptyCount; i++) {
     const tr = document.createElement('tr');
@@ -177,7 +183,8 @@ function addEmptyRows(tbodyId, minRows = 11) {
     tr.innerHTML = `<td colspan="7">&nbsp;</td>`;
     tbody.appendChild(tr);
   }
-}
+};
+
 
 // 데이터 존재 여부 확인 함수 개선
 function checkForData(tableSelector, noDataSelector) {
@@ -186,11 +193,14 @@ function checkForData(tableSelector, noDataSelector) {
   
   if (!table || !noData) return;
   
-  const rows = table.querySelectorAll('tr:not(.empty-row)');
-  const hasData = rows.length > 0;
+  const visibleRows = Array.from(table.querySelectorAll('tr.order:not(.empty-row)'))
+    .filter(row => row.style.display !== 'none');
   
+  const hasData = visibleRows.length > 0;
+
   noData.classList.toggle('hidden', hasData);
 }
+
 /*
 //--2. 데이터 있을때 no-data hidden
   const noDataDiv = document.querySelector('.no-data');
