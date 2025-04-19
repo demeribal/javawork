@@ -34,7 +34,7 @@ function fetchOrderList() {
                 const orderButtonHTML = !isActive || quantity === 0 ?
                     `<button class="no-style-button orderbutton disabled" disabled style="opacity: 0.5; cursor: not-allowed;"></button>` :
                     `<button class="no-style-button orderbutton" data-branch="${officeName}" data-image="${imagePath}" data-menu-name="${menuName}">
-            <img src="/images/orderbutton.svg" />
+            <img src="/images/orderbutton.svg" style="position: relative; left: 20px;"/>
           </button>`;
 
                 // 주문 상태 처리
@@ -101,27 +101,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-function addEmptyRows(tbodyId, rowCount = 10) {
-  const tbody = document.getElementById(tbodyId);
-  const currentRows = tbody.querySelectorAll('tr').length;
-  const emptyRowsToAdd = rowCount - currentRows;
+// function addEmptyRows(tbodyId, rowCount = 10) {
+//   const tbody = document.getElementById(tbodyId);
+//   const currentRows = tbody.querySelectorAll('tr').length;
+//   const emptyRowsToAdd = rowCount - currentRows;
 
-  for (let i = 0; i < emptyRowsToAdd; i++) {
-      const emptyRow = document.createElement("tr");
-      emptyRow.innerHTML = `
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-      `;
-      emptyRow.classList.add('empty-row'); // 필요시 스타일링용
-      tbody.appendChild(emptyRow);
-  }
-}
+//   for (let i = 0; i < emptyRowsToAdd; i++) {
+//       const emptyRow = document.createElement("tr");
+//       emptyRow.innerHTML = `
+//           <td>&nbsp;</td>
+//           <td>&nbsp;</td>
+//           <td>&nbsp;</td>
+//           <td>&nbsp;</td>
+//           <td>&nbsp;</td>
+//           <td>&nbsp;</td>
+//           <td>&nbsp;</td>
+//           <td>&nbsp;</td>
+//       `;
+//       emptyRow.classList.add('empty-row'); // 필요시 스타일링용
+//       tbody.appendChild(emptyRow);
+//   }
+// }
 
 
 // 재고량 아이콘 업데이트
@@ -301,6 +301,13 @@ document.addEventListener('click', (e) => {
         currentOrderRow = btn.closest('tr.order');
         openOrderModal(branchName, imagePath, menuName);
     }
+
+    // #orderModal 클릭하면 .modal-content 닫히게
+    document.getElementById('orderModal').addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal')) { // 모달 영역을 클릭했는지 확인
+            closeAllModals();
+        }
+    });
 });
 
 // 범용 닫기 함수
@@ -317,6 +324,11 @@ function closeAllModals() {
         modalContent.removeEventListener('click', quantityControl);
     }
 }
+
+
+
+
+
 
 // 확인 버튼 핸들러
 function handleConfirmClick() {
