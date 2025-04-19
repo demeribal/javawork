@@ -317,20 +317,12 @@ function fetchPayList({ fromDate = '', toDate = '', order = 'desc' } = {}) {
   .then(res => res.json())
   .then(data => {
     const tbody = document.getElementById("pay-table-body");
-    const noData = tbody.querySelector(".no-data");
-    if (!tbody || !noData) return;
-    
-    /*
     if (!tbody) {
       console.warn("⚠️ pay-table-body 요소 없음!");
       return;
     }
-*/
-// 기존 데이터 row만 제거 (조회내역 없음 문구는 남김)
-    tbody.querySelectorAll("tr.order").forEach(row => row.remove());
 
-    if (Array.isArray(data) && data.length > 0) {
-      noData.style.display = 'none';
+    tbody.innerHTML = ""; // 기존 내용 비우기
 
     data.forEach((pay, index) => {
       const row = document.createElement("tr");
@@ -338,7 +330,7 @@ function fetchPayList({ fromDate = '', toDate = '', order = 'desc' } = {}) {
       row.innerHTML = `
         <td>${index + 1}</td>
         <td>${pay.paymentmethod}</td>
-        <td>${pay.paymentstatus}</td>
+        <td>${pay.paymenthistory}</td>
         <td>${pay.amount.toLocaleString()}</td>
         <td>${formatDate(pay.paidat)}</td>
         <td>강서지점</td>
@@ -348,12 +340,8 @@ function fetchPayList({ fromDate = '', toDate = '', order = 'desc' } = {}) {
     });
 
     addEmptyRows('pay-table-body');
-  } 
-  else {
-        // ✅ 데이터가 없을 경우: "조회내역 없음" tr 보이기
-        noData.style.display = 'table-row';
-      }
-    })
+    checkForData('#pay-table-body', '.no-data');  
+  })
   .catch(err => console.error("❌ 결제 데이터 불러오기 실패:", err));
 }
 
