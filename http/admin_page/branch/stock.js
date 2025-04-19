@@ -345,7 +345,4 @@ function sendOrderData(data) {
   console.log('발주 데이터 전송:', data);
   /* 실제 전송 로직 구현 */
 }
-
-
-
-
+window.fetchOrderList = fetchOrderList;

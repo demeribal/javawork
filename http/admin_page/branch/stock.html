@@ -1,34 +1,26 @@
-<!DOCTYPE html>
-<head><link rel="stylesheet" href="stock.css"></head>
-<body>
-
-  <div class="table-wrapper">
-  <table class="orderlist">
-    
-    <thead class="thead-bar">
-        <tr>
-            <th>NO</th>
-            <th>지점명</th>
-            <th>메뉴명</th>
-            <th>이미지</th>
-            <th>재고량</th>
-            <th>상품상태</th>
-            <th>발주상태</th>
-            <th>발주하기</th>
-        </tr>
-    </thead>
-    </table>
+<div class="table-wrapper">
     <div class="tbody-scroll">
       <table class="stocklist">
+        <thead class="thead-bar">
+            <tr>
+                <th>NO</th>
+                <th>지점명</th>
+                <th>메뉴명</th>
+                <th>이미지</th>
+                <th>재고량</th>
+                <th>상품상태</th>
+                <th>발주상태</th>
+                <th>발주하기</th>
+            </tr>
+        </thead>
       <tbody id="stock-table-body">
-        
+        <tr class="no-data" style="display: none;">
+          <td colspan="7" style="text-align:center; padding: 30px; color: #888;">
+            조회 내역이 없습니다
+          </td>
+        </tr>
       </tbody>
       </table>
-    </div>
-  </div>
-
-  <div class="no-data">
-    조회 내용이 없습니다.
   </div>
 
   <div id="orderModal" class="modal hidden">
@@ -53,8 +45,3 @@
       </div>
     </div>
   </div>
-
-  <script src="stock.js"></script>
-  <script src="main.js"></script>
-</body>
-</html>
