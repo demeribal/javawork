@@ -29,53 +29,53 @@
 
 
 
-
+/*
 .orderlist {
-  width: 100%; /* stock-data-area의 width와 동일하게 설정하거나 원하는 값으로 */
+  width: 100%; // stock-data-area의 width와 동일하게 설정하거나 원하는 값으로 
   border-collapse: collapse;
 }
 
 .thead-bar th:nth-child(1),
 .orderlist tbody td:nth-child(1) {
-  width: 34px; /* 예시: NO 컬럼 너비 */
+  width: 34px;
 }
 
 .thead-bar th:nth-child(2),
 .orderlist tbody td:nth-child(2) {
-  width: 84px; /* 예시: 지점명 컬럼 너비 */
+  width: 84px; 
 }
 
 .thead-bar th:nth-child(3),
 .orderlist tbody td:nth-child(3) {
-  width: 226px; /* 예시: 메뉴명 컬럼 너비 */
+  width: 226px;
 }
 
 .thead-bar th:nth-child(4),
 .orderlist tbody td:nth-child(4) {
-  width: 340px; /* 예시: 메뉴명 컬럼 너비 */
+  width: 340px;
 }
 
 .thead-bar th:nth-child(5),
 .orderlist tbody td:nth-child(5) {
-  width: 110px; /* 예시: 메뉴명 컬럼 너비 */
+  width: 110px;
 }
 
 .thead-bar th:nth-child(6),
 .orderlist tbody td:nth-child(6) {
-  width: 96px; /* 예시: 메뉴명 컬럼 너비 */
+  width: 96px;
 }
 
 .thead-bar th:nth-child(7),
 .orderlist tbody td:nth-child(7) {
-  width: 90px; /* 예시: 메뉴명 컬럼 너비 */
+  width: 90px;
 }
 
 .thead-bar th:nth-child(8),
 .orderlist tbody td:nth-child(8) {
-  width: 60px; /* 예시: 메뉴명 컬럼 너비 */
+  width: 60px;
 }
 
-
+*/
 
 .no-style-button {
   border: none;
