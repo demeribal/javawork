@@ -1,0 +1,262 @@
+
+.stocklist {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.stocklist th:nth-child(1) { width: 5%; } /* NO */
+.stocklist th:nth-child(2) { width: 8%; } /* 지점명 */
+.stocklist th:nth-child(3) { width: 11%; } /* 메뉴명 */
+.stocklist th:nth-child(4) { width: 22%; } /* 이미지 */
+.stocklist th:nth-child(5) { width: 6%; } /* 재고량 */
+.stocklist th:nth-child(6) { width: 6%; } /* 상품상태 */
+.stocklist th:nth-child(7) { width: 7%; } /* 발주상태 */
+.stocklist th:nth-child(8) { width: 6%; } /* 발주하기 */
+
+
+#stock-data-area td:nth-child(4) { /* 이미지 경로 TD 선택 */
+  width: 22%; /* 너비 유지 */
+  word-break: break-word; /* 긴 단어 줄바꿈 */
+  overflow-wrap: anywhere; /* 공백 없는 문자열 줄바꿈 */
+  white-space: normal; /* 줄바꿈 허용 */
+}
+
+ #stock-data-area tr {
+  height: 46.5px;
+  min-height: 46.5px;
+  box-sizing: border-box;
+}
+
+#stock-data-area td {
+  height: 46.5px;
+  min-height: 46.5px;
+  box-sizing: border-box;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto; 
+}
+
+.tbody-scroll {
+  max-height: calc(46.5px * 11); /* 행 높이 × 11줄 */
+  overflow-y: auto;
+}
+
+.tbody-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+
+
+
+
+.no-style-button {
+  border: none;
+  background: none;
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.orderbutton {
+  all: unset;
+}
+
+.orderbutton:hover {
+  cursor: pointer;
+}
+
+.order > td {
+  height: 47px;
+}
+
+.order:hover {
+  cursor: pointer;
+  background-color: #f2f2f2;
+  transition: background-color 0.3s ease;
+}
+
+
+
+/* 모달 기본 스타일 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+
+  animation: fadeIn 0.2s forwards;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  position: relative;
+  top: 10px;
+  width: 400px; /* SVG 크기에 맞게 조정 */
+
+  animation: slideUp 1s 0.05s forwards;
+}
+
+.modal-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: relative;
+  top: -20px;
+}
+
+.modal-buttons {
+  position: absolute;
+  bottom: 25%;
+  top: 259px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+}
+
+.icecream-img > img {
+  position: relative;
+  width: 180px;
+  top: -382px;
+  left: 110px;
+}
+
+.icecream-name {
+  position: relative;
+  left: 74px;
+  top: -398px;
+  background-color: white;
+  width: 250px;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+
+  text-align: center;
+}
+
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(0px); }
+  to { transform: translateY(20px); }
+}
+
+
+/* 숫자 조절 스타일 */
+.number-control {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-input {
+  position: relative;
+  width: 60px;
+  padding: 5px;
+  top: -80px;
+  text-align: center;
+  border: none;
+  width: 30px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+/* 크롬 숫자 입력 화살표 제거 */
+.quantity-input::-webkit-inner-spin-button,
+.quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.minus-btn {
+  position: relative;
+  left: 5.5px;
+  top: -80px;
+}
+
+.plus-btn {
+  position: relative;
+  right: 5.5px;
+  top: -80px;
+}
+
+.minus-btn, .plus-btn {
+  width: 18px;
+  height: 18px;
+  border: none;
+  background-color: #f5f5f5;
+  border-radius: 50%;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: center;
+  font-size: 1.2em;
+
+  opacity: 0;
+}
+
+.minus-btn:hover, .plus-btn:hover {
+  background-color: #e0e0e0;
+}
+
+.modalCancel {
+  width: 154px;
+  height: 40px;
+  opacity: 0;
+}
+
+.modalConfirm {
+  position: relative;
+  width: 154px;
+  height: 40px;
+  right: 2px;
+  opacity: 0;
+}
+
+
+#modalConfirm, 
+#modalCancel {
+  position: relative;
+  top: 24px;
+  padding: 8px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#modalConfirm {
+  background-color: #6E6893;
+  color: white;
+}
+
+#modalCancel {
+  background-color: #e0e0e0;
+}
+
+#modalConfirm:hover {
+  background-color: #5a5477;
+}
+
+#modalCancel:hover {
+  background-color: #d0d0d0;
+}
