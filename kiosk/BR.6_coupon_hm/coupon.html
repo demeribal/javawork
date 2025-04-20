@@ -9,16 +9,18 @@
     <script src="../all.js"></script>
 </head>
 <body>
+    <!-- 헤더 영역 -->
+    <header class="header">
+        <div class="logo"></div>
+
+        <a href="#" id="exit-button"><img src="images/delete-btn.png" class="close-btn exit-button" alt="Exit Button"></a>
+    </header>
     <div class="wrapper">
-        <!-- 로고 -->
-        <div class="logo-container">
-            <img src="images/LOGO-BR-preview.png" alt="Baskin Robbins Logo" class="logo">
-        </div>
 
         <!-- 탭 메뉴 -->
         <div class="tab-menu">
-            <div class="tab inactive" onclick="showTab('point')">포인트/할인</div>
-            <div class="tab active" onclick="showTab('coupon')">쿠폰/결제</div>
+            <div class="tab inactive">포인트/할인</div>
+            <div class="tab active">쿠폰/결제</div>
         </div>
 
         <!-- 쿠폰/결제 섹션 -->
@@ -30,7 +32,7 @@
             
             <div class="content-row">
                 <div class="left-section">
-                    <button class="option-btn">
+                    <button class="option-btn" disabled>
                         <img src="images/ad_units.png" alt="모바일 상품권">
                         <p>모바일 상품권</p>
                     </button>
@@ -54,18 +56,21 @@
                     <img src="images/credit_card.png" alt="신용카드">
                     <p>신용카드</p>
                 </button>
-                <button class="option-btn">
+                <button class="option-btn" disabled>
                     <img src="images/임직원 할인1.png" alt="임직원 할인">
                     <p>임직원 할인</p>
                 </button>
-                <button class="option-btn">
+                <button class="option-btn" disabled>
                     <img src="images/Samsung Pay.png" alt="삼성페이">
                     <p>삼성페이</p>
                 </button>
-                <button class="option-btn">
+                <button class="option-btn" disabled>
                     <img src="images/Group 40.png" alt="해피페이">
                     <p>해피페이</p>
                 </button>
+            </div>
+            <div>
+                <p>현재 신용카드 결제만 가능합니다.</p>
             </div>
         </div>
 
