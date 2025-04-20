@@ -1,10 +1,18 @@
-/* 기본 스타일 */
-html, body {
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: 'Noto Sans KR', sans-serif;
-    background-color: #fff;
-    text-align: center;
 }
 
+body {
+    background-color: #FFFFFF;
+    width: 1024px;
+    height: 1562px;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+}
 .wrapper {
     width: 1024px;
     height: 1562px;
@@ -12,15 +20,38 @@ html, body {
 }
 
 /* 로고 */
-.logo-container {
-    position: absolute;
-    top: 13px;
-    z-index: 100;
-}
+
 
 .logo {
     width: 96px;
     height: 88px;
+    margin-left: 27px;
+    background: url('images/LOGO-BR-preview.png') no-repeat center/contain;
+}
+
+/* 헤더 */
+.header {
+    width: 100%;
+    height: 114px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.exit-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #d94f9f;
+    cursor: pointer;
+}
+
+.close-btn img {
+    width: 30px;
+    height: 30px;
 }
 
 /* 탭 메뉴 */
@@ -50,14 +81,14 @@ html, body {
     background: #F8F8F8;
 }
 
-/* 전체 컨테이너 */
+/* 콘텐츠 컨테이너 */
 .content-container {
     position: relative;
     top: 46px;
     height: 833px;
 }
 
-/* 제목 행 - 전체 너비 사용 */
+/* 섹션 제목 */
 .title-row {
     width: 100%;
     height: 66px;
@@ -67,7 +98,7 @@ html, body {
 .title-row > p {
     margin: 0;
     position: relative;
-    left:35px;
+    left: 35px;
 }
 
 .section-title {
@@ -75,7 +106,7 @@ html, body {
     font-weight: 500;
 }
 
-/* 콘텐츠 행 - 좌우 배치 */
+/* 콘텐츠 행 */
 .content-row {
     display: flex;
     position: relative;
@@ -83,26 +114,23 @@ html, body {
     height: 165px;
 }
 
-.content-row.second{
+.content-row.second {
     top: 63px;
 }
 
-/* 왼쪽/오른쪽 섹션 */
 .left-section, .right-section {
     width: 48%;
 }
 
-
-/* 옵션 그룹 스타일 */
+/* 옵션 그룹 */
 .option-group {
     display: flex;
-    justify-content: center; /* 중앙 정렬 */
+    justify-content: center;
     gap: 15px;
-    margin-bottom: 30px; /* 그룹 간 간격 */
-    width: 100%; /* 전체 너비 사용 */
+    margin-bottom: 30px;
+    width: 100%;
 }
 
-/* 버튼 스타일 */
 .option-btn {
     width: 122px;
     height: 122px;
@@ -116,6 +144,7 @@ html, body {
     margin: 22px 20px;
     padding: 0;
     cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
 }
 
 .option-btn img {
@@ -127,14 +156,28 @@ html, body {
 .option-btn p {
     font-size: 15px;
     font-weight: 500;
-    color: #000000;
+    color: #000;
     margin: 0;
 }
 
-/* 설명 스타일 */
+.option-btn:hover {
+    background-color: #FAFAFA;
+    border-color: #F20C93;
+}
+
+.option-btn.selected {
+    border: 2px solid #F20C93;
+    background-color: #FFF0F7;
+}
+
+.option-btn.selected p {
+    color: #F20C93;
+}
+
+/* 설명 영역 */
 .description-container {
     text-align: left;
-    width: 100%; /* 전체 너비 사용 */
+    width: 100%;
 }
 
 .point-info p {
@@ -150,81 +193,83 @@ html, body {
     margin-top: 10px;
 }
 
-.payment-summary {
-    position: absolute;
-    width: 100%;
-    height: 282px;
-    top: 1047px;
-
-    background: #F6F6F6;
-}
-
-.total-title1{
-    position: absolute;
-    width: 1024px;
-    height: 100px;
-    left: 0px;
-    top: 0px;
-    
-    font-size: 30px;
-    color: #F20C93;
-}
-.total-title2{
-    position: absolute;
-    width: 1024px;
-    height: 100px;
-    left: 0px;
-    top: 100px;
-    font-size: 30px;
-}
+/* 결제 섹션 */
 .payment-section {
     width: 1024px;
     height: 431px;
 }
 
+.payment-title {
+    left: 256px;
+    top: 60px;
+    color: #FF53B8;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 22px;
+    letter-spacing: -0.408px;
+}
 
+.payment-summary {
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    height: 282px;
+    top: 1047px;
+    background: #F6F6F6;
+}
+
+.total-title1,
+.total-title2 {
+    position: absolute;
+    width: 1024px;
+    height: 100px;
+    left: 0;
+    font-size: 30px;
+}
+
+.total-title1 {
+    top: 0;
+    color: #F20C93;
+}
+
+.total-title2 {
+    top: 100px;
+}
+
+/* 결제 버튼 */
 .payment-buttons {
     position: absolute;
     width: 1024px;
     height: 233px;
-    left: 0px;
     top: 1329px;
-    
-    background: #FFFFFF;
+    background: #fff;
 }
 
-.prev-btn, .next-btn {
+.prev-btn,
+.next-btn {
     font-size: 30px;
-}
-
-.prev-btn{
-    position: absolute;
     width: 471px;
     height: 114px;
-    left: 21px;
+    position: absolute;
     top: 59px;
-    
-    color:#F20C93;
-    background: #FFFFFF;
     border: 1px solid #B9B9B9;
     border-radius: 99px;
+}
+
+.prev-btn {
+    left: 21px;
+    color: #F20C93;
+    background: #fff;
+}
+
+.next-btn {
+    left: 533px;
+    color: #fff;
+    background: #F20C93;
 }
 
 .prev-btn-img {
     position: absolute;
     left: 115px;
     top: 30px;
-}
-
-.next-btn {
-    position: absolute;
-    width: 471px;
-    height: 114px;
-    left: 533px;
-    top: 59px;
-
-    color: #FFFFFF;
-    background: #F20C93;
-    border: 1px solid #B9B9B9;
-    border-radius: 99px;
 }

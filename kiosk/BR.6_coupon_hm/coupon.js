@@ -1,118 +1,55 @@
+// coupon.js v3.0
 
-const priceData = JSON.parse(sessionStorage.getItem('priceData'));
-const discountAmountElement = document.querySelector(".discount-amount");
-const totalAmountElement = document.querySelector(".total-amount");
-const orderAmountElement = document.querySelector('.order-amount');
+document.addEventListener('DOMContentLoaded', function () {
+    const discountAmountElement = document.querySelector(".discount-amount");
+    const totalAmountElement = document.querySelector(".total-amount");
+    const orderAmountElement = document.querySelector('.order-amount');
 
-// 페이지 로드 시 초기화
-document.addEventListener('DOMContentLoaded', function() {
-    // 현재 페이지 확인 및 탭 활성화
-    const currentPage = window.location.pathname.split('/').pop();
-    if (currentPage.includes('../BR_point_hm/point.html')) {
-        document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
-        document.querySelector('[onclick="showTab(\'point\')"]').classList.add('active');
-    } else if (currentPage.includes('../BR_coupon_hm/coupon.html')) {
-        document.querySelectorAll(".tab").forEach(tab => tab.classList.remove("active"));
-        document.querySelector('[onclick="showTab(\'coupon\')"]').classList.add('active');
-    }
-    
-    // 옵션 버튼에 이벤트 리스너 추가
+    // 💡 금액 렌더링
+    const totalAmount = parseInt(sessionStorage.getItem('totalAmount')) || 0;
+    const discountAmount = parseInt(sessionStorage.getItem('discountAmount')) || 0;
+    const finalAmount = totalAmount - discountAmount;
+
+    totalAmountElement.textContent = `₩${finalAmount.toLocaleString()}`;
+    orderAmountElement.textContent = `₩${totalAmount.toLocaleString()}`;
+    discountAmountElement.textContent = `₩${discountAmount.toLocaleString()}`;
+
+    // 옵션 버튼 클릭 이벤트
     document.querySelectorAll('.option-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            selectOption(this);
-        });
+        btn.addEventListener('click', () => selectOption(btn));
     });
-    
-    // 결제 관련 버튼에 이벤트 리스너 추가
+
+    // 결제 관련 버튼 이벤트
     const nextBtn = document.querySelector('.next-btn');
-    if (nextBtn) {
-        if (nextBtn.innerText.includes('결제취소')) {
-            nextBtn.addEventListener('click', function() {
-                cancelPayment();
-            });
-        } else if (nextBtn.innerText.includes('다음단계')) {
-            nextBtn.addEventListener('click', function() {
-                confirmPayment();
-            });
-        }
+    if (nextBtn && nextBtn.innerText.includes('결제취소')) {
+        nextBtn.addEventListener('click', cancelPayment);
     }
-    //수미 금액 관련 코드
-    orderAmountElement.innerText = `₩${priceData.totalAmount.toLocaleString()}`;  
-    discountAmountElement.innerText = `₩${priceData.discountAmount.toLocaleString()}`;  
-    totalAmountElement.innerText = `₩${priceData.paymentPrice.toLocaleString()}`; 
 });
 
-// 탭 전환 기능
-function showTab(tabName) {
-    // 현재 페이지 경로 확인
-    const currentPage = window.location.pathname.split('/').pop();
-    
-    // 불필요한 페이지 리로드 방지
-    if (tabName === 'point' && currentPage === '../BR.5_point_hm/point.html') {
-        return;
-    } else if (tabName === 'coupon' && currentPage === '../BR.6_coupon_hm/coupon.html') {
-        return;
-    }
-    
-    // 페이지 이동
-    if (tabName === 'point') {
-        window.location.href = '../BR.5_point_hm/point.html';
-    } else if (tabName === 'coupon') {
-        window.location.href = '../BR.6_coupon_hm/coupon.html';
-    }
-}
-
-// 옵션 선택 기능
+// 옵션 선택 기능 (신용카드만 허용)
 function selectOption(button) {
-    // 같은 그룹의 버튼 초기화
-    const parent = button.closest('.button-container') || 
-                  button.closest('.point-options') || 
-                  button.closest('.discount-options') || 
-                  button.closest('.payment-methods');
-    
+    const buttonText = button.querySelector('p')?.innerText || button.innerText;
+
+    if (!buttonText.includes("신용카드")) {
+        alert("현재는 신용카드만 사용 가능합니다 🙏");
+        return;
+    }
+
+    const parent = button.closest('.payment-methods');
     if (parent) {
         parent.querySelectorAll(".option-btn").forEach(btn => btn.classList.remove("selected"));
     }
+
     button.classList.add("selected");
 
-    // 할인 적용
-    const buttonText = button.querySelector('p') ? 
-                       button.querySelector('p').innerText : 
-                       button.innerText;
-    
-    if (buttonText.includes("KT 할인")) {
-        document.querySelector(".discount-amount").innerText = "₩500";
-        document.querySelector(".total-amount").innerText = "₩12,300";
-    } else if (buttonText.includes("임직원 할인")) {
-        document.querySelector(".discount-amount").innerText = "₩300";
-        document.querySelector(".total-amount").innerText = "₩12,500";
-    } else {
-        document.querySelector(".discount-amount").innerText = "₩0";
-        document.querySelector(".total-amount").innerText = "₩12,800";
-    }
+    // 신용카드 선택 시 다음 단계로 이동
+    window.location.href = "../BR.7_pay/pay.html";
 }
 
-// 결제 취소
+// 결제 취소 기능
 function cancelPayment() {
     if (confirm("결제를 취소하시겠습니까?")) {
-        window.location.href = "../BR.1_menu_hb/menu.html"; // 홈으로 이동
-    }
-}
-
-// 결제 확인
-function confirmPayment() {
-    const selectedOption = document.querySelector(".option-btn.selected");
-    
-    if (!selectedOption) {
-        alert("결제 방식을 선택해주세요!");
-        return;
-    }
-
-    const selectedText = selectedOption.querySelector('p') ? 
-                        selectedOption.querySelector('p').innerText : 
-                        selectedOption.innerText;
-    
-    if (confirm(`"${selectedText}" 결제를 진행하시겠습니까?`)) {
-        window.location.href = "../BR.6_coupon_hm/coupon.html"; // 쿠폰 페이지로 이동
+        sessionStorage.clear();
+        window.location.href = "../BR.1_menu_hb/menu.html";
     }
 }
