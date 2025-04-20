@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+
+            <table class="orderlist">
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>지점명</th>
+                        <th>메뉴명</th>
+                        <th>재고량</th>
+                        <th>상품상태</th>
+                        <th style="padding-left: 56px;">발주상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 데이터가 없는 상태 -->
+
+                    <tr class="order" data-branch="gangseo" data-product-status="sale.svg" data-current-selection="checking.svg" 
+                    data-pending-selection="">
+                        <td>1</td>
+                        <td>강서지점</td>
+                        <td>초코나무숲</td>
+
+                        <!-- 재고량 입력 필드 -->
+                        <td>
+                            <div class="stock-container">
+                              <input 
+                                type="number"
+                                id="dynamic-stock" 
+                                class="stock-input" 
+                                min="0" 
+                                value="30"
+                                onblur="handleStockBlur(this)"
+                                onfocus="handleStockFocus(this)"
+                                onclick="this.select()"
+                                oninput="handleStockInput(this)"
+                              >
+                              <img src="../images/nostock.svg" class="stock-icon" onclick="handleIconClick(this)">
+                            </div>
+                          </td>
+                        
+                        <!-- 상품 상태 드롭다운 -->
+                        <td class="status-cell">
+                            <div class="custom-dropdown">
+                              <div class="selected-stock-option" onclick="toggleDropdown(this)">
+                                <img src="../images/sale.svg" class="product-status-icon">
+                              </div>
+                              <ul class="dropdown-stock-options">
+                                <li data-value="sale.svg" onclick="selectProductOption(this)">
+                                  <img src="../images/sale.svg">
+                                </li>
+                                <li data-value="stopsale.svg" onclick="selectProductOption(this)">
+                                  <img src="../images/stopsale.svg">
+                                </li>
+                              </ul>
+                            </div>
+                          </td>
+                        
+                        <!-- 발주 상태 드롭다운 -->
+                        <td class="status-cell2">
+                            <div class="custom-dropdown">
+                              <div class="selected-stock-option" onclick="toggleDropdown(this)">
+                                <img src="/images/checking.svg" class="order-status-icon"><img src="/images/underway.svg" class="small-icon">
+                              </div>
+                              <ul class="dropdown-stock-options">
+                                <li data-value="checking.svg" onclick="handleOptionClick(event, this)">
+                                  <img src="/images/checking.svg">
+                                </li>
+                                <li data-value="indelivery.svg" onclick="handleOptionClick(event, this)">
+                                  <img src="/images/indelivery.svg">
+                                </li>
+                                <li data-value="deliverycomplete.svg" onclick="handleOptionClick(event, this)">
+                                  <img src="/images/deliverycomplete.svg">
+                                </li>
+                              </ul>
+                            </div>
+
+                            <!-- 모달 창 -->
+                            <div id="deliveryModal" class="modal-overlay hidden" data-modal-for="delivery">
+                              <div class="modal-content">
+                                <img src="/images/modaldelivery.svg" class="modal-svg">
+                                <div class="modal-buttons">
+                                  <button id="confirmBtn">Yes</button>
+                                  <button id="cancelBtn">No</button>
+                                  <button id="closeBtn">×</button>
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+                    </tr>
+                    <tr class="order" data-branch="sangbong" data-product-status="sale.svg" data-current-selection="checking.svg" 
+                    data-pending-selection="">
+                        <td>2</td>
+                        <td>상봉지점</td>
+                        <td>엄마는 외계인</td>
+                        <!-- 재고량 입력 필드 -->
+                        <td>
+                          <div class="stock-container">
+                            <input 
+                              type="number"
+                              id="dynamic-stock" 
+                              class="stock-input" 
+                              min="0" 
+                              value="30"
+                              onblur="handleStockBlur(this)"
+                              onfocus="handleStockFocus(this)"
+                              onclick="this.select()"
+                              oninput="saveStockValue(this.value)"
+                            >
+                            <img src="/images/nostock.svg" class="stock-icon">
+                          </div>
+                        </td>
+                      
+                      <!-- 상품 상태 드롭다운 -->
+                      <td class="status-cell">
+                          <div class="custom-dropdown">
+                            <div class="selected-stock-option" onclick="toggleDropdown(this)">
+                              <img src="/images/sale.svg" class="product-status-icon">
+                            </div>
+                            <ul class="dropdown-stock-options">
+                              <li data-value="sale.svg" onclick="selectProductOption(this)">
+                                <img src="/images/sale.svg">
+                              </li>
+                              <li data-value="stopsale.svg" onclick="selectProductOption(this)">
+                                <img src="/images/stopsale.svg">
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                      
+                      <!-- 발주 상태 드롭다운 -->
+                      <td class="status-cell2">
+                          <div class="custom-dropdown">
+                            <div class="selected-stock-option" onclick="toggleDropdown(this)">
+                              <img src="/images/checking.svg" class="order-status-icon"><img src="/images/underway.svg" class="small-icon">
+                            </div>
+                            <ul class="dropdown-stock-options">
+                              <li data-value="checking.svg" onclick="handleOptionClick(event, this)">
+                                <img src="/images/checking.svg">
+                              </li>
+                              <li data-value="indelivery.svg" onclick="handleOptionClick(event, this)">
+                                <img src="/images/indelivery.svg">
+                              </li>
+                              <li data-value="deliverycomplete.svg" onclick="handleOptionClick(event, this)">
+                                <img src="/images/deliverycomplete.svg">
+                              </li>
+                            </ul>
+                          </div>
+
+                          <!-- 모달 창 -->
+                          <div id="deliveryModal" class="modal-overlay hidden" data-modal-for="delivery">
+                            <div class="modal-content">
+                              <img src="/images/modaldelivery.svg" class="modal-svg">
+                              <div class="modal-buttons">
+                                <button id="confirmBtn">Yes</button>
+                                <button id="cancelBtn">No</button>
+                                <button id="closeBtn">×</button>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                    </tr>
+                    <tr class="order" data-branch="hanam" data-product-status="sale.svg" data-current-selection="checking.svg" 
+                    data-pending-selection="">
+                        <td>3</td>
+                        <td>하남지점</td>
+                        <td>사랑에 빠진 딸기</td>
+                        <!-- 재고량 입력 필드 -->
+                        <td>
+                          <div class="stock-container">
+                            <input 
+                              type="number"
+                              id="dynamic-stock" 
+                              class="stock-input" 
+                              min="0" 
+                              value="30"
+                              onblur="handleStockBlur(this)"
+                              onfocus="handleStockFocus(this)"
+                              onclick="this.select()"
+                              oninput="saveStockValue(this.value)"
+                            >
+                            <img src="/images/nostock.svg" class="stock-icon">
+                          </div>
+                        </td>
+                      
+                      <!-- 상품 상태 드롭다운 -->
+                      <td class="status-cell">
+                          <div class="custom-dropdown">
+                            <div class="selected-stock-option" onclick="toggleDropdown(this)">
+                              <img src="/images/sale.svg" class="product-status-icon">
+                            </div>
+                            <ul class="dropdown-stock-options">
+                              <li data-value="sale.svg" onclick="selectProductOption(this)">
+                                <img src="/images/sale.svg">
+                              </li>
+                              <li data-value="stopsale.svg" onclick="selectProductOption(this)">
+                                <img src="/images/stopsale.svg">
+                              </li>
+                            </ul>
+                          </div>
+                        </td>
+                      
+                      <!-- 발주 상태 드롭다운 -->
+                      <td class="status-cell2">
+                          <div class="custom-dropdown">
+                            <div class="selected-stock-option" onclick="toggleDropdown(this)">
+                              <img src="/images/checking.svg" class="order-status-icon"><img src="/images/underway.svg" class="small-icon">
+                            </div>
+                            <ul class="dropdown-stock-options">
+                              <li data-value="checking.svg" onclick="handleOptionClick(event, this)">
+                                <img src="/images/checking.svg">
+                              </li>
+                              <li data-value="indelivery.svg" onclick="handleOptionClick(event, this)">
+                                <img src="/images/indelivery.svg">
+                              </li>
+                              <li data-value="deliverycomplete.svg" onclick="handleOptionClick(event, this)">
+                                <img src="/images/deliverycomplete.svg">
+                              </li>
+                            </ul>
+                          </div>
+
+                          <!-- 모달 창 -->
+                          <div id="deliveryModal" class="modal-overlay hidden" data-modal-for="delivery">
+                            <div class="modal-content">
+                              <img src="/images/modaldelivery.svg" class="modal-svg">
+                              <div class="modal-buttons">
+                                <button id="confirmBtn">Yes</button>
+                                <button id="cancelBtn">No</button>
+                                <button id="closeBtn">×</button>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <div id="status-change-image" class="hidden">
+                          <img src="/images/Frame1044.png">
+                        </div>
+                    </tr>
+                    <tr class="order">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="order">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="order">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="order">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="order">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="order">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="order">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="order">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="no-data">
+                조회 내용이 없습니다.
+            </div>
+
+            
+            
+    <script src="main.js"></script>
+</body>
+</html>
