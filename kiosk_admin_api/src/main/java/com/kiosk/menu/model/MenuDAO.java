@@ -5,10 +5,9 @@ import lombok.Data;
 
 @Builder
 @Data
-public class MenuDTO {
+public class MenuDAO {
 	private int id;
     private String menuName;
     private String menuCode;
     private String imagePath;
-    private Boolean isUse;
 }
