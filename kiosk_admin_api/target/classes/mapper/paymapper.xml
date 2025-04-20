@@ -19,10 +19,10 @@
   ORDER BY p.paid_at DESC
 </select>
   
-  <select id="getPaysFiltered" resultType="com.kiosk.pay.model.Pay">
-  SELECT id, pay_code AS paycode,
+  <select id="getPaysFiltered" resultType="com.kiosk.pay.DTO.PayDTO">
+  SELECT id, pay_code AS paycod
          payment_method AS paymentmethod, payment_history AS paymenthistory,
-         amount, paid_at AS paidat
+         amount, paid_at AS paidat, p.store_location AS storeLocation
   FROM pay
   <where>
     <if test="date != null and date != ''">
@@ -36,10 +36,10 @@
   </choose>
 </select>
 
-<select id="getPaysBetweenDates" resultType="com.kiosk.pay.model.Pay">
+<select id="getPaysBetweenDates" resultType="com.kiosk.pay.DTO.PayDTO">
   SELECT id, pay_code AS paycode,
          payment_method AS paymentmethod, payment_history AS paymenthistory,
-         amount, paid_at AS paidat
+         amount, paid_at AS paidat, store_location AS storeLocation
   FROM pay
   WHERE DATE(paid_at) BETWEEN #{fromDate} AND #{toDate}
   ORDER BY paid_at
@@ -49,10 +49,10 @@
   </choose>
 </select>
 
-<select id="getAllPayOrdered" resultType="com.kiosk.pay.model.Pay">
+<select id="getAllPayOrdered" resultType="com.kiosk.pay.DTO.PayDTO">
   SELECT id, pay_code AS paycode,
          payment_method AS paymentmethod, payment_history AS paymenthistory,
-         amount, paid_at AS paidat
+         amount, paid_at AS paidat, store_location AS storeLocation
   FROM pay
   ORDER BY paid_at
   <choose>
