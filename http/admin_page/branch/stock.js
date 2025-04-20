@@ -27,31 +27,31 @@ function fetchOrderList() {
                 // use 필드 기반 상태 처리
                 const isActive = order.use !== false; // use가 명시적으로 false가 아닌 경우 활성화
                 const productStatus = !isActive ?
-                    '<img src="/images/stopsale.svg"/>' :
-                    (quantity === 0 ? '<img src="/images/stopsale.svg"/>' : '<img src="/images/sale.svg"/>');
+                    '<img src="/admin_page/images/stopsale.svg"/>' :
+                    (quantity === 0 ? '<img src="/admin_page/images/stopsale.svg"/>' : '<img src="/admin_page/images/sale.svg"/>');
 
                 // 주문 버튼 조건
                 const orderButtonHTML = !isActive || quantity === 0 ?
                     `<button class="no-style-button orderbutton disabled" disabled style="opacity: 0.5; cursor: not-allowed;"></button>` :
                     `<button class="no-style-button orderbutton" data-branch="${officeName}" data-image="${imagePath}" data-menu-name="${menuName}">
-            <img src="/images/orderbutton.svg" />
+            <img src="/admin_page/images/orderbutton.svg" style="position: relative; left: 20px;"/>
           </button>`;
 
                 // 주문 상태 처리
                 let orderStatus = '';
                 switch (order.status) {
                     case "배송중":
-                        orderStatus = '<img src="/images/indelivery.svg"/>';
+                        orderStatus = '<img src="/admin_page/images/indelivery.svg"/>';
                         break;
                     case "배송완료":
-                        orderStatus = '<img src="/images/deliverycomplete.svg"/>';
+                        orderStatus = '<img src="/admin_page/images/deliverycomplete.svg"/>';
                         break;
                     default:
-                        orderStatus = '<img src="/images/checking.svg"/>';
+                        orderStatus = '<img src="/admin_page/images/checking.svg"/>';
                 }
 
                 // quantityDisplay 추가: quantity가 0일 때 이미지로, 아니면 숫자로 표시
-                const quantityDisplay = quantity === 0 ? '<img src="/images/nostock.svg" alt="재고 없음"/>' : quantity;
+                const quantityDisplay = quantity === 0 ? '<img src="/admin_page/images/nostock.svg" alt="재고 없음"/>' : quantity;
 
                 // 행 구성
                 row.innerHTML = `
@@ -101,27 +101,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-function addEmptyRows(tbodyId, rowCount = 10) {
-  const tbody = document.getElementById(tbodyId);
-  const currentRows = tbody.querySelectorAll('tr').length;
-  const emptyRowsToAdd = rowCount - currentRows;
+// function addEmptyRows(tbodyId, rowCount = 10) {
+//   const tbody = document.getElementById(tbodyId);
+//   const currentRows = tbody.querySelectorAll('tr').length;
+//   const emptyRowsToAdd = rowCount - currentRows;
 
-  for (let i = 0; i < emptyRowsToAdd; i++) {
-      const emptyRow = document.createElement("tr");
-      emptyRow.innerHTML = `
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-      `;
-      emptyRow.classList.add('empty-row'); // 필요시 스타일링용
-      tbody.appendChild(emptyRow);
-  }
-}
+//   for (let i = 0; i < emptyRowsToAdd; i++) {
+//       const emptyRow = document.createElement("tr");
+//       emptyRow.innerHTML = `
+//           <td>&nbsp;</td>
+//           <td>&nbsp;</td>
+//           <td>&nbsp;</td>
+//           <td>&nbsp;</td>
+//           <td>&nbsp;</td>
+//           <td>&nbsp;</td>
+//           <td>&nbsp;</td>
+//           <td>&nbsp;</td>
+//       `;
+//       emptyRow.classList.add('empty-row'); // 필요시 스타일링용
+//       tbody.appendChild(emptyRow);
+//   }
+// }
 
 
 // 재고량 아이콘 업데이트
@@ -239,7 +239,7 @@ function openOrderModal(branchName, imagePath, menuName) {
     const quantityInput = modal.querySelector('.quantity-input'); // 수량 입력 필드
 
     // 모달 이미지 변경
-    image.src = "/icecream" + imagePath;
+    image.src = "/admin_page/icecream" + imagePath;
     image.alt = branchName + ' 상품 이미지';
 
     // 모달에 지점명 저장
@@ -301,6 +301,13 @@ document.addEventListener('click', (e) => {
         currentOrderRow = btn.closest('tr.order');
         openOrderModal(branchName, imagePath, menuName);
     }
+
+    // #orderModal 클릭하면 .modal-content 닫히게
+    document.getElementById('orderModal').addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal')) { // 모달 영역을 클릭했는지 확인
+            closeAllModals();
+        }
+    });
 });
 
 // 범용 닫기 함수
@@ -317,6 +324,11 @@ function closeAllModals() {
         modalContent.removeEventListener('click', quantityControl);
     }
 }
+
+
+
+
+
 
 // 확인 버튼 핸들러
 function handleConfirmClick() {
