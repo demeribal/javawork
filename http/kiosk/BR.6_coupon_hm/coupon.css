@@ -145,6 +145,10 @@ html, body {
     margin: 5px 0;
 }
 
+.payment-section {
+    width: 1024px;
+    height: 431px;
+}
 .payment-summary {
     position: absolute;
     width: 100%;
