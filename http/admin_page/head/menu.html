@@ -1,4 +1,5 @@
 <div class="table-container">
+    <div class="tbody-scroll">
     <table class="data-table">
         <thead>
             <tr>
@@ -10,29 +11,15 @@
                 <th>비고</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>1</td>
-                <td>민트초코</td>
-                <td>BR001</td>
-                <td>C://PROJECT/IMAGES/MINT.PNG</td>
-                <td><input type="checkbox" class="checkbox" checked></td>
-                <td></td>
-            </tr>
-            <!-- 빈 행들 추가 -->
-            <tr><td colspan="6"></td></tr>
-            <tr><td colspan="6"></td></tr>
-            <tr><td colspan="6"></td></tr>
-            <tr><td colspan="6"></td></tr>
-            <tr><td colspan="6"></td></tr>
-            <tr><td colspan="6"></td></tr>
-            <tr><td colspan="6"></td></tr>
-            <tr><td colspan="6"></td></tr>
-            <tr><td colspan="6"></td></tr>
-            <tr><td colspan="6"></td></tr>
+        <tbody id="data-table-body">
+            <!-- 메뉴 데이터가 여기에 로드됨 -->
+        </tbody>
+        <tbody id="menu-table-body">
+            <!-- 빈 행이 여기에 추가됨 -->
         </tbody>
     </table>
 </div>
+
 
 <!-- 메뉴상태 변경 확인 모달 -->
 <div class="modal" id="statusConfirmModal">
@@ -49,47 +36,57 @@
 <!-- 메뉴추가 모달 -->
 <div class="modal" id="menuAddModal">
     <div class="modal-content menu-add-modal">
-        <h2 class="modal-title">메뉴추가</h2>
-        
-        <div class="file-upload-area">
-            <div class="file-drop-zone" id="fileDropZone">
-                <!-- 초기 상태 (파일 없음) -->
-                <div class="upload-initial" id="uploadInitial">
-                    <div class="file-icon">
-                        <img src="../images/Upload icon.png" alt="업로드 아이콘" width="48" height="48">
-                    </div>
-                    <p class="drop-text">Drag & drop files or <a href="#" class="browse-link">Browse</a></p>
-                </div>
-                
-                <!-- 업로드 완료 상태 (처음에는 숨김) -->
-                <div class="upload-complete" id="uploadComplete" style="display: none;">
-                    <span class="file-name">맛있어봉.png</span>
-                    <button class="delete-btn" id="deleteFileBtn">
-                        <img src="../images/Bin icon.png" alt="삭제" width="15" height="16">
-                    </button>
-                </div>
+      <h2 class="modal-title">메뉴추가</h2>
+  
+      <div class="file-upload-area">
+        <div class="file-drop-zone" id="fileDropZone">
+          
+          <!-- 🔄 업로드 미리보기 상태 -->
+          <div class="file-preview-container hidden" id="imagePreviewContainer">
+            
+            <!-- 🔴 휴지통 버튼 (우측 상단) -->
+            <button id="deleteImageBtn" class="delete-btn" type="button">
+              <img src="../images/Bin icon.png" alt="삭제" width="18" height="18" />
+            </button>
+  
+            <!-- ⚫ 이미지 미리보기 (중앙 정렬) -->
+            <img id="imagePreview" src="#" alt="미리보기" class="image-preview" />
+  
+            <!-- 🟡 파일명 텍스트 (우측 하단) -->
+            <p id="fileName" class="file-name">파일명.png</p>
+          </div>
+  
+          <!-- 초기 업로드 UI -->
+          <div class="upload-initial" id="uploadInitial">
+            <div class="file-icon" id="defaultUploadIcon">
+              <img src="../images/Upload icon.png" alt="업로드 아이콘" width="48" height="48" />
             </div>
-            <!-- 실제 파일 입력 필드 (숨김) -->
-            <input type="file" id="fileInput" accept="images/*" style="display: none;">
+            <p class="drop-text" id="dropText">
+              Drag & drop files or <a href="#" class="browse-link">Browse</a>
+            </p>
+          </div>
         </div>
-        
-        <div class="form-group">
-            <label for="menuName">메뉴명</label>
-            <div class="input-with-clear">
-                <input type="text" id="menuName" placeholder="맛있어초코봉">
-                <button class="clear-btn">&times;</button>
-            </div>
+  
+        <!-- 숨겨진 파일 입력 필드 -->
+        <input type="file" id="fileInput" accept="images/*" style="display: none;" />
+      </div>
+  
+      <div class="form-group">
+        <label for="menuName">메뉴명</label>
+        <div class="input-with-clear">
+          <input type="text" id="menuName" placeholder="맛있어초코봉" />
+          <button class="clear-btn" type="button">&times;</button>
         </div>
-        
-        <div class="form-group">
-            <label for="menuCode">메뉴코드</label>
-            <input type="text" id="menuCode" placeholder="98121">
-        </div>
-        
-        <button class="submit-btn" id="registerMenuBtn">등록하기</button>
+      </div>
+  
+      <div class="form-group">
+        <label for="menuCode">메뉴코드</label>
+        <input type="text" id="menuCode" placeholder="98121" />
+      </div>
+  
+      <button class="submit-btn" id="registerMenuBtn">등록하기</button>
     </div>
-</div>
-
+  </div>
 <!-- 메뉴 등록 확인 모달 -->
 <div class="modal" id="menuConfirmModal">
     <div class="modal-content confirm-modal">
