@@ -151,7 +151,8 @@ function sessionManagement(){
               quantity: product.quantity,
               totalPrice: product.totalPrice,
               option: product.option,
-              flavors: product.flavors
+              flavors: product.flavors,
+              imageUrl: product.ImageUrl
             });
           }
         });
