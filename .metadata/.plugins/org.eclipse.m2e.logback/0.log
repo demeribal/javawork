@@ -80,3 +80,12 @@
 2025-04-18 17:02:48,593 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2025-04-18 17:02:48,603 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 43 resources from src\main\resources to target\classes
 2025-04-18 17:02:48,623 [Worker-4: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\admin\Desktop\br\kiosk_admin_api\src\test\resources
+2025-04-21 14:16:36,123 [Worker-5: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2025-04-21 14:16:45,427 [Worker-8: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.kiosk:kiosk:0.0.1-SNAPSHOT @ C:\Users\admin\Desktop\수정\kiosk_admin_api\pom.xml.
+2025-04-21 14:16:46,397 [Worker-8: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-04-21 14:16:46,437 [Worker-8: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 43 resources from src\main\resources to target\classes
+2025-04-21 14:16:46,471 [Worker-8: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\admin\Desktop\수정\kiosk_admin_api\src\test\resources
+2025-04-21 14:16:52,779 [Worker-19: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: com.kiosk:kiosk:0.0.1-SNAPSHOT @ C:\Users\admin\Desktop\수정\kiosk_admin_api\pom.xml.
+2025-04-21 14:16:54,897 [Worker-19: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2025-04-21 14:16:54,918 [Worker-19: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 43 resources from src\main\resources to target\classes
+2025-04-21 14:16:55,066 [Worker-19: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Users\admin\Desktop\수정\kiosk_admin_api\src\test\resources

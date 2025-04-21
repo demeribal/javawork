@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function fetchOrderList() {
-  fetch("http://localhost:8080/api/orders")
+  fetch("http://tomhoon.duckdns.org:8882/api/orders")
   .then(res => res.json())
     .then(data => data.orders)
     .then(order => {
