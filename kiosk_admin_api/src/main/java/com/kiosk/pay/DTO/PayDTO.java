@@ -13,6 +13,7 @@ public class PayDTO {
     private String paymenthistory;  
     private int amount;            // 결제금액
     private LocalDateTime paidat;  // 결제일
-    private String storeLocation;  // 결제지점
+    private int officeId;  
     private String paycode;
+    private String storeLocation;
 }
