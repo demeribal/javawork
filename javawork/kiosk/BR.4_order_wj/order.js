@@ -1,27 +1,59 @@
-const productData = JSON.parse(sessionStorage.getItem('productData'));
-console.log(productData)
+// 세션 스토리지에서 데이터 가져오기
+let productData = JSON.parse(sessionStorage.getItem('productData')) || [];
+let priceData = JSON.parse(sessionStorage.getItem('priceData')) || {
+    totalAmount: 0, 
+    discountAmount: 0, 
+    paymentPrice: 0
+};
 
-productData.forEach(order => {
+// 옵션 코드를 한글 이름으로 변환하는 함수
+function getOptionName(optionCode) {
+    const options = {
+        "cup": "컵",
+        "corn": "콘",
+        "waffle": "와플콘"
+    };
+    return options[optionCode] || optionCode;
+}
+
+// 상품 목록 렌더링 함수
+function renderProductList() {
     const itemlist = document.querySelector('.item-list');
-
-    let option = ""
-    if (order.option == "cup") option = "컵"
-    else if (order.option == "corn") option = "콘"
-    else if (order.option == "waffle") option = "와플콘"
-
-    for (let i=0; i<order.quantity; i++) {
-        const item = `
-            <div class="item" id="${option+i}">
-                <div class="item-image" style="background-image: url('${order.imageUrl}')"></div>
+    itemlist.innerHTML = ''; // 목록 초기화
+    
+    productData.forEach((product, productIndex) => {
+        const option = getOptionName(product.option);
+        const imageUrl = product.imageUrl;
+        //imageUrl.substring(imageUrl.search('kiosk'));
+        
+        for (let i = 0; i < product.quantity; i++) {
+            // 맛 정보 가져오기
+            let flavorText = '';
+            if (product.flavors && product.flavors[i]) {
+                // 맛은 2차원 배열로 저장되어 있음
+                if (Array.isArray(product.flavors[i])) {
+                    flavorText = product.flavors[i].join(', ');
+                } else {
+                    flavorText = product.flavors[i];
+                }
+            }
+            
+            const item = document.createElement('div');
+            item.className = `item ${product.option} ${product.name}`;
+            item.dataset.productIndex = productIndex;
+            item.dataset.itemIndex = i;
+            
+            item.innerHTML = `
+                <div class="item-image" style="background-image: url('${imageUrl}')"></div>
                 <div class="item-details">
-                    <div class="item-name">${order.name}</div>
+                    <div class="item-name">${product.name}</div>
                     <div class="item-option">(콘/컵) ${option}(포장불가)</div>
-                    <div class="item-flavor">${order.flavors[i]}</div>
+                    <div class="item-flavor">${flavorText}</div>
                 </div>
                 <div class="quantity-controls">
-                    <button class="quantity-btn">-</button>
+                    <button class="quantity-btn decrease">-</button>
                     <span class="quantity">1</span>
-                    <button class="quantity-btn">+</button>
+                    <button class="quantity-btn increase">+</button>
                 </div>
                 <div class="item-actions">
                     <button class="edit-btn">
@@ -31,86 +63,152 @@ productData.forEach(order => {
                         <img src="images/delete-btn.png" alt="삭제">
                     </button>
                 </div>
-            </div>
-        `
-        itemlist.innerHTML += item;
-    }
-})  
-
-
-
-//총 금액
-function updateTotalPrice() {
-    // 세션에서 priceData 객체 불러오기
-    const priceData = JSON.parse(sessionStorage.getItem('priceData')); 
-
-    const totalPrice = document.querySelector(".total-price"); // .total-price 클래스를 가진 요소 찾기
-
-    // priceData와 totalPrice가 존재하면 totalAmount를 출력
-    if (priceData && priceData.totalAmount && totalPrice) {
-        totalPrice.textContent = `₩${parseInt(priceData.totalAmount).toLocaleString()}`; 
-    }
+            `;
+            
+            itemlist.appendChild(item);
+        }
+    });
+    
+    // 이벤트 리스너 추가
+    addEventListeners();
 }
 
-updateTotalPrice();
-
-
-
-// 수량 조절 기능
-function quantityControl() {
-    document.querySelectorAll('.quantity-btn').forEach(btn => {
+// 이벤트 리스너 추가 함수
+function addEventListeners() {
+    // 수량 감소 버튼
+    document.querySelectorAll('.quantity-btn.decrease').forEach(btn => {
         btn.addEventListener('click', function() {
-            const quantityElement = this.parentElement.querySelector('.quantity');
-            let quantity = parseInt(quantityElement.textContent);
+            const item = this.closest('.item');
+            const productIndex = parseInt(item.dataset.productIndex);
+            const itemIndex = parseInt(item.dataset.itemIndex);
             
-            if (this.textContent === '+') {
-                quantity++;
-            } else if (this.textContent === '-' && quantity > 1) {
-                quantity--;
+            // 수량이 1보다 크면 감소
+            if (productData[productIndex].quantity > 1) {
+                productData[productIndex].quantity -= 1;
+                productData[productIndex].totalPrice = productData[productIndex].unitPrice * productData[productIndex].quantity;
+                
+                // 맛 배열에서 해당 아이템 제거
+                if (productData[productIndex].flavors && productData[productIndex].flavors.length > itemIndex) {
+                    productData[productIndex].flavors.splice(itemIndex, 1);
+                }
+                
+                // 세션 스토리지 업데이트 및 화면 다시 렌더링
+                updateSessionStorage();
+                updateTotalAmount();
+                renderProductList();
+            }
+        });
+    });
+    
+    // 수량 증가 버튼
+    document.querySelectorAll('.quantity-btn.increase').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const item = this.closest('.item');
+            const productIndex = parseInt(item.dataset.productIndex);
+            
+            // 수량 증가
+            productData[productIndex].quantity += 1;
+            productData[productIndex].totalPrice = productData[productIndex].unitPrice * productData[productIndex].quantity;
+            
+            // 맛 배열에 기본 맛 추가 (첫 번째 맛 복제)
+            if (productData[productIndex].flavors && productData[productIndex].flavors.length > 0) {
+                productData[productIndex].flavors.push([...productData[productIndex].flavors[0]]);
             }
             
-            quantityElement.textContent = quantity;
+            // 세션 스토리지 업데이트 및 화면 다시 렌더링
+            updateSessionStorage();
+            updateTotalAmount();
+            renderProductList();
         });
     });
-}
-
-quantityControl();
-
-function paymentOptions() {
-    const cash = document.querySelector('.cash-option');
-    cash.addEventListener('click', function() {
-        location.href='../BR.5_point_hm/point.html';
-    });
-
-    const card = document.querySelector('.card-option');
-    card.addEventListener('click', function() {
-        location.href='../BR.5_point_hm/point.html';
-    });
-}
-
-paymentOptions();
-
-function editProduct() {
-    const editBtn = document.querySelectorAll('.edit-btn');
-    editBtn.forEach(btn => {
+    
+    // 삭제 버튼
+    document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', function() {
-            location.href='../BR.4_flavor_sy/flavor.html';
+            const item = this.closest('.item');
+            const productIndex = parseInt(item.dataset.productIndex);
+            const itemIndex = parseInt(item.dataset.itemIndex);
+            
+            // 해당 아이템만 삭제 (수량 1 감소)
+            if (productData[productIndex].quantity > 1) {
+                productData[productIndex].quantity -= 1;
+                productData[productIndex].totalPrice = productData[productIndex].unitPrice * productData[productIndex].quantity;
+                
+                // 맛 배열에서 해당 아이템 제거
+                if (productData[productIndex].flavors && productData[productIndex].flavors.length > itemIndex) {
+                    productData[productIndex].flavors.splice(itemIndex, 1);
+                }
+            } else {
+                // 마지막 아이템이면 주문 자체를 삭제
+                productData.splice(productIndex, 1);
+            }
+            
+            // 세션 스토리지 업데이트 및 화면 다시 렌더링
+            updateSessionStorage();
+            updateTotalAmount();
+            renderProductList();
         });
     });
-}
-
-editProduct();
-
-
-function deleteProduct() {
-    const deleteBtn = document.querySelectorAll('.delete-btn');
-    deleteBtn.forEach(btn => {
+    
+    // 수정 버튼
+    document.querySelectorAll('.edit-btn').forEach(btn => {
         btn.addEventListener('click', function() {
-            const itemActions = btn.parentElement;
-            const item = itemActions.parentElement;
-            item.remove();
+            const item = this.closest('.item');
+            const productIndex = parseInt(item.dataset.productIndex);
+            const itemIndex = parseInt(item.dataset.itemIndex);
+            
+            // 수정할 아이템 정보를 세션 스토리지에 저장
+            sessionStorage.setItem('editItem', JSON.stringify({
+                productIndex: productIndex,
+                itemIndex: itemIndex
+            }));
+            
+            // 수정 페이지로 이동 또는 모달 창 표시
+            // 예시: window.location.href = 'edit-flavor.html';
+            alert('수정 페이지로 이동합니다.');
         });
     });
+
+    const card = document.querySelector('.card-option')
+    card?.addEventListener('click', () => {
+        location.href = '../BR.5_point_hm/point.html';
+    })
 }
 
-deleteProduct();
+// 총 금액 계산 및 업데이트
+function updateTotalAmount() {
+    let totalAmount = 0;
+    
+    // 모든 상품의 totalPrice 합산
+    productData.forEach(product => {
+        totalAmount += product.totalPrice;
+    });
+    
+    // priceData 업데이트
+    priceData.totalAmount = totalAmount;
+    priceData.paymentPrice = totalAmount - priceData.discountAmount;
+    
+    // 세션 스토리지 업데이트
+    sessionStorage.setItem('priceData', JSON.stringify(priceData));
+    
+    // 화면에 표시
+    updateTotalPriceDisplay();
+}
+
+// 세션 스토리지 업데이트 함수
+function updateSessionStorage() {
+    sessionStorage.setItem('productData', JSON.stringify(productData));
+}
+
+// 총 금액 표시 함수
+function updateTotalPriceDisplay() {
+    const totalPrice = document.querySelector(".total-price");
+    
+    if (priceData && totalPrice) {
+        totalPrice.textContent = `₩${parseInt(priceData.paymentPrice).toLocaleString()}`;
+    }
+}
+
+// 초기 렌더링
+renderProductList();
+updateTotalPriceDisplay();
