@@ -18,6 +18,7 @@ public class Pay {
     private int amount;
     private String paycode;
     private LocalDateTime paidat;
+    private int officeId;
 }
 
 /*
