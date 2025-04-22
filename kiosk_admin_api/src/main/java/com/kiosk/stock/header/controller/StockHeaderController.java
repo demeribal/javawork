@@ -1,12 +1,15 @@
 package com.kiosk.stock.header.controller;
 
 import com.kiosk.stock.header.DTO.StockHeaderDTO;
+import com.kiosk.stock.header.model.StockHeader;
+import com.kiosk.stock.header.model.StockHeaderDAO;
 import com.kiosk.stock.header.service.StockHeaderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -16,30 +19,32 @@ public class StockHeaderController {
     @Autowired
     private StockHeaderService stockHeaderService;
 
+    @PostMapping
+    public ResponseEntity<Void> addStockHeader(@RequestBody StockHeader stockHeader) {
+    	stockHeader.setLastUpdate(LocalDateTime.now());
+        stockHeaderService.addStockHeader(stockHeader);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+    
     @GetMapping("/{id}")
     public ResponseEntity<StockHeaderDTO> getStockHeaderById(@PathVariable("id") int id) {
-        StockHeaderDTO stockHeader = stockHeaderService.getStockHeaderById(id);
-        return stockHeader != null
-                ? new ResponseEntity<>(stockHeader, HttpStatus.OK)
+        StockHeaderDTO stockHeaderDTO = stockHeaderService.getStockHeaderById(id);
+        return stockHeaderDTO != null
+                ? new ResponseEntity<>(stockHeaderDTO, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping
     public ResponseEntity<List<StockHeaderDTO>> getAllStockHeaders() {
-        List<StockHeaderDTO> stockHeaders = stockHeaderService.getAllStockHeaders();
-        return new ResponseEntity<>(stockHeaders, HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<Void> addStockHeader(@RequestBody StockHeaderDTO stockHeaderDTO) {
-        stockHeaderService.addStockHeader(stockHeaderDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        List<StockHeaderDTO> stockHeaderDTO = stockHeaderService.getAllStockHeaders();
+        return new ResponseEntity<>(stockHeaderDTO, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateStockHeader(@PathVariable int id, @RequestBody StockHeaderDTO stockHeaderDTO) {
-        stockHeaderDTO.setId(id);
-        stockHeaderService.updateStockHeader(stockHeaderDTO);
+    public ResponseEntity<Void> updateStockHeader(@PathVariable int id, @RequestBody StockHeaderDAO stockHeaderDAO) {
+    	stockHeaderDAO.setId(id);
+    	stockHeaderDAO.setLastUpdate(LocalDateTime.now());
+        stockHeaderService.updateStockHeader(stockHeaderDAO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

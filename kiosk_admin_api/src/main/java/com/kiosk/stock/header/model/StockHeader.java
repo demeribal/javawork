@@ -1,5 +1,7 @@
 package com.kiosk.stock.header.model;
 
+import java.time.LocalDateTime;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -7,9 +9,10 @@ import lombok.Data;
 @Data
 public class StockHeader {
   private int id;        // 주문 ID (PK)
+  private int stockId;	  // 재고 ID (FK)
   private String status;   // 주문 상태
   private int quantity;    // 수량
-  private String lastUpdate; // 마지막 업데이트 시간
+  private LocalDateTime lastUpdate; // 마지막 업데이트 시간
 }
 
 /*
