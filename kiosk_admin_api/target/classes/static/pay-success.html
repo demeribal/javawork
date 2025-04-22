@@ -1,0 +1,94 @@
+<!-- 기존 토스 UI 유지 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="https://static.toss.im/icons/png/4x/icon-toss-logo.png" />
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <title>결제 완료</title>
+</head>
+<body>
+  <div class="box_section" style="width: 600px">
+    <img width="100px" src="https://static.toss.im/illusts/check-blue-spot-ending-frame.png" />
+    <h2>결제를 완료했어요</h2>
+    <div class="p-grid typography--p" style="margin-top: 50px">
+      <div class="p-grid-col text--left"><b>결제금액</b></div>
+      <div class="p-grid-col text--right" id="amount"></div>
+    </div>
+    <div class="p-grid typography--p" style="margin-top: 10px">
+      <div class="p-grid-col text--left"><b>주문번호</b></div>
+      <div class="p-grid-col text--right" id="orderId"></div>
+    </div>
+    <div class="p-grid typography--p" style="margin-top: 10px">
+      <div class="p-grid-col text--left"><b>paymentKey</b></div>
+      <div class="p-grid-col text--right" id="paymentKey" style="white-space: initial; width: 250px"></div>
+    </div>
+  </div>
+
+  <script>
+    (async () => {
+      try {
+        const params = new URLSearchParams(location.search);
+        const paycode = params.get("paycode");
+        const amount = Number(params.get("amount"));
+        const paymentmethod = params.get("method");
+        const paymenthistory = params.get("history");
+        const officeId = Number(params.get("officeId"));
+        const paidat = new Date().toISOString();
+
+        //const productData = JSON.parse(sessionStorage.getItem("productData")) || [];
+        
+        const rawProductData = params.get("productData");
+		const productData = rawProductData ? JSON.parse(decodeURIComponent(rawProductData)) : [];
+
+
+        const payload = {
+          paymentmethod,
+          paymenthistory,
+          amount,
+          paidat,
+          officeId,
+          paycode,
+          menuId: null
+        };
+
+        // 1단계: DB 저장
+        const response = await fetch('http://localhost:8080/api/pay', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!response.ok) throw new Error('서버 응답 오류');
+
+        // 2단계: 영수증 프린트
+        try {
+          await fetch('http://192.168.0.10:4242/print', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              store: "강서지점",
+              details: productData.map(p => p.name),
+              amount,
+              date: new Date().toLocaleString("ko-KR"),
+              method: paymentmethod,
+              paycode
+            })
+          });
+
+          alert('✅ 결제 완료, 영수증이 출력되었습니다.');
+        } catch (printErr) {
+          console.warn('❗ 영수증 출력 실패:', printErr);
+          alert('✅ 결제 완료, 영수증 출력에 실패했습니다.');
+        }
+
+        // 3단계: 성공 페이지 이동
+        window.location.href = 'http://192.168.0.35:5500/kiosk/BR.8_success_wj/success.html';
+      } catch (err) {
+        console.error('❌ 오류 발생:', err);
+        alert('결제 저장에 실패했습니다.');
+      }
+    })();
+  </script>
+</body>
+</html>

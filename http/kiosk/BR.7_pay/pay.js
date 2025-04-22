@@ -1,3 +1,5 @@
+const tossPayments = TossPayments('test_ck_ma60RZblrqyJQ52ok0NErwzYWBn1'); // 자신의 클라이언트 키로 대체
+
 let isSubmitting = false; // 중복 클릭 방지용 상태
 
 //버튼 active
@@ -36,12 +38,10 @@ function closeAlert() {
 
   //필수 버튼 선택 후 결제하기 버튼 활성화
   document.getElementById('payBtn').addEventListener('click', async function (e) {
-    
     if (isSubmitting) return;
     isSubmitting = true;  
 
     const isChecked = document.getElementById('terms').checked;
-  
     if (!isChecked) {
       alert('결제를 진행하려면 약관에 동의해 주세요.');
       return;
@@ -69,49 +69,33 @@ function closeAlert() {
       paycode,
       menuId: null
     };
-    
-  try{
-  // 🔽 API 요청 (POST)
-  const response = await fetch('http://localhost:8080/api/pay', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload)
-  });
-  if (!response.ok) throw new Error('서버 응답 오류');
 
-  try{
-  // 2. 영수증 프린트 요청
-  await fetch('http://192.168.0.10:4242/print', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      store: "강서지점",
-      details: productData.map(p => p.name),
-      amount: amount,
-      date: new Date().toLocaleString("ko-KR"),
-      method: paymentmethod,
-      paycode: paycode
-    })
-  });
-} catch (printErr) {
-  console.warn('❗ 영수증 출력 실패:', printErr);
-  alert('✅ 결제 완료, 영수증 출력에 실패했습니다.');
-  window.location.href = '../BR.8_success_wj/success.html';
-  return;
-}
+    // 🟦 Toss 결제 흐름 분기
+    if (paymentmethod === '카드') {
+      try {
+        await tossPayments.requestPayment('카드', {
+          amount,
+          orderId: paycode,
+          orderName: paymenthistory,
+          customerName: "고객명", // 원하는 사용자 이름
+          successUrl: `http://localhost:8080/pay-success.html` +
+          `?paycode=${paycode}` +
+          `&amount=${amount}` +
+          `&method=${paymentmethod}` +
+          `&history=${encodeURIComponent(paymenthistory)}` +
+          `&officeId=${officeId}` +
+          `&productData=${encodeURIComponent(JSON.stringify(productData))}`,
 
-  // 3. 완료 알림 및 리디렉션
-  alert('✅ 결제 완료, 영수증이 출력되었습니다.');
-  window.location.href = '../BR.8_success_wj/success.html';
-
-} catch (err) {
-  console.error('❌ 오류 발생:', err);
-  alert('결제 저장에 실패했습니다.');
-
-  isSubmitting = false;
-  payBtn.disabled = false;
-  payBtn.textContent = '결제하기';
-  
-  return;
-}
+          failUrl: `http://localhost:8080/pay-fail.html`          
+        });
+      } catch (error) {
+        console.error('❌ Toss 결제 요청 실패:', error);
+        alert('결제 요청에 실패했습니다.');
+        isSubmitting = false;
+        payBtn.disabled = false;
+        payBtn.textContent = '결제하기';
+      }
+      return;
+    }
+   
 });
