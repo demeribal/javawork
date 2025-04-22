@@ -7,7 +7,6 @@
         <id property="id" column="id"/>
         <result property="menuId" column="menu_id"/>
         <result property="officeId" column="office_id"/>
-        <result property="orderId" column="order_id"/>
         <result property="quantity" column="quantity"/>
         <result property="isUse" column="is_use"/>
         <result property="officeName" column="office_name"/>
@@ -16,13 +15,12 @@
         <result property="status" column="status"/>
     </resultMap>
 
-    <!-- StockBranch 단건 조회 (id) -->
+    <!-- StockBranch 단건 조회 (stock.id 기준) -->
     <select id="getStockBranchById" parameterType="int" resultMap="stockBranchResultMap">
         SELECT
             s.id,
             s.menu_id,
             s.office_id,
-            s.order_id,
             s.quantity,
             s.is_use,
             o.office_name,
@@ -42,7 +40,6 @@
             s.id,
             s.menu_id,
             s.office_id,
-            s.order_id,
             s.quantity,
             s.is_use,
             o.office_name,
@@ -58,16 +55,15 @@
     <!-- officeId로 StockBranch 조회 -->
     <select id="getStockBranchesByOfficeId" parameterType="int" resultMap="stockBranchResultMap">
         SELECT
-        s.id,
-        s.menu_id,
-        s.office_id,
-        s.order_id,
-        s.quantity,
-        s.is_use,
-        o.office_name,
-        m.menuName,
-        m.imagePath,
-        ob.status
+            s.id,
+            s.menu_id,
+            s.office_id,
+            s.quantity,
+            s.is_use,
+            o.office_name,
+            m.menuName,
+            m.imagePath,
+            ob.status
         FROM stock s
         LEFT JOIN office o ON s.office_id = o.id
         LEFT JOIN menu m ON s.menu_id = m.id
@@ -78,16 +74,15 @@
     <!-- menuId로 StockBranch 조회 -->
     <select id="getStockBranchesByMenuId" parameterType="int" resultMap="stockBranchResultMap">
         SELECT
-        s.id,
-        s.menu_id,
-        s.office_id,
-        s.order_id,
-        s.quantity,
-        s.is_use,
-        o.office_name,
-        m.menuName,
-        m.imagePath,
-        ob.status
+            s.id,
+            s.menu_id,
+            s.office_id,
+            s.quantity,
+            s.is_use,
+            o.office_name,
+            m.menuName,
+            m.imagePath,
+            ob.status
         FROM stock s
         LEFT JOIN office o ON s.office_id = o.id
         LEFT JOIN menu m ON s.menu_id = m.id
@@ -100,13 +95,11 @@
         INSERT INTO stock (
             menu_id,
             office_id,
-            order_id,
             quantity,
             is_use
         ) VALUES (
             #{menuId},
             #{officeId},
-            #{orderId},
             #{quantity},
             #{isUse}
         )
@@ -118,7 +111,6 @@
         SET
             menu_id = #{menuId},
             office_id = #{officeId},
-            order_id = #{orderId},
             quantity = #{quantity},
             is_use = #{isUse}
         WHERE id = #{id}
