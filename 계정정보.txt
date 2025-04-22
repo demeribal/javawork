@@ -144,7 +144,8 @@ rm -rf /usr/share/nginx/html/kiosk/*
 => 컨테이너 이동 후 파일 안에 내용 삭제
 rm -rf /opt/myapp/*
 
-docker cp kiosk/. b81de0f45337:/usr/share/nginx/html/kiosk/
+docker cp /Users/john/http/kiosk/. b81de0f45337:/usr/share/nginx/html/kiosk/
+
 
 docker cp kiosk-0.0.1-SNAPSHOT.jar b8:/opt/myapp/
 => 파일 카피
