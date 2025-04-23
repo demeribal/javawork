@@ -140,12 +140,12 @@ kill -9 [PID]
 ps -ef | grep kiosk
 tail -f output.log
 -------------------------------------------------------------------
-rm -rf /usr/share/nginx/html/kiosk/*
+rm -rf /usr/share/nginx/html/*
 => 컨테이너 이동 후 파일 안에 내용 삭제
 rm -rf /opt/myapp/*
 
-docker cp /Users/john/http/kiosk/. b81de0f45337:/usr/share/nginx/html/kiosk/
-
+docker cp /Users/john/http/. b81de0f45337:/usr/share/nginx/html/
+docker cp /Users/john/http/admin_page/. b81de0f45337:/usr/share/nginx/html/
 
 docker cp kiosk-0.0.1-SNAPSHOT.jar b8:/opt/myapp/
 => 파일 카피
