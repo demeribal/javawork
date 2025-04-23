@@ -5,7 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function fetchOrderList() {
+<<<<<<< Updated upstream
   fetch("http://tomhoon.duckdns.org:8882/api/orders")
+=======
+  fetch("http://tomhoon.duckdns.org:8882/api/stock/header")
+>>>>>>> Stashed changes
   .then(res => res.json())
     .then(data => data.orders)
     .then(order => {
@@ -188,6 +192,7 @@ function handleOptionClick(event, element) {
   dropdown.style.display = 'none';
 }
 
+<<<<<<< Updated upstream
 // 모달 닫기
 function closeModal(row) {
   const modal = row.querySelector('[data-modal-for="delivery"]');
@@ -221,6 +226,21 @@ function handleOptionClick(event, element) {
   document.querySelectorAll('.dropdown-stock-options').forEach(d => {
     if(d !== element.closest('.dropdown-stock-options')) {
       d.style.display = 'none';
+=======
+function fetchPutOrder(id, status) {
+  fetch(`http://tomhoon.duckdns.org:8882/api/stock/header/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json;charset=UTF-8",
+    },
+    body: JSON.stringify({
+      status: `${status}`,
+    }),
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+>>>>>>> Stashed changes
     }
   });
 

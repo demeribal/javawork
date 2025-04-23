@@ -3,6 +3,7 @@ function onSubmit() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
+<<<<<<< Updated upstream
     if (token === "") {
         alert("사람 인증을 진행해주세요.");
         return;
@@ -10,6 +11,9 @@ function onSubmit() {
 console.log("리캡챠 토큰: " + token);
 
     fetch("http://tomhoon.duckdns.org:8882/api/user/login", {
+=======
+    fetch("http://tomhoon.duckdns.org:8882/api/user/login", { 
+>>>>>>> Stashed changes
         method: "POST",
         credentials: "include",
         headers: {

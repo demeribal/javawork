@@ -61,7 +61,11 @@ function closeAlert() {
     };
     
   // 🔽 API 요청 (POST)
+<<<<<<< Updated upstream
   fetch('http://tomhoon.duckdns.org:8882/api/pay', {
+=======
+  const response = await fetch('http://tomhoon.duckdns.org:8882/api/pay', {
+>>>>>>> Stashed changes
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)

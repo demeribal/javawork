@@ -1,5 +1,15 @@
+<<<<<<< Updated upstream
 // 지점 필터 버튼 초기화
 const branchButtons = document.querySelectorAll('.branch-btn');
+=======
+// 발주 목록 가져오기
+function fetchOrderList() {
+    fetch("http://tomhoon.duckdns.org:8882/api/stock/branch")
+        .then(res => res.json())
+        .then(data => {
+            const orders = Array.isArray(data) ? data : (data.orders || []);
+            const tbody = document.getElementById("stock-table-body");
+>>>>>>> Stashed changes
 
 // 지점 버튼 토글 기능
 branchButtons.forEach(button => {

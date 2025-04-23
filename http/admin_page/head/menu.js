@@ -11,10 +11,36 @@ function initMenuPage() {
         }, 3000);
     }
 
+<<<<<<< Updated upstream
     // 판매상태 변경 확인 모달
     const statusConfirmModal = document.getElementById('statusConfirmModal');
     const statusConfirmYesBtn = document.getElementById('statusConfirmYes');
     const statusConfirmNoBtn = document.getElementById('statusConfirmNo');
+=======
+    // 🔧 메뉴 등록 API 호출
+    fetch("http://tomhoon.duckdns.org:8882/api/menus", {
+      method: "POST",
+      body: formData
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("서버 응답 오류");
+        return res.json();
+        
+      })
+      .then(data => {
+        console.log("📦 서버 응답 본문:", data.message);  // 로그 출력
+        document.getElementById("menuConfirmModal").style.display = "none";
+        document.getElementById("menuAddModal").style.display = "none";
+        showToast("메뉴가 성공적으로 등록되었습니다.");
+        fetchMenuData();
+      })
+      .catch(err => {
+        console.error("❌ 메뉴 등록 실패:", err);
+        alert("메뉴 등록에 실패했습니다.");
+      });
+    }
+  }
+>>>>>>> Stashed changes
 
     // 체크박스 상태 변경 이벤트 리스너 추가
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
