@@ -63,6 +63,13 @@ public class MenuController {
         System.out.println(getmenus);
         return menuService.getAllMenusdto();
     }
+    
+    // [1] 이름으로 메뉴 조회
+    @GetMapping("/{menuName}")
+    public Menu getMenuByName(@PathVariable String menuName) {
+    	System.out.println(menuName);
+    	return menuService.getMenuByName(menuName);
+    }
 
 	 // [2] 메뉴 등록
     @PostMapping

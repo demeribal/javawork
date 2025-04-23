@@ -30,6 +30,10 @@ public class MenuService {
 		return mapper.selectAlldto();
 	}
 	
+	public Menu getMenuByName(String menuName) {
+		return mapper.selectOneByName(menuName);
+	}
+	
 	public int updateMenu(int id, MenuDAO menudao) {
 		Menu menu = Menu.builder()
 						.id(id)

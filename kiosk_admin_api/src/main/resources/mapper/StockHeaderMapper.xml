@@ -13,66 +13,70 @@
         <result property="lastUpdate" column="last_update"/>
     </resultMap>
 
+	<!-- StockHeader 삽입 -->
+    <insert id="insertStockHeader" parameterType="com.kiosk.stock.header.model.StockHeader" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO orders (stock_id, `status`, quantity, last_Update)
+        VALUES (
+            #{stockId},
+            #{status},
+            #{quantity},
+			#{lastUpdate}
+        )
+    </insert>
+	
     <!-- StockHeader 단건 조회 -->
     <select id="getStockHeaderById" parameterType="int" resultMap="stockHeaderResultMap">
-        SELECT
-            s.id,
-            o.office_name,
-            m.menuName,
-            s.quantity,
-            s.is_use,
-            ob.status,
-            ob.last_update
-        FROM stock s
-        LEFT JOIN office o ON s.office_id = o.id
-        LEFT JOIN menu m ON s.menu_id = m.id
-        LEFT JOIN orders ob ON s.order_id = ob.id
-        WHERE s.id = #{id}
+        SELECT 
+			ODR.id,
+			OFC.office_name,
+			M.menuName,
+			ODR.quantity,
+			S.is_use,
+			ODR.`status`,
+			ODR.last_update
+		FROM
+			orders ODR
+		JOIN stock S
+			ON ODR.stock_id = S.id
+		JOIN office OFC
+			ON	S.office_id = OFC.id
+		JOIN menu M
+			ON S.menu_id = M.id
+        WHERE ODR.id = #{id}
     </select>
 
     <!-- StockHeader 전체 조회 -->
     <select id="getAllStockHeaders" resultMap="stockHeaderResultMap">
-        SELECT
-            s.id,
-            o.office_name,
-            m.menuName,
-            s.quantity,
-            s.is_use,
-            ob.status,
-            ob.last_update
-        FROM stock s
-        LEFT JOIN office o ON s.office_id = o.id
-        LEFT JOIN menu m ON s.menu_id = m.id
-        LEFT JOIN orders ob ON s.order_id = ob.id
+		SELECT 
+			ODR.id,
+			OFC.office_name,
+			M.menuName,
+			ODR.quantity,
+			S.is_use,
+			ODR.`status`,
+			ODR.last_update
+		FROM
+			orders ODR
+		JOIN stock S
+			ON ODR.stock_id = S.id
+		JOIN office OFC
+			ON	S.office_id = OFC.id
+		JOIN menu M
+			ON S.menu_id = M.id
     </select>
-
-    <!-- StockHeader 삽입 -->
-    <insert id="insertStockHeader" parameterType="com.kiosk.stock.header.DTO.StockHeaderDTO" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO stock (office_id, menu_id, order_id, quantity, is_use)
-        VALUES (
-            #{officeId},
-            #{menuId},
-            #{orderId},
-            #{quantity},
-            #{isUse}
-        )
-    </insert>
-
+    
     <!-- StockHeader 업데이트 -->
-    <update id="updateStockHeader" parameterType="com.kiosk.stock.header.DTO.StockHeaderDTO">
-        UPDATE stock
+    <update id="updateStockHeader" parameterType="com.kiosk.stock.header.model.StockHeaderDAO">
+        UPDATE orders
         SET
-            office_id = #{officeId},
-            menu_id = #{menuId},
-            order_id = #{orderId},
-            quantity = #{quantity},
-            is_use = #{isUse}
+            `status` = #{status},
+			last_update = #{lastUpdate}
         WHERE id = #{id}
     </update>
 
     <!-- StockHeader 삭제 -->
     <delete id="deleteStockHeader" parameterType="int">
-        DELETE FROM stock WHERE id = #{id}
+        DELETE FROM orders WHERE id = #{id}
     </delete>
 
 </mapper>

@@ -54,5 +54,11 @@ public class PayController {
             return payService.getAllPayOrdered(order);
         }
     }
+    
+    @GetMapping("/admin")
+    public List<PayDTO> getPayAdminView() {
+        return payService.getPayWithMenuAndOffice();
+    }
+
 
 }

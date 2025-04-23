@@ -151,7 +151,8 @@ function sessionManagement(){
               quantity: product.quantity,
               totalPrice: product.totalPrice,
               option: product.option,
-              flavors: product.flavors
+              flavors: product.flavors,
+              imageUrl: product.imageUrl
             });
           }
         });
@@ -159,8 +160,6 @@ function sessionManagement(){
         sessionStorage.setItem('productData', JSON.stringify(productData));
         // tempProductData 키 삭제 -> tempProductData 삭제
         sessionStorage.removeItem('tempProductData');
-
-        
       }
     }
     

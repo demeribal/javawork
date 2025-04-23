@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <link rel="icon" href="https://static.toss.im/icons/png/4x/icon-toss-logo.png" />
-  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" type="text/css" href="/style.css" />
   <title>결제 완료</title>
 </head>
 <body>
@@ -33,23 +33,41 @@
         const amount = Number(params.get("amount"));
         const paymentmethod = params.get("method");
         const paymenthistory = params.get("history");
-        const officeId = Number(params.get("officeId"));
-        const paidat = new Date().toISOString();
+        //const stockId = parseInt(params.get("stockId"));
+        //console.log("✅ 받은 stockId:", stockId);
 
-        //const productData = JSON.parse(sessionStorage.getItem("productData")) || [];
+        const paidat = new Date().toISOString();
+        
+
+        //<!--const productData = JSON.parse(sessionStorage.getItem("productData")) || [];-->
         
         const rawProductData = params.get("productData");
-		const productData = rawProductData ? JSON.parse(decodeURIComponent(rawProductData)) : [];
+		const productData = rawProductData ? JSON.parse(rawProductData) : [];
+		const flavors = productData.forEach(data =>{
+		    data.flavors.forEach(flavor =>{
+		        flavor.forEach(count => {
+		           return count;
+		        })
+		    })
+		})
+		
+		const stockId = [];
+		flavors.forEach(flavor=>{
+			stockId.add(fetch(`http://localhost:8080/api/menus/${flavor}`).then(res=>res.json()).then(data=> data.id))
+		})
+		
+		const orderId = fetch("http://localhost:8080/api/menus")
 
-
+        document.getElementById("amount").textContent = amount.toLocaleString() + "원";
+        document.getElementById("orderId").textContent = paycode;
+		
         const payload = {
           paymentmethod,
           paymenthistory,
           amount,
           paidat,
-          officeId,
           paycode,
-          menuId: null
+          stockId: 1
         };
 
         // 1단계: DB 저장
@@ -59,7 +77,10 @@
           body: JSON.stringify(payload)
         });
 
-        if (!response.ok) throw new Error('서버 응답 오류');
+        if (!response.ok) {
+        	  window.location.href = `http://localhost:8080/pay-fail.html?message=${encodeURIComponent('DB 저장 실패')}&code=500`;
+        	  return;
+        	}
 
         // 2단계: 영수증 프린트
         try {
@@ -68,9 +89,9 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               store: "강서지점",
-              details: productData.map(p => p.name),
+              details: history+`${flavors}`,
               amount,
-              date: new Date().toLocaleString("ko-KR"),
+              date: paidat, //new Date().toLocaleString("ko-KR"),
               method: paymentmethod,
               paycode
             })
@@ -84,9 +105,11 @@
 
         // 3단계: 성공 페이지 이동
         window.location.href = 'http://192.168.0.35:5500/kiosk/BR.8_success_wj/success.html';
+        
       } catch (err) {
         console.error('❌ 오류 발생:', err);
         alert('결제 저장에 실패했습니다.');
+        window.location.href = `http://localhost:8080/pay-fail.html?message=${encodeURIComponent('DB 저장 실패')}&code=500`;
       }
     })();
   </script>

@@ -16,4 +16,6 @@ public interface PayMapper{
 	List<Pay> getPaysFiltered(String date, String order);
 	List<Pay> getPaysBetweenDates(@Param("fromDate") String fromDate, @Param("toDate") String toDate, @Param("order") String order);
 	List<Pay> getAllPayOrdered(@Param("order") String order);
+	List<PayDTO> getPayWithMenuAndOffice();
+
 }

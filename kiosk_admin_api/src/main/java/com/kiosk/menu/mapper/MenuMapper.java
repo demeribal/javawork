@@ -17,6 +17,8 @@ public interface MenuMapper {
 	List<Menu> selectAll();
 	
 	List<MenuDTO> selectAlldto();	
+	
+	Menu selectOneByName(String menuName);
 
 	int update(Menu menu);
 

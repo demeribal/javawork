@@ -38,4 +38,8 @@ public class PayService {
 	    return mapper.getAllPayOrdered(order);
 	}
 
+	public List<PayDTO> getPayWithMenuAndOffice() {
+	    return mapper.getPayWithMenuAndOffice();
+	}
+
 }
