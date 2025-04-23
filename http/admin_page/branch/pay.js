@@ -345,7 +345,7 @@ function fetchPayList({ fromDate = '', toDate = '', order = 'desc' } = {}) {
     queryParams.append('toDate', toDate);
   }
 
-  fetch(`http://tomhoon.duckdns.org:8882/api/pay?${queryParams.toString()}`)
+  fetch(`http://localhost:8080/api/pay?${queryParams.toString()}`)
   .then(res => res.json())
   .then(data => {
     const tbody = document.getElementById("pay-table-body");
