@@ -57,7 +57,6 @@ body {
 .tab-menu {
     display: flex;
     justify-content: center;
-    margin-top: 114px;
 }
 
 .tab {
@@ -180,15 +179,22 @@ body {
 }
 
 .payment-section {
-    width: 1024px;
-    height: 431px;
-}
-.payment-summary {
+   
     position: absolute;
-    width: 100%;
+    width: 1024px;
     height: 282px;
+    left: 0px;
     top: 1047px;
 
+    background: #F6F6F6;
+
+    
+}
+.payment-summary {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    height: 282px;
     background: #F6F6F6;
 }
 
@@ -212,13 +218,11 @@ body {
 }
 
 .payment-buttons {
-    position: absolute;
+    position: relative;
     width: 1024px;
     height: 233px;
-    top: 1329px;
-    background: #FFFFFF;
+    background: #fff;
 }
-
 .prev-btn, .next-btn {
     font-size: 30px;
 }

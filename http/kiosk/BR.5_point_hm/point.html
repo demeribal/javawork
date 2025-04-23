@@ -13,7 +13,7 @@
     <header class="header">
         <div class="logo"></div>
 
-        <a href="#" id="exit-button"><img src="images/delete-btn.png" class="close-btn exit-button" alt="Exit Button"></a>
+        <a href="#" id="exit-button"><img src="images/close-btn.png" class="close-btn exit-button" alt="Exit Button"></a>
     </header>
 
     <div class="wrapper">
@@ -32,77 +32,77 @@
             </div>
 
             <!-- 해피포인트 옵션 콘텐츠 행 -->
-        <div class="content-row">
-            <!-- 왼쪽 섹션 -->
-            <div class="left-section">
-                <div class="option-group" data-group="point">
-                    <button class="option-btn" data-type="save" data-group="point">
-                    <img src="images/HappyPoint.png" alt="해피포인트 적립하기">
-                    <p>적립하기</p>
-                    </button>
-                    <button class="option-btn" data-type="use" data-group="point">
-                    <img src="images/HappyPoint.png" alt="해피포인트 사용하기">
-                    <p>사용하기</p>
-                    </button>
-                </div>
-            </div>
-        
-            <!-- 오른쪽 섹션 -->
-            <div class="right-section">
-                <div class="description-container">
-                    <p class="highlight">* 해피포인트 적립하기</p>
-                    <p>해피포인트 적립을 선택하시면 결제완료 후 자동 적립됩니다.</p>
-                    <p class="highlight">* 해피포인트 사용하기</p>
-                    <p>100포인트 이상 보유시 사용 가능합니다.</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- KT/임직원 할인 콘텐츠 행 -->
-        <div class="content-row second">
-            <div class="left-section">
-                <div class="option-group" data-group="coupon">
-                    <button class="option-btn" data-type="kt" data-group="coupon">
-                    <img src="images/ktlogo 1.png" alt="KT 더블할인">
-                    <p>KT 할인</p>
-                    </button>
-                    <button class="option-btn" data-type="staff" data-group="coupon">
-                    <img src="images/1임직원 할인.png" alt="임직원 할인">
-                    <p>임직원 할인</p>
-                    </button>
-                </div>
-            </div>
-        
-            <div class="right-section">
-                <div class="description-container">
-                    <p class="highlight">* KT 더블할인</p>
-                    <p>상품이름에 KT가 붙어있는 KT전용 상품만 할인가능합니다.</p>
-                    <p>제휴사 할인 적용시 해피포인트는 동일하게 0.1% 적립 됩니다.</p>
-                </div>
-            </div>
-        
-        
-            <!-- 쿠폰 영역에서만 보이는 문구 -->
-            <span class="payment-title" id="card-only-msg" style="display: none;">
-                현재 신용카드만 결제 가능합니다
-            </span>
-        </div>
-
-            <!-- 결제 요약 -->
-            <div class="payment-section">
-                <div class="payment-summary">
-                    <div class="payment-details">
-                        <p class="total-title1">최종 결제금액 <span class="total-amount"></span></p>
-                        <p class="total-title2">총 주문 금액 <span class="order-amount"></span> - 총 할인 금액 <span class="discount-amount">₩0</span></p>
+            <div class="content-row">
+                <!-- 왼쪽 섹션 -->
+                <div class="left-section">
+                    <div class="option-group" data-group="point">
+                        <button class="option-btn" data-type="save" data-group="point">
+                        <img src="images/HappyPoint.png" alt="해피포인트 적립하기">
+                        <p>적립하기</p>
+                        </button>
+                        <button class="option-btn" data-type="use" data-group="point">
+                        <img src="images/HappyPoint.png" alt="해피포인트 사용하기">
+                        <p>사용하기</p>
+                        </button>
                     </div>
                 </div>
-                
-                <div class="payment-buttons">
-                    <button class="prev-btn" onclick="location.href='../BR.4_order_wj/order.html'">← 이전</button>
-                    <button class="next-btn">다음단계(결제하기)</button>
+        
+                <!-- 오른쪽 섹션 -->
+                <div class="right-section">
+                    <div class="description-container">
+                        <p class="highlight">* 해피포인트 적립하기</p>
+                        <p>해피포인트 적립을 선택하시면 결제완료 후 자동 적립됩니다.</p>
+                        <p class="highlight">* 해피포인트 사용하기</p>
+                        <p>100포인트 이상 보유시 사용 가능합니다.</p>
+                    </div>
                 </div>
             </div>
+            
+            <!-- KT/임직원 할인 콘텐츠 행 -->
+            <div class="content-row second">
+                <div class="left-section">
+                    <div class="option-group" data-group="coupon">
+                        <button class="option-btn" data-type="kt" data-group="coupon">
+                        <img src="images/ktlogo 1.png" alt="KT 더블할인">
+                        <p>KT 할인</p>
+                        </button>
+                        <button class="option-btn" data-type="staff" data-group="coupon">
+                        <img src="images/1임직원 할인.png" alt="임직원 할인">
+                        <p>임직원 할인</p>
+                        </button>
+                    </div>
+                </div>
+            
+                <div class="right-section">
+                    <div class="description-container">
+                        <p class="highlight">* KT 더블할인</p>
+                        <p>상품이름에 KT가 붙어있는 KT전용 상품만 할인가능합니다.</p>
+                        <p>제휴사 할인 적용시 해피포인트는 동일하게 0.1% 적립 됩니다.</p>
+                    </div>
+                </div>
+            
+            
+                <!-- 쿠폰 영역에서만 보이는 문구 -->
+                <span class="payment-title" id="card-only-msg" style="display: none;">
+                    현재 신용카드만 결제 가능합니다
+                </span>
+            </div>
+        </div>
         
+        <!-- 결제 요약 -->
+        <div class="payment-section">
+            <div class="payment-summary">
+                <div class="payment-details">
+                    <p class="total-title1">최종 결제금액 <span class="total-amount"></span></p>
+                    <p class="total-title2">총 주문 금액 <span class="order-amount"></span> - 총 할인 금액 <span class="discount-amount">₩0</span></p>
+                </div>
+            </div>
+            
+            <div class="payment-buttons">
+                <button class="prev-btn" onclick="location.href='../BR.4_order_wj/order.html'">← 이전</button>
+                <button class="next-btn">다음단계(결제하기)</button>
+            </div>
+        </div>
     </div>    
 </body>
 </html>

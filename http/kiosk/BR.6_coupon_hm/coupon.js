@@ -5,14 +5,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const totalAmountElement = document.querySelector(".total-amount");
     const orderAmountElement = document.querySelector('.order-amount');
 
-    // 💡 금액 렌더링
-    const totalAmount = parseInt(sessionStorage.getItem('totalAmount')) || 0;
-    const discountAmount = parseInt(sessionStorage.getItem('discountAmount')) || 0;
-    const finalAmount = totalAmount - discountAmount;
+    const priceData = JSON.parse(sessionStorage.getItem('priceData'));
+    if (!priceData) {
+        alert("가격 정보가 없습니다. 다시 시도해주세요.");
+        return;
+    }
 
-    totalAmountElement.textContent = `₩${finalAmount.toLocaleString()}`;
-    orderAmountElement.textContent = `₩${totalAmount.toLocaleString()}`;
-    discountAmountElement.textContent = `₩${discountAmount.toLocaleString()}`;
+    // 가격 반영
+    orderAmountElement.textContent = `₩${priceData.totalAmount.toLocaleString()}`;
+    discountAmountElement.textContent = `₩${priceData.discountAmount.toLocaleString()}`;
+    totalAmountElement.textContent = `₩${priceData.paymentPrice.toLocaleString()}`;
 
     // 옵션 버튼 클릭 이벤트
     document.querySelectorAll('.option-btn').forEach(btn => {
