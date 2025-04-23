@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="success.css">
-    <script src="../all.js"></script>
+    <script src="/kiosk/all.js"></script>
 </head>
 <body>
     <div class="payment-container">
@@ -43,7 +43,7 @@
         </div>
 
         <div class="button-section">
-            <div class="btn btn-agree selected" id="agree-btn">
+            <div class="btn btn-agree" id="agree-btn">
                 <div class="btn-circle">
                     <div class="check-icon">✓</div>
                 </div>
@@ -62,7 +62,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const agreeBtn = document.getElementById('agree-btn');
             const disagreeBtn = document.getElementById('disagree-btn');
-            let selectedBtn = agreeBtn;
+            let selectedBtn;
 
             function handleButtonClick(btn) {
                 if (selectedBtn === btn) {
@@ -74,7 +74,6 @@
                     if (selectedBtn) {
                         selectedBtn.classList.remove('selected');
                     }
-                    
                     btn.classList.add('selected');
                     selectedBtn = btn;
                 }
@@ -82,10 +81,15 @@
 
             agreeBtn.addEventListener('click', function() {
                 handleButtonClick(agreeBtn);
+                alert('포인트 적립이 완료되었습니다');
+                sessionStorage.clear(); 
+                window.location.href = '/index.html';
             });
 
             disagreeBtn.addEventListener('click', function() {
                 handleButtonClick(disagreeBtn);
+                sessionStorage.clear(); 
+                window.location.href = '/index.html';
             });
         });
     </script>

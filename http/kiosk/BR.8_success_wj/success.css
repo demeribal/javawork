@@ -153,6 +153,18 @@ body {
     border: none;
 }
 
+.btn:hover  {
+    background-color: #F20C93;
+    color: #fff;
+    border: none;
+}
+.btn:hover .btn-circle {
+    background-color: #fff;
+    border: none;
+}
+.btn:hover .check-icon {
+    color: #F20C93; 
+}
 .btn-circle {
     width: 38px;
     height: 38px;

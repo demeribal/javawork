@@ -24,11 +24,6 @@ display: flex;
 justify-content: space-between;
 }
 
-/*css 충돌로 추가*/
-.modal-content {
-    position: static !important;
-  }  
-
 /* -------------------- From / To 입력 -------------------- */
 .modal-header {
 display: flex;
@@ -252,30 +247,20 @@ box-sizing: border-box;
 /* -------------------- flatpickr 일 선택 스타일 커스터마이징 -------------------- */  
 .flatpickr-rContainer {
 width:100% ;
-display: flex;
+display: flex ;
 flex-direction: column;
-justify-content: space-between;
-height: 100% !important;
 }
 
 .dayContainer {
-width:100% !important;
-max-width: 100%;
-display: grid;
 grid-template-columns: repeat(7, 1fr);
 justify-items: center;
 align-items: center;
 box-sizing: border-box;
-/*충돌로 인한 css 추가*/
-max-width: none !important;
 }
 
 .flatpickr-day {
-height: 100% !important;
-width:100% !important;
-padding: 0 !important;
-margin: 0 !important;
-box-sizing: border-box;
+height: auto;
+width:100%;
 }
 
 /* --------------------글자 색-------------------- */  
@@ -343,10 +328,61 @@ overflow-y: auto;
 width: 100%;
 border-collapse: collapse;
 }
-  
-/*충돌로 인한 css 추가*/
-/* 날짜 그리드(dayContainer)가 남은 공간을 전부 사용 */
-.date-modal .dayContainer {
-display: grid !important;
+
+/* flatpickr 연도 입력의 ▲▼ 화살표 없애기 */
+.flatpickr-current-month .arrowUp,
+.flatpickr-current-month .arrowDown {
+  display: none !important;
 }
+
+
+/* 📌 날짜 줄 (dayContainer) 꽉 차게 */
+.dayContainer {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0px;
+    width: 100% !important;
+    max-width: 100% !important;
+    justify-content: space-between; /* flex 기반이면 삭제 */
+    align-items: center;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+  
+  /* 📌 요일 줄도 꽉 차게 */
+  .flatpickr-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 4px;
+  }
+  
+  .flatpickr-weekdaycontainer {
+    width: 100%;
+  }
+  
+  .flatpickr-day {
+    width: 100% !important;
+    height: 40px !important;
+    line-height: 40px !important;
+  }
+  
+  /* 선택된 날짜 표시 안 보이게 */
+.flatpickr-day.selected {
+    background: none !important;
+    color: inherit !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  .flatpickr-day.today {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 50% !important;
+    background-color: #F3F0FF !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   

@@ -298,7 +298,7 @@ tempProductData.forEach(product => {
         const item = document.createElement("div");
         item.className = "flavor-item";
 
-      const serverURL = 'http://tomhoon.duckdns.org:8882';
+      const serverURL = 'http://localhost:8080';
       
       const encodedImagePath = encodeURI(menu.imagePath);
       item.innerHTML = `
