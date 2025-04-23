@@ -30,6 +30,11 @@
 		menu M
     </select>
 
+    <select id="selectOneByName" resultType="com.kiosk.menu.model.Menu">
+        select * from menu
+        where menuName = #{menuName}
+    </select>
+
     <!-- [3] 메뉴 수정 -->
     <update id="update" parameterType="com.kiosk.menu.model.Menu">
         UPDATE menu

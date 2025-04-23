@@ -2,39 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kiosk.pay.mapper.PayMapper">
 <insert id="insert" parameterType="com.kiosk.pay.DTO.PayDTO">
-  INSERT INTO pay (pay_code, payment_method, payment_history, amount, paid_at, office_id)
-  VALUES (#{paycode}, #{paymentmethod}, #{paymenthistory}, #{amount}, #{paidat}, #{officeId})
+  INSERT INTO pay (pay_code, payment_method, payment_history, amount, paid_at, stock_id)
+  VALUES (#{paycode}, #{paymentmethod}, #{paymenthistory}, #{amount}, #{paidat}, #{stockId})
 </insert>
 
 
 <select id="getAllPay" resultType="com.kiosk.pay.DTO.PayDTO">
-  SELECT
+   SELECT
     p.id,
     p.pay_code AS paycode,
     p.payment_method AS paymentmethod,
     p.payment_history AS paymenthistory,
     p.amount,
     p.paid_at AS paidat,
-    p.office_id AS officeId,
+    s.office_id AS officeId,
+    s.menu_id AS menuId,
     o.office_name AS storeLocation
   FROM pay p
-  JOIN office o ON p.office_id = o.id
-  ORDER BY p.paid_at DESC
+  JOIN stock s ON p.stock_id = s.id
+  JOIN office o ON s.office_id = o.id
+  ORDER BY p.paid_at
 </select>
 
   
 <select id="getPaysFiltered" resultType="com.kiosk.pay.DTO.PayDTO">
-  SELECT
+   SELECT
     p.id,
     p.pay_code AS paycode,
     p.payment_method AS paymentmethod,
     p.payment_history AS paymenthistory,
     p.amount,
     p.paid_at AS paidat,
-    p.office_id AS officeId,
+    s.office_id AS officeId,
+    s.menu_id AS menuId,
     o.office_name AS storeLocation
   FROM pay p
-  JOIN office o ON p.office_id = o.id
+  JOIN stock s ON p.stock_id = s.id
+  JOIN office o ON s.office_id = o.id
   <where>
     <if test="date != null and date != ''">
       DATE(p.paid_at) = #{date}
@@ -48,17 +52,19 @@
 </select>
 
 <select id="getPaysBetweenDates" resultType="com.kiosk.pay.DTO.PayDTO">
-  SELECT
+   SELECT
     p.id,
     p.pay_code AS paycode,
     p.payment_method AS paymentmethod,
     p.payment_history AS paymenthistory,
     p.amount,
     p.paid_at AS paidat,
-    p.office_id AS officeId,
+    s.office_id AS officeId,
+    s.menu_id AS menuId,
     o.office_name AS storeLocation
   FROM pay p
-  JOIN office o ON p.office_id = o.id
+  JOIN stock s ON p.stock_id = s.id
+  JOIN office o ON s.office_id = o.id
   WHERE DATE(p.paid_at) BETWEEN #{fromDate} AND #{toDate}
   ORDER BY p.paid_at
   <choose>
@@ -75,10 +81,12 @@
     p.payment_history AS paymenthistory,
     p.amount,
     p.paid_at AS paidat,
-    p.office_id AS officeId,
+    s.office_id AS officeId,
+    s.menu_id AS menuId,
     o.office_name AS storeLocation
   FROM pay p
-  JOIN office o ON p.office_id = o.id
+  JOIN stock s ON p.stock_id = s.id
+  JOIN office o ON s.office_id = o.id
   ORDER BY p.paid_at
   <choose>
     <when test="order == 'asc'">ASC</when>

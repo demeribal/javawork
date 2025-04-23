@@ -15,7 +15,7 @@
         <result property="status" column="status"/>
     </resultMap>
 
-    <!-- StockBranch 단건 조회 (stock.id 기준) -->
+    <!-- StockBranch 단건 조회 (id) -->
     <select id="getStockBranchById" parameterType="int" resultMap="stockBranchResultMap">
         SELECT
             s.id,
@@ -25,12 +25,10 @@
             s.is_use,
             o.office_name,
             m.menuName,
-            m.imagePath,
-            ob.status
+            m.imagePath
         FROM stock s
         LEFT JOIN office o ON s.office_id = o.id
         LEFT JOIN menu m ON s.menu_id = m.id
-        LEFT JOIN orders ob ON s.order_id = ob.id
         WHERE s.id = #{id}
     </select>
 
@@ -44,12 +42,10 @@
             s.is_use,
             o.office_name,
             m.menuName,
-            m.imagePath,
-            ob.status
+            m.imagePath
         FROM stock s
         LEFT JOIN office o ON s.office_id = o.id
         LEFT JOIN menu m ON s.menu_id = m.id
-        LEFT JOIN orders ob ON s.order_id = ob.id
     </select>
 
     <!-- officeId로 StockBranch 조회 -->
@@ -62,12 +58,10 @@
             s.is_use,
             o.office_name,
             m.menuName,
-            m.imagePath,
-            ob.status
+            m.imagePath
         FROM stock s
         LEFT JOIN office o ON s.office_id = o.id
         LEFT JOIN menu m ON s.menu_id = m.id
-        LEFT JOIN orders ob ON s.order_id = ob.id
         WHERE s.office_id = #{officeId}
     </select>
 
@@ -81,12 +75,10 @@
             s.is_use,
             o.office_name,
             m.menuName,
-            m.imagePath,
-            ob.status
+            m.imagePath
         FROM stock s
         LEFT JOIN office o ON s.office_id = o.id
         LEFT JOIN menu m ON s.menu_id = m.id
-        LEFT JOIN orders ob ON s.order_id = ob.id
         WHERE s.menu_id = #{menuId}
     </select>
 
