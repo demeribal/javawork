@@ -140,12 +140,47 @@ kill -9 [PID]
 ps -ef | grep kiosk
 tail -f output.log
 -------------------------------------------------------------------
-rm -rf /usr/share/nginx/html/*
-=> 컨테이너 이동 후 파일 안에 내용 삭제
-rm -rf /opt/myapp/*
+**John FileZila에 있는 파일 복사하여 사용**
 
-docker cp /Users/john/http/. b81de0f45337:/usr/share/nginx/html/
-docker cp /Users/john/http/admin_page/. b81de0f45337:/usr/share/nginx/html/
+1. FileZila John계정으로 접속
 
-docker cp kiosk-0.0.1-SNAPSHOT.jar b8:/opt/myapp/
-=> 파일 카피
+2. john 파일에 build install한 snapshat 이동
+
+3. jhon/http 안에 내용들 추가
+
+4. putty로 이동하여 우리 ngnix에 접속 b81de0f45337
+
+5. 기존에 백그라운드 실행 중인 것 확인
+=>ps -ef | grep kiosk
+
+6. 실행 중인 java snapshat 삭제
+=> kill -9 [PID]
+
+7. 변경할 파일들 삭제
+=> 서버는 opt/myapp 안에 있음: rm -rf /opt/myapp/*
+=> http는 다음과 같은 주소: rm -rf /usr/share/nginx/html/*
+여기서 *은 그 안에 모든 파일 삭제
+
+8. cd 명령어를 이용해 전부 삭제되었는 지 확인
+=> cd /opt/myapp/ 이동 후 ls
+=> cd /usr/share/nginx/html/ 이동 후 ls
+
+9. exit하여 macmini로 이동 후 john에 있는 파일 우리 nginx 서버로 복사
+=> docker cp kiosk-0.0.1-SNAPSHOT.jar b8:/opt/myapp/
+여기서 kiosk-0.0.1SNAPSHOT.jar 은 옮길 파일 이름 b8은 우리 ngnix 주소 :뒤에는 내가 이동시킬 폴더 위치
+=> docker cp /Users/john/http/. b81de0f45337:/usr/share/nginx/html/
+http 안에 있는 모든 내용을 우리 nginix 서버에 있는 /usr/share/nginx/html/ 이 주소로 파일 복사
+
+10. cd 명령을 사용하여 전부 이동했는 지 확인
+=> cd /opt/myapp/ 이동 후 ls
+=> cd /usr/share/nginx/html/ 이동 후 ls
+
+11. shapshot이 있는 폴더로 이동하여 백그라운드 실행
+=> cd /opt/myapp/
+=> nohup java -jar kiosk-0.0.1-SNAPSHOT.jar &
+여기서 기다리면 자동으로 나와짐
+
+12. 실행 확인하여  snapshot이 실행 중이면 성공
+=> ps -ef | grep kiosk
+
+----------------------------------------------------------------------------------------
