@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -22,6 +23,10 @@ public class StockHeaderService {
         stockHeaderMapper.insertStockHeader(stockHeader);
     }
 	
+	public Optional<StockHeaderDAO> findById(int id) {
+		return null;
+	}
+    
     public StockHeaderDTO getStockHeaderById(int id) {
         return stockHeaderMapper.getStockHeaderById(id);
     }

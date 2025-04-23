@@ -5,7 +5,6 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
 
-@Builder
 @Data
 public class StockHeaderDAO {
   private int id;        // 주문 ID (PK)

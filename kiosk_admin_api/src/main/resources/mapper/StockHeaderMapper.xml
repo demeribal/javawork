@@ -15,7 +15,7 @@
 
 	<!-- StockHeader 삽입 -->
     <insert id="insertStockHeader" parameterType="com.kiosk.stock.header.model.StockHeader" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO orders (stock_id, status, quantity, last_Update)
+        INSERT INTO orders (stock_id, `status`, quantity, last_Update)
         VALUES (
             #{stockId},
             #{status},
@@ -69,7 +69,7 @@
     <update id="updateStockHeader" parameterType="com.kiosk.stock.header.model.StockHeaderDAO">
         UPDATE orders
         SET
-            status = #{status},
+            `status` = #{status},
 			last_update = #{lastUpdate}
         WHERE id = #{id}
     </update>

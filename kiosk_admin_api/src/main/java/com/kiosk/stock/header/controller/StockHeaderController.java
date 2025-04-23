@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/stock/header")
@@ -41,10 +42,16 @@ public class StockHeaderController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateStockHeader(@PathVariable int id, @RequestBody StockHeaderDAO stockHeaderDAO) {
+    public ResponseEntity<Void> updateStockHeader(@PathVariable int id, @RequestBody Map<String, String> body) {
+    	String status = body.get("status");
+    	System.out.println(status);
+
+    	StockHeaderDAO stockHeaderDAO = new StockHeaderDAO();
     	stockHeaderDAO.setId(id);
+    	stockHeaderDAO.setStatus(status);
     	stockHeaderDAO.setLastUpdate(LocalDateTime.now());
         stockHeaderService.updateStockHeader(stockHeaderDAO);
+        
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
