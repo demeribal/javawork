@@ -18,6 +18,8 @@ public interface MenuMapper {
 	
 	List<MenuDTO> selectAlldto();	
 
+	Menu selectOneByName(String menuName);
+
 	int update(Menu menu);
 
 	int delete(int id);

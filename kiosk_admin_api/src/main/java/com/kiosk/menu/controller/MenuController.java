@@ -64,6 +64,12 @@ public class MenuController {
         return menuService.getAllMenusdto();
     }
 
+    // [1] 이름으로 메뉴 조회
+    @GetMapping("/{menuName}")
+    public Menu getMenuByName(@PathVariable String menuName) {
+    	return menuService.getMenuByName(menuName);
+    }
+
 	 // [2] 메뉴 등록
     @PostMapping
     public ResponseEntity<?> createMenu(
