@@ -143,23 +143,31 @@ tail -f output.log
 **John FileZila에 있는 파일 복사하여 사용**
 
 1. FileZila John계정으로 접속
+=> 호스트: tomhoon.duckdns.org
+=> 포트: 20022
+=> 사용자: john
+=> 비밀번호: jhonadzc1313!
 
 2. john 파일에 build install한 snapshat 이동
+=> 경로: /Users/john
 
 3. jhon/http 안에 내용들 추가
+=> 경로: /Users/john/http
 
 4. putty로 이동하여 우리 ngnix에 접속 b81de0f45337
+=>docker exec -it b81de0f45337 /bin/bash
+*putty 접속 로그인은 FileZila 접속 방법과 동일
 
-5. 기존에 백그라운드 실행 중인 것 확인
+5. 기존에 백그라운드 실행 중인 것 확인하여 PID 번호 확인
 =>ps -ef | grep kiosk
 
-6. 실행 중인 java snapshat 삭제
+6. 실행 중인 java snapshat 삭제(없으면 안해도 됌)
 => kill -9 [PID]
 
 7. 변경할 파일들 삭제
 => 서버는 opt/myapp 안에 있음: rm -rf /opt/myapp/*
 => http는 다음과 같은 주소: rm -rf /usr/share/nginx/html/*
-여기서 *은 그 안에 모든 파일 삭제
+* 여기서 *은 그 안에 모든 파일 삭제
 
 8. cd 명령어를 이용해 전부 삭제되었는 지 확인
 => cd /opt/myapp/ 이동 후 ls
@@ -171,6 +179,8 @@ tail -f output.log
 => docker cp /Users/john/http/. b81de0f45337:/usr/share/nginx/html/
 http 안에 있는 모든 내용을 우리 nginix 서버에 있는 /usr/share/nginx/html/ 이 주소로 파일 복사
 
+/usr/share/nginx/html/admin_page
+docker cp /Users/john/http/. b81de0f45337:/usr/share/nginx/html/admin_page
 10. cd 명령을 사용하여 전부 이동했는 지 확인
 => cd /opt/myapp/ 이동 후 ls
 => cd /usr/share/nginx/html/ 이동 후 ls
