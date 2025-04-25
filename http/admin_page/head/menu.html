@@ -1,105 +1,88 @@
 <div class="table-container">
-    <div class="tbody-scroll">
-    <table class="data-table">
+  <div class="table-wrapper">
+    <div class="tbody-scroll ">
+      <table class="data-table">
         <thead>
-            <tr>
-                <th>NO</th>
-                <th>메뉴명</th>
-                <th>메뉴코드</th>
-                <th>메뉴이미지경로</th>
-                <th>판매상태</th>
-                <th>비고</th>
-            </tr>
+          <tr>
+            <th>NO</th>
+            <th>메뉴명</th>
+            <th>메뉴코드</th>
+            <th>메뉴이미지경로</th>
+            <th>판매상태</th>
+            <th>비고</th>
+          </tr>
         </thead>
-        <tbody id="data-table-body">
-            <!-- 메뉴 데이터가 여기에 로드됨 -->
-        </tbody>
-        <tbody id="menu-table-body">
-            <!-- 빈 행이 여기에 추가됨 -->
-        </tbody>
-    </table>
+        <tbody id="menu-table-body"></tbody>
+      </table>
+    </div>
+  </div>
 </div>
-
 
 <!-- 메뉴상태 변경 확인 모달 -->
 <div class="modal" id="statusConfirmModal">
-    <div class="modal-content confirm-modal">
-        <button class="modal-close" id="confirmCloseBtn">&times;</button>
-        <p class="confirm-text"><strong id="confirmStatusChange">정말 판매상태를 변경하시겠습니까?</strong></p>
-        <div class="confirm-buttons">
-            <button id="statusConfirmYes" class="confirm-btn yes">예</button>
-            <button id="statusConfirmNo" class="confirm-btn no">아니요</button>
-        </div>
+  <div class="modal-content confirm-modal">
+    <button class="modal-close" id="confirmCloseBtn">&times;</button>
+    <p class="confirm-text"><strong id="confirmStatusChange">정말 판매상태를 변경하시겠습니까?</strong></p>
+    <div class="confirm-buttons">
+      <button id="statusConfirmYes" class="confirm-btn yes">예</button>
+      <button id="statusConfirmNo" class="confirm-btn no">아니요</button>
     </div>
+  </div>
 </div>
 
 <!-- 메뉴추가 모달 -->
 <div class="modal" id="menuAddModal">
-    <div class="modal-content menu-add-modal">
-      <h2 class="modal-title">메뉴추가</h2>
-  
-      <div class="file-upload-area">
-        <div class="file-drop-zone" id="fileDropZone">
-          
-          <!-- 🔄 업로드 미리보기 상태 -->
-          <div class="file-preview-container hidden" id="imagePreviewContainer">
-            
-            <!-- 🔴 휴지통 버튼 (우측 상단) -->
-            <button id="deleteImageBtn" class="delete-btn" type="button">
-              <img src="../images/Bin icon.png" alt="삭제" width="18" height="18" />
-            </button>
-  
-            <!-- ⚫ 이미지 미리보기 (중앙 정렬) -->
-            <img id="imagePreview" src="#" alt="미리보기" class="image-preview" />
-  
-            <!-- 🟡 파일명 텍스트 (우측 하단) -->
-            <p id="fileName" class="file-name">파일명.png</p>
-          </div>
-  
-          <!-- 초기 업로드 UI -->
-          <div class="upload-initial" id="uploadInitial">
-            <div class="file-icon" id="defaultUploadIcon">
-              <img src="../images/Upload icon.png" alt="업로드 아이콘" width="48" height="48" />
-            </div>
-            <p class="drop-text" id="dropText">
-              Drag & drop files or <a href="#" class="browse-link">Browse</a>
-            </p>
-          </div>
+  <div class="modal-content menu-add-modal">
+    <h2 class="modal-title">메뉴추가</h2>
+    <div class="file-upload-area">
+      <div class="file-drop-zone" id="fileDropZone">
+        <div class="file-preview-container hidden" id="imagePreviewContainer">
+          <button id="deleteImageBtn" class="delete-btn" type="button">
+            <img src="../images/Bin icon.png" alt="삭제" width="18" height="18" />
+          </button>
+          <img id="imagePreview" src="#" alt="미리보기" class="image-preview" />
+          <p id="fileName" class="file-name">파일명.png</p>
         </div>
-  
-        <!-- 숨겨진 파일 입력 필드 -->
-        <input type="file" id="fileInput" accept="images/*" style="display: none;" />
-      </div>
-  
-      <div class="form-group">
-        <label for="menuName">메뉴명</label>
-        <div class="input-with-clear">
-          <input type="text" id="menuName" placeholder="맛있어초코봉" />
-          <button class="clear-btn" type="button">&times;</button>
+        <div class="upload-initial" id="uploadInitial">
+          <div class="file-icon" id="defaultUploadIcon">
+            <img src="../images/Upload icon.png" alt="업로드 아이콘" width="48" height="48" />
+          </div>
+          <p class="drop-text" id="dropText">
+            Drag & drop files or <a href="#" class="browse-link">Browse</a>
+          </p>
         </div>
       </div>
-  
-      <div class="form-group">
-        <label for="menuCode">메뉴코드</label>
-        <input type="text" id="menuCode" placeholder="98121" />
-      </div>
-  
-      <button class="submit-btn" id="registerMenuBtn">등록하기</button>
+      <input type="file" id="fileInput" accept="images/*" style="display: none;" />
     </div>
+    <div class="form-group">
+      <label for="menuName">메뉴명</label>
+      <div class="input-with-clear">
+        <input type="text" id="menuName" placeholder="맛있어초코봉" />
+        <button class="clear-btn" type="button">&times;</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="menuCode">메뉴코드</label>
+      <input type="text" id="menuCode" placeholder="98121" />
+    </div>
+    <button class="submit-btn" id="registerMenuBtn">등록하기</button>
   </div>
-<!-- 메뉴 등록 확인 모달 -->
-<div class="modal" id="menuConfirmModal">
-    <div class="modal-content confirm-modal">
-        <button class="modal-close" id="confirmCloseBtn">&times;</button>
-        <p class="confirm-text"><strong id="confirmMenuName">정말 등록하시겠습니까?</strong></p>
-        <div class="confirm-buttons">
-            <button id="menuConfirmYes" class="confirm-btn yes">예</button>
-            <button id="menuConfirmNo" class="confirm-btn no">아니요</button>
-        </div>
-    </div>
 </div>
 
+<!-- 메뉴 등록 확인 모달 -->
+<div class="modal" id="menuConfirmModal">
+  <div class="modal-content confirm-modal">
+    <button class="modal-close" id="confirmCloseBtn">&times;</button>
+    <p class="confirm-text"><strong id="confirmMenuName">정말 등록하시겠습니까?</strong></p>
+    <div class="confirm-buttons">
+      <button id="menuConfirmYes" class="confirm-btn yes">예</button>
+      <button id="menuConfirmNo" class="confirm-btn no">아니요</button>
+    </div>
+  </div>
+</div>
+
+<!-- 알림 토스트 -->
 <div class="notification-toast" id="statusToast">
-    <span class="check-icon">✅</span>
-    <span class="toast-message"></span>
+  <span class="check-icon">✅</span>
+  <span class="toast-message">메시지</span>
 </div>

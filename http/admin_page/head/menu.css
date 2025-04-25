@@ -27,9 +27,10 @@
   }
   
   .tbody-scroll {
-    max-height: 520px;
+    max-height: 547px;
     overflow-y: auto;
     overflow-x: auto; /* 필요 시 가로 스크롤도 허용 */
+    /*max-height: calc(47px * 11);*/ /* 행 높이 × 11줄 */
   }
   
   /* 툴팁 스타일 */
@@ -301,39 +302,38 @@
 
 /* 알림 토스트 스타일 */
 .notification-toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: white;
-    padding: 12px 20px;
-    border-radius: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    animation: fadeInOut 3s forwards;
-    display: none;
+  position: relative;
+  width: 230px;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 12px 20px;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  animation: fadeInOut 3s forwards;
+  display: none;
 }
 
 .toast-message {
-    color: #333;
-    font-size: 14px;
+  color: #333;
+  font-size: 14px;
 }
 
 @keyframes fadeInOut {
-    0% { opacity: 0; transform: translate(-50%, 20px); }
-    10% { opacity: 1; transform: translate(-50%, 0); }
-    90% { opacity: 1; transform: translate(-50%, 0); }
-    100% { opacity: 0; transform: translate(-50%, -20px); }
+  0% { opacity: 0; transform: translate(-50%, 20px); }
+  10% { opacity: 1; transform: translate(-50%, 0); }
+  90% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -20px); }
 }
-
-.tbody-scroll {
-    max-height: calc(47px * 11); /* 행 높이 × 11줄 */
-    overflow-y: auto;
+.table-wrapper {
+  width: 100%;
   }
+
   
-  .tbody-scroll table {
+  
+.tbody-scroll table {
     width: 100%;
     border-collapse: collapse;
-  }
+}
   
