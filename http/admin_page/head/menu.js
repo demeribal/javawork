@@ -13,6 +13,29 @@ function initMenuPage() {
       menuModal.style.display = "flex";
     });
   }
+  //메뉴추가 모달닫을 시 초기화
+function resetMenuAddModal() {
+  document.getElementById("menuName").value = "";
+  document.getElementById("menuCode").value = "";
+  document.getElementById("fileInput").value = null;
+
+  document.getElementById("imagePreview").src = "#";
+  document.getElementById("fileName").textContent = "파일명.png";
+
+  document.getElementById("imagePreviewContainer").classList.add("hidden");
+  document.getElementById("uploadInitial").classList.remove("hidden");
+}
+const menuAddModal = document.getElementById("menuAddModal");
+
+const observer = new MutationObserver(() => {
+  const display = window.getComputedStyle(menuAddModal).display;
+  if (display === "none") {
+    resetMenuAddModal();
+  }
+});
+
+observer.observe(menuAddModal, { attributes: true, attributeFilter: ["style"] });
+
 
   // ✅ 파일 업로드 관련 요소
   const fileInput = document.getElementById("fileInput");
@@ -91,6 +114,10 @@ confirmYes?.addEventListener("click", () => {
   createMenu();
 });
 
+document.getElementById("menuConfirmNo").addEventListener("click", () => {
+  document.getElementById("menuConfirmModal").style.display = "none";
+});
+
 function createMenu() {
   const menuName = document.getElementById("menuName").value.trim();
   const menuCode = document.getElementById("menuCode").value.trim();
@@ -135,7 +162,6 @@ function createMenu() {
 
       // ✅ 메뉴 등록 성공 toast
       showToast("메뉴등록이 완료되었습니다.");
-
       fetchMenuData();
     })
     .catch(err => {
@@ -296,3 +322,7 @@ function updateMenuStatus(menuId, isUseValue) {
       alert("판매 상태 변경 중 오류가 발생했습니다.");
     });
 }
+
+
+
+
