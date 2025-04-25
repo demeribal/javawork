@@ -1,0 +1,154 @@
+<!-- 기존 토스 UI 유지 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="https://static.toss.im/icons/png/4x/icon-toss-logo.png" />
+  <title>결제 완료</title>
+</head>
+<body>
+  <div class="box_section" style="width: 600px">
+    <img width="100px" src="https://static.toss.im/illusts/check-blue-spot-ending-frame.png" />
+    <h2>결제를 완료했어요</h2>
+    <div class="p-grid typography--p" style="margin-top: 50px">
+      <div class="p-grid-col text--left"><b>결제금액</b></div>
+      <div class="p-grid-col text--right" id="amount"></div>
+    </div>
+    <div class="p-grid typography--p" style="margin-top: 10px">
+      <div class="p-grid-col text--left"><b>주문번호</b></div>
+      <div class="p-grid-col text--right" id="orderId"></div>
+    </div>
+    <div class="p-grid typography--p" style="margin-top: 10px">
+      <div class="p-grid-col text--left"><b>paymentKey</b></div>
+      <div class="p-grid-col text--right" id="paymentKey" style="white-space: initial; width: 250px"></div>
+    </div>
+  </div>
+
+  <script>
+    (async () => {
+      try {
+        const params = new URLSearchParams(location.search);
+        const paycode = params.get("paycode");
+        const amount = Number(params.get("amount"));
+        const paymentmethod = params.get("method");
+		const paidat = new Date().toLocaleString("ko-KR");
+		const officeId = 1;
+		
+        const paymenthistory = params.get("history");
+		const option = params.get("option");
+        const quantity = params.get("quantity");
+		const flavors = params.get("flavors");
+
+        /*
+        // 1. productData 가져오기
+        const rawProductData = params.get("productData");
+        const productData = rawProductData ? JSON.parse(rawProductData) : [];
+
+     	// 2. flavors 목록 평탄화
+        const flavorList = productData.flatMap(data => data.flavors.flat());
+
+        // 3. 각 flavor를 기반으로 menuId → stockId 가져오기
+        const stockIdPromises = flavorList.map(flavor =>
+	        fetch(`http://localhost:8080/api/stocks/by-flavor-name/${flavor}`)
+	        .then(res => res.json())
+	        .then(data => data.menuId)  // ✅ stock이 참조하는 menuId
+        );
+		
+        const stockIds = await Promise.all(stockIdPromises);
+		
+		
+		// 4. 화면에 결제 정보 표시
+        document.getElementById("amount").textContent = amount.toLocaleString() + "원";
+        document.getElementById("orderId").textContent = paycode;
+		*/
+		
+        const payload = {
+		  paycode,
+          paymentmethod,
+          paymenthistory,
+          amount,
+          paidat,
+          officeId,
+		  flavors
+        };
+
+        // 1단계: DB 저장
+        const response = await fetch('http://localhost:8080/api/pay', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+		
+        if (!response.ok) {
+    	  window.location.href = `http://localhost:8080/pay-fail.html?message=${encodeURIComponent('DB 저장 실패')}&code=500`;
+    	  return;
+        }
+			
+
+
+		const productName = paymenthistory.split(", ");
+		const options = option.split(", ");
+		const quantities = quantity.split(", ");
+		const flavorList = flavors.split(",");
+		const count = {
+		    '싱글레귤러': 1,
+		    '싱글킹': 1,
+		    '더블주니어': 2,
+		    '더블레귤러': 2,
+		    '파인트': 3,
+		    '쿼터': 4,
+		    '패밀리': 5,
+		    '하프갤런': 6
+		};
+		
+		const translateOption = {
+			cup: "컵",
+			corn: "콘",
+			waffle: "와플콘",
+		};
+		
+		var details = [];
+		let index = 0;
+		for (let i=0; i<productName.length;i++) {
+			for (let q=0; q<quantities[i]; q++) {	
+		  		details[index] = `${productName[i]}(${translateOption[options[i]]})\n( `
+			    for(let j=0; j<count[productName[i]]; j++){
+			    	details[index] += `${flavorList.shift()} `
+			    }
+				details[index] += `)\n`
+				index++
+			}
+		}
+			
+        // 2단계: 영수증 프린트
+        try {
+          await fetch('http://192.168.0.10:4242/print', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              store: "강서지점",
+              details:details,
+			  //details:["파인터","싱글레귤러"],
+              amount:amount,
+              //orderDate:paidat, //new Date().toLocaleString("ko-KR")
+			  orderDate:paidat
+            })
+          });
+
+          alert('✅ 결제 완료, 영수증이 출력되었습니다.');
+		  // 3단계: 성공 페이지 이동
+		  window.location.href = 'http://192.168.0.20:8080/kiosk/BR.8_success_wj/success.html';
+        } catch (printErr) {
+          console.warn('❗ 영수증 출력 실패:', printErr);
+          alert('✅ 결제 완료, 영수증 출력에 실패했습니다.');
+        }
+      
+      } catch (err) {
+        console.error('❌ 오류 발생:', err);
+        alert('결제 저장에 실패했습니다.');
+        window.location.href = `http://192.168.0.20:8080/pay-fail.html?message=${encodeURIComponent('DB 저장 실패')}&code=500`;
+      }
+    })();
+  </script>
+</body>
+</html>
