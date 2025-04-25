@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiosk.pay.mapper.PayMapper">
+
+    <insert id="insert" parameterType="com.kiosk.pay.DTO.PayDTO">
+        INSERT INTO pay (pay_code, payment_method, payment_history, flavors, amount, paid_at, office_id)
+        VALUES (#{paycode}, #{paymentmethod}, #{paymenthistory}, #{flavors}, #{amount}, #{paidat}, #{officeId})
+    </insert>
+
+    <select id="getAllPay" resultType="com.kiosk.pay.DTO.PayDTO">
+        SELECT
+            p.id,
+            p.pay_code AS paycode,
+            p.payment_method AS paymentmethod,
+            p.payment_history AS paymenthistory,
+            p.flavors,
+            p.amount,
+            p.paid_at AS paidat,
+            p.office_id AS officeId,
+            o.office_name AS storeLocation
+        FROM pay p
+        JOIN office o ON p.office_id = o.id
+        ORDER BY p.paid_at DESC
+    </select>
+
+    <select id="getPaysFiltered" resultType="com.kiosk.pay.DTO.PayDTO">
+        SELECT
+            p.id,
+            p.pay_code AS paycode,
+            p.payment_method AS paymentmethod,
+            p.payment_history AS paymenthistory,
+            p.flavors,
+            p.amount,
+            p.paid_at AS paidat,
+            p.office_id AS officeId,
+            o.office_name AS storeLocation
+        FROM pay p
+        JOIN office o ON p.office_id = o.id
+        <where>
+            <if test="date != null and date != ''">
+                DATE(p.paid_at) = #{date}
+            </if>
+        </where>
+        ORDER BY p.paid_at
+        <choose>
+            <when test="order == 'asc'">ASC</when>
+            <otherwise>DESC</otherwise>
+        </choose>
+    </select>
+
+    <select id="getPaysBetweenDates" resultType="com.kiosk.pay.DTO.PayDTO">
+        SELECT
+            p.id,
+            p.pay_code AS paycode,
+            p.payment_method AS paymentmethod,
+            p.payment_history AS paymenthistory,
+            p.flavors,
+            p.amount,
+            p.paid_at AS paidat,
+            p.office_id AS officeId,
+            o.office_name AS storeLocation
+        FROM pay p
+        JOIN office o ON p.office_id = o.id
+        WHERE DATE(p.paid_at) BETWEEN #{fromDate} AND #{toDate}
+        ORDER BY p.paid_at
+        <choose>
+            <when test="order == 'asc'">ASC</when>
+            <otherwise>DESC</otherwise>
+        </choose>
+    </select>
+
+    <select id="getAllPayOrdered" resultType="com.kiosk.pay.DTO.PayDTO">
+        SELECT
+            p.id,
+            p.pay_code AS paycode,
+            p.payment_method AS paymentmethod,
+            p.payment_history AS paymenthistory,
+            p.flavors,
+            p.amount,
+            p.paid_at AS paidat,
+            p.office_id AS officeId,
+            o.office_name AS storeLocation
+        FROM pay p
+        JOIN office o ON p.office_id = o.id
+        ORDER BY p.paid_at
+        <choose>
+            <when test="order == 'asc'">ASC</when>
+            <otherwise>DESC</otherwise>
+        </choose>
+    </select>
+
+</mapper>
