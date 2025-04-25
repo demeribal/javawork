@@ -50,20 +50,19 @@ public class LoginController {
 	        HttpSession session = request.getSession();
 	        session.setAttribute("user", user);
 	        session.setAttribute("userId", user.getId());
+	        
+	        boolean passwordMatch = loginService.checkPassword(decodedPassword, user.getPassword());
+		    System.out.println("DB 비밀번호 해시: " + user.getPassword());
+		    System.out.println("입력된 평문 비밀번호: " + decodedPassword);
+		    System.out.println("패스워드 일치 여부: " + passwordMatch);
 
-	        System.out.println("user.isHead(): " + user.isHead());
-	        System.out.println("입력된 username: " + username);
-	        System.out.println("복호화된 password: " + decodedPassword);
 
 	        return ResponseEntity.ok(Map.of(
 	            "message", "로그인 성공",
 	            "isHead", user.isHead()
 	        ));
-	    }boolean passwordMatch = loginService.checkPassword(decodedPassword, user.getPassword());
-	    System.out.println("DB 비밀번호 해시: " + user.getPassword());
-	    System.out.println("입력된 평문 비밀번호: " + decodedPassword);
-	    System.out.println("패스워드 일치 여부: " + passwordMatch);
-
+	    }
+	    
 
 	    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "로그인 실패"));
 	}

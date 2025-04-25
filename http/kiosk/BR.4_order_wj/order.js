@@ -16,6 +16,34 @@ function getOptionName(optionCode) {
     return options[optionCode] || optionCode;
 }
 
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramProductData = JSON.parse(decodeURIComponent(urlParams.get("products")));
+    
+    paramProductData.forEach(product => {
+      const safeName = escapeHtml(product.name);  // XSS 방지 필터
+      const productElement = document.createElement("div");
+      productElement.textContent = safeName;
+      const productNameElement = document.querySelector(".product-name");
+      
+      if (productNameElement) {
+        productNameElement.appendChild(productElement);
+      }
+    });
+  });
+  // XSS 방지용 escapeHtml 함수
+function escapeHtml(str) {
+    return str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+
 // 상품 목록 렌더링 함수
 function renderProductList() {
     const itemlist = document.querySelector('.item-list');
