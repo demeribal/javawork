@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>본사물류관리시스템</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="/admin_page/all.js"></script>
+
+    <!-- flatpickr CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/plugins/monthSelect/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
+
+
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">본사물류관리시스템</h1>
+        
+        <!-- 탭 메뉴 -->
+        <div class="tabs">
+            <div class="tab active" data-tab="stock">Stock</div>
+            <div class="tab" data-tab="pay">Pay</div>
+            <div class="tab" data-tab="menu">Menu</div>
+        </div>
+        
+        <!-- Stock 탭 콘텐츠 -->
+        <div id="stock-content" class="tab-content active">
+            <div class="controls">
+                <button class="filter-btn">
+                    <img src="../images/Filter.png" alt="필터" />
+                    Filter
+                </button>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="메뉴명 입력해주세요">
+                </div>
+                
+                <div class="branch-buttons">
+                    <button class="branch-btn" data-branch="gangseo">강서지점</button>
+                    <button class="branch-btn" data-branch="sangbong">상봉지점</button>
+                    <button class="branch-btn" data-branch="hanam">하남지점</button>
+                </div>
+            </div>
+            <div id="stock-data-area"></div>
+        </div>
+        
+        <!-- Pay 탭 콘텐츠 -->
+        <div id="pay-content" class="tab-content">
+            <div class="controls">
+                <button id="date-btn" class="filter-btn">
+                    <img src="../images/Filter.png" alt="필터" />
+                    Date
+                </button>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="메뉴명 입력해주세요">
+                </div>
+                
+                <div class="branch-buttons">
+                    <button class="branch-btn" data-branch="gangseo">강서지점</button>
+                    <button class="branch-btn" data-branch="sangbong">상봉지점</button>
+                    <button class="branch-btn" data-branch="hanam">하남지점</button>
+                </div>
+            </div>
+            <div id="pay-data-area"></div>
+        </div>
+
+        
+        <!-- Menu 탭 콘텐츠 -->
+        <div id="menu-content" class="tab-content">
+            <div class="controls">
+                <button class="filter-btn">
+                    <img src="../images/Filter.png" alt="필터" />
+                    Filter
+                </button>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="메뉴명 입력해주세요">
+                </div>
+                
+                <div class="action-container">
+                    <button class="add-btn" id="openModalBtn">메뉴추가</button>
+                </div>
+            </div>
+            
+            <div id="menu-data-area"></div>
+        </div>
+    </div>
+    
+    <script src="main.js"></script>
+</body>
+</html>
