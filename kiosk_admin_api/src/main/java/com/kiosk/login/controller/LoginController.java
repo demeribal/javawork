@@ -1,12 +1,13 @@
 package com.kiosk.login.controller;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,35 +30,42 @@ public class LoginController {
     
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO, HttpServletRequest request) {
-	    System.out.println("로그인 요청 들어옴!"); // 디버깅용 추후에 삭제
-	    System.out.println("입력값: " + loginDTO); // 디버깅용 추후에 삭제
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String encodedPassword2 = encoder.encode("1234");
+		System.out.println(encodedPassword2);
+	    System.out.println("로그인 요청 들어옴!");
+	    System.out.println("입력값: " + loginDTO);
 
 	    String username = loginDTO.getUsername();
-	    String password = loginDTO.getPassword();
+	    String encodedPassword = loginDTO.getPassword();
 
+	    // Base64 디코딩
+	    byte[] decodedBytes = Base64.getDecoder().decode(encodedPassword);
+	    String decodedPassword = new String(decodedBytes); // 평문 비밀번호
+	    System.out.println("Encoded password: " + encodedPassword);
+	    System.out.println("Decoded password: " + decodedPassword);
 	    User user = loginService.findByUsername(username);
 
-	    if (user != null && user.getPassword().equals(password)) {
+	    if (user != null && loginService.checkPassword(decodedPassword, user.getPassword())) {
 	        HttpSession session = request.getSession();
-	        session.setAttribute("user", user);               // 전체 user 객체 저장
-	        session.setAttribute("userId", user.getId());      // 추가: userId만 따로 저장
+	        session.setAttribute("user", user);
+	        session.setAttribute("userId", user.getId());
 
-	        System.out.println("user.isHead(): " + user.isHead()); // 디버깅용 추후에 삭제
+	        System.out.println("user.isHead(): " + user.isHead());
 	        System.out.println("입력된 username: " + username);
-	        System.out.println("입력된 password: " + password);
-	        User user1 = loginService.findByUsername(username);
-	        System.out.println("로그인한 유저: " + user1);
+	        System.out.println("복호화된 password: " + decodedPassword);
+
 	        return ResponseEntity.ok(Map.of(
 	            "message", "로그인 성공",
 	            "isHead", user.isHead()
-	            //로그인한 사람에 대한 office 정보 넘기기
-	            
 	        ));
-	    }
+	    }boolean passwordMatch = loginService.checkPassword(decodedPassword, user.getPassword());
+	    System.out.println("DB 비밀번호 해시: " + user.getPassword());
+	    System.out.println("입력된 평문 비밀번호: " + decodedPassword);
+	    System.out.println("패스워드 일치 여부: " + passwordMatch);
 
-	    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
-	        "message", "로그인 실패"
-	    ));
+
+	    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("message", "로그인 실패"));
 	}
 
 	
