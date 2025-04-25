@@ -3,6 +3,8 @@ function onSubmit() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
+    const encodedPassword = btoa(password);
+
     if (token === "") {
         alert("사람 인증을 진행해주세요.");
         return;
@@ -16,7 +18,7 @@ console.log("리캡챠 토큰: " + token);
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ username, password, recaptchaToken: token })
+        body: JSON.stringify({ username, encodedPassword, recaptchaToken: token })
     })
     .then(response => response.json())
     .then(data => {
