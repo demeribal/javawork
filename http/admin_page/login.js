@@ -4,13 +4,18 @@ document.querySelector("form").addEventListener("submit", function (event) {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
+    const encodedPassword = btoa(password); // Base64 인코딩
+
     fetch("http://localhost:8080/api/user/login", { 
         method: "POST",
         credentials: "include",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ 
+            username, 
+            password: encodedPassword  // 인코딩된 비밀번호 전송
+        })
     })
     .then(response => response.json())
     .then(data => {
@@ -22,6 +27,11 @@ document.querySelector("form").addEventListener("submit", function (event) {
             } else {
                 window.location.href = "branch/main.html";
             }
-    }})
-            
+        } else {
+            alert("로그인 실패");
+        }
+    })
+    .catch(error => {
+        console.error("로그인 중 오류 발생:", error);
+    });
 });

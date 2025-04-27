@@ -1,3 +1,7 @@
+// 모든 코드를 DOMContentLoaded 이벤트 내부로 이동
+document.addEventListener('DOMContentLoaded', function() {
+  let isSubmitting = false; // 중복 클릭 방지용 상태
+
 //버튼 active
 const methodButtons = document.querySelectorAll('.method');
 
@@ -27,12 +31,29 @@ function closeAlert() {
     }
   }
 
-  selectBox.addEventListener('change', updateSelectColor);
+  if (selectBox) {
+    selectBox.addEventListener('change', updateSelectColor);
+    window.addEventListener('DOMContentLoaded', updateSelectColor);
+  }
 
-  window.addEventListener('DOMContentLoaded', updateSelectColor);
+  document.addEventListener('DOMContentLoaded', function() {
+    const payBtn = document.getElementById('payBtn');
+    
+    if (payBtn) { // 요소 존재 확인 추가
+      payBtn.addEventListener('click', async function(e) {
+        // 결제 로직
+      });
+    } else {
+      console.error('결제 버튼 요소를 찾을 수 없습니다.');
+    }
+  });
 
   //필수 버튼 선택 후 결제하기 버튼 활성화
   document.getElementById('payBtn').addEventListener('click', async function (e) {
+    
+    if (isSubmitting) return;
+    isSubmitting = true;  
+
     const isChecked = document.getElementById('terms').checked;
   
     if (!isChecked) {
@@ -47,35 +68,70 @@ function closeAlert() {
     const paymenthistory = productData.map(p => p.name).join(', ');
     const amount = priceData.paymentPrice || 0;
     const paidat = new Date().toISOString();
-    const storeLocation = '강서지점';
+    const officeId = 1;
     const paycode = 'PAY-' + Date.now();
+    payBtn.disabled = true;
+    payBtn.textContent = '처리 중...'; // 사용자가 중복 클릭하지 않도록 시각적 피드백
   
     const payload = {
       paymentmethod,
       paymenthistory,
       amount,
       paidat,
-      storeLocation,
+      officeId,
       paycode,
-      menuId: null
-    };
+      flavors: productData
+    .map(p => p.flavors) // 각 제품의 flavors 배열 가져오기
+    .flat() // 2차원 배열을 1차원으로 평탄화
+    .join(',') // 쉼표로 구분된 문자열로 변환
+};
     
+  try{
   // 🔽 API 요청 (POST)
-  fetch('http://localhost:8080/api/pay', {
+  const response = await fetch('http://localhost:8080/api/pay', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
-  })
-    .then(res => {
-      if (!res.ok) throw new Error('서버 응답 오류');
-      return res.text(); // 또는 res.json()
+  });
+  if (!response.ok) {
+    const errorText = await response.text(); // 서버에서 반환한 상세 오류 확인
+    throw new Error(`서버 오류 (${response.status}): ${errorText}`);
+  }
+
+  try{
+  // 2. 영수증 프린트 요청
+  await fetch('http://192.168.0.10:4242/print', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      store: "강서지점",
+      details: productData.map(p => p.name),
+      amount: amount,
+      date: new Date().toLocaleString("ko-KR"),
+      method: paymentmethod,
+      paycode: paycode
     })
-    .then(() => {
-      alert('✅ 결제 정보가 전송되었습니다.');
-      window.location.href = '../BR.8_success_wj/success.html';
-    })
-    .catch(err => {
-      console.error('❌ 결제 저장 실패:', err);
-      alert('결제 저장에 실패했습니다.');
-    });
+  });
+} catch (printErr) {
+  console.warn('❗ 영수증 출력 실패:', printErr);
+  alert('✅ 결제 완료, 영수증 출력에 실패했습니다.');
+  window.location.href = '../BR.8_success_wj/success.html';
+  return;
+}
+
+  // 3. 완료 알림 및 리디렉션
+  alert('✅ 결제 완료, 영수증이 출력되었습니다.');
+  window.location.href = '../BR.8_success_wj/success.html';
+
+} catch (err) {
+  console.error('❌ 오류 발생:', err);
+  alert('결제 저장에 실패했습니다.');
+
+  isSubmitting = false;
+  payBtn.disabled = false;
+  payBtn.textContent = '결제하기';
+  
+  return;
+}
+});
 });

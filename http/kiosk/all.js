@@ -1,20 +1,21 @@
 document.addEventListener("DOMContentLoaded", function() {
-    const exitButton = document.getElementById('exit-button');
+  const exitButton = document.getElementById('exit-button');
   
-    // "exit-button" 클릭 시 동작
+  // exit-button이 있는 페이지에서만 이벤트 리스너 추가
+  if (exitButton) {
     exitButton.addEventListener('click', function(event) {
-      event.preventDefault();  // 링크의 기본 동작을 막음 (페이지 이동 방지)
-  
-      // 세션 스토리지 초기화 (세션 데이터 삭제)
+      event.preventDefault();
       sessionStorage.clear();
-  
-      // 첫 화면으로 돌아가기
       window.location.href = '/index.html'; 
     });
-  });
+  }
+});
 
-  const favicon = document.createElement("link");
-  favicon.rel = "icon";
-  favicon.href = "/images/BR_favicon.png";
-  favicon.type = "image/png";
-  document.head.appendChild(favicon);
+// favicon 추가 (모든 페이지에서 실행)
+(function() {
+const favicon = document.createElement("link");
+favicon.rel = "icon";
+favicon.href = "/images/BR_favicon.png";
+favicon.type = "image/png";
+document.head.appendChild(favicon);
+})();

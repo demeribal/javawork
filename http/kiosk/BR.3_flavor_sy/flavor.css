@@ -6,7 +6,19 @@ html, body {
   align-items: flex-start; 
   background-color: #fff;
   font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #fff5f9 0%, #fef5ff 100%);
+  animation: fadeIn 0.5s ease-in forwards;
 }
+
+body {
+  opacity: 0;
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  to { opacity: 1; }
+}
+
 
 .page-container {
   width: 1024px;
@@ -16,51 +28,87 @@ html, body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+
+  box-shadow: 0 10px 20px rgba(242, 12, 147, 0.2);
+    border: 1px solid rgba(242, 12, 147, 0.1);
 }
+
+.page-container::before {
+  background: linear-gradient(45deg, 
+        rgba(242, 12, 147, 0.1) 0%, 
+        rgba(255, 255, 255, 0) 50%, 
+        rgba(242, 12, 147, 0.1) 100%);
+}
+
 .slot-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 10px;
 }
-/* 탭 메뉴 */
+
+/* 탭 메뉴 전체 스타일 - 네비게이션 스타일 적용 */
 .tab-menu {
-  width: 1024px;
   height: 100px;
+  padding: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 2px solid #eee;
-  border: none;
+  border-radius: 50px; /* 네비게이션의 둥근 모서리 적용 */
+  overflow: hidden; /* 내부 요소가 둥근 모서리를 벗어나지 않도록 */
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.1); /* 네비게이션의 그림자 효과 */
+  background-color: #ffffff; /* 기본 배경색 */
+  border: none; /* 기존 border 제거 */
+  position: relative; /* 하이라이트 효과를 위한 positioning */
 }
 
-/* 탭 공통 */
-.left_tab {
-  width: 512px;
-  height: 100px;
-  text-align: center;
-  font-size: 27px;
-  font-weight: bold;
-  color: #ccc;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #f5f5f5;
-}
-
+/* 탭 공통 스타일 - 네비게이션 li 스타일 적용 */
+.left_tab,
 .right_tab {
   width: 512px;
-  height: 100px;
+  height: 100%;
   text-align: center;
   font-size: 27px;
   font-weight: bold;
-  color: #f20c93;
-  background-color: #fff;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1); /* 부드러운 전환 효과 */
+  position: relative;
+  color: #ccc; /* 기본 텍스트 색상 */
+  background-color: #f5f5f5; /* 기본 배경색 */
+}
+
+/* 활성 탭 스타일 */
+.right_tab {
+  color: #f20c93;
+  background-color: #fff;
+}
+
+/* 활성 탭 하이라이트 효과 - 네비게이션의 active 스타일 적용 */
+.right_tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 4px;
+  background: #F20C93;
+  border-radius: 2px;
+}
+
+/* 호버 효과 추가 */
+.left_tab:hover:not(.right_tab),
+.right_tab:hover {
+  background-color: rgba(242, 12, 147, 0.05);
+}
+
+/* 탭 전환 애니메이션 효과 */
+.left_tab,
+.right_tab {
+  will-change: transform, background-color;
 }
 
 /* flavor-grid 전체 */
@@ -357,4 +405,48 @@ html, body {
   justify-content: center;
   align-items: center;
   font-size: 27px
+}
+
+
+
+
+
+
+
+
+.flavor-item {
+  transition: all 0.3s ease-out;
+}
+
+.flavor-item.animating {
+  position: fixed;
+  z-index: 100;
+  animation: smoothMove 0.5s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes smoothMove {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--target-x), var(--target-y)) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.selected-item {
+  animation: smoothAppear 0.4s ease-out 0.3s both;
+}
+
+@keyframes smoothAppear {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

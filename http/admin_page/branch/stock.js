@@ -46,8 +46,10 @@ function fetchOrderList() {
                     case "배송완료":
                         orderStatus = '<img src="/admin_page/images/deliverycomplete.svg"/>';
                         break;
-                    default:
+                    case "확인중":
                         orderStatus = '<img src="/admin_page/images/checking.svg"/>';
+                    default :
+                        orderStatus = '<img src="/admin_page/images/orderrequest.svg"/>';
                 }
 
                 // quantityDisplay 추가: quantity가 0일 때 이미지로, 아니면 숫자로 표시
@@ -100,28 +102,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-
-// function addEmptyRows(tbodyId, rowCount = 10) {
-//   const tbody = document.getElementById(tbodyId);
-//   const currentRows = tbody.querySelectorAll('tr').length;
-//   const emptyRowsToAdd = rowCount - currentRows;
-
-//   for (let i = 0; i < emptyRowsToAdd; i++) {
-//       const emptyRow = document.createElement("tr");
-//       emptyRow.innerHTML = `
-//           <td>&nbsp;</td>
-//           <td>&nbsp;</td>
-//           <td>&nbsp;</td>
-//           <td>&nbsp;</td>
-//           <td>&nbsp;</td>
-//           <td>&nbsp;</td>
-//           <td>&nbsp;</td>
-//           <td>&nbsp;</td>
-//       `;
-//       emptyRow.classList.add('empty-row'); // 필요시 스타일링용
-//       tbody.appendChild(emptyRow);
-//   }
-// }
 
 
 // 재고량 아이콘 업데이트
@@ -295,19 +275,15 @@ document.addEventListener('click', (e) => {
         const branchName = btn.getAttribute('data-branch');
         const imagePath = btn.getAttribute('data-image');
         const menuName = btn.getAttribute('data-menu-name');
-
-        console.log("버튼에서 가져온 이미지 경로:", imagePath);
-
         currentOrderRow = btn.closest('tr.order');
         openOrderModal(branchName, imagePath, menuName);
     }
 
-    // #orderModal 클릭하면 .modal-content 닫히게
-    document.getElementById('orderModal').addEventListener('click', (e) => {
-        if (e.target.classList.contains('modal')) { // 모달 영역을 클릭했는지 확인
-            closeAllModals();
-        }
-    });
+    // 안전한 모달 닫기 처리
+    const orderModal = document.getElementById('orderModal');
+    if (orderModal && e.target === orderModal) {
+        closeAllModals();
+    }
 });
 
 // 범용 닫기 함수
@@ -351,10 +327,74 @@ function handleConfirmClick() {
     }
     closeAllModals();
 }
+// ===============================================================
 
-// 데이터 전송 함수
-function sendOrderData(data) {
-  console.log('발주 데이터 전송:', data);
-  /* 실제 전송 로직 구현 */
-}
-window.fetchOrderList = fetchOrderList;
+
+
+
+
+// 재고 업데이트 요청
+async function sendOrderData(data) {
+    try {
+      console.log("재고 감소 요청 데이터:", {
+        officeName: data.branch,
+        menuName: data.menu,
+        quantity: data.quantity
+      });
+  
+      // 1. 재고 감소 요청
+      const stockUpdateResponse = await fetch("http://localhost:8080/api/stock/branch/update", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          officeName: data.branch,
+          menuName: data.menu,
+          quantity: data.quantity
+        })
+      });
+  
+      if (!stockUpdateResponse.ok) {
+        const errorText = await stockUpdateResponse.text();
+        throw new Error(`재고 업데이트 실패: ${errorText}`);
+      }
+  
+      const stockUpdateResult = await stockUpdateResponse.json();
+      console.log("재고 업데이트 성공:", stockUpdateResult);
+  
+      // 2. 발주 생성 요청
+      console.log("발주 생성 요청 데이터:", {
+        officeName: data.branch,
+        menuName: data.menu,
+        quantity: data.quantity,
+        imagePath: data.image,
+        status: "발주요청"
+      });
+  
+      const orderCreateResponse = await fetch("http://localhost:8080/api/stock/header", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          officeName: data.branch,
+          menuName: data.menu,
+          quantity: data.quantity,
+          imagePath: data.image,
+          status: "발주요청"
+        })
+      });
+  
+      if (!orderCreateResponse.ok) {
+        const errorText = await orderCreateResponse.text();
+        throw new Error(`발주 생성 실패: ${errorText}`);
+      }
+  
+      const orderCreateResult = await orderCreateResponse.json();
+      console.log('발주 처리 완료:', orderCreateResult);
+      alert('발주가 정상 처리되었습니다.');
+      fetchOrderList(); // 테이블 갱신
+      
+    } catch (error) {
+      console.error('발주 처리 오류:', error);
+      alert('발주 처리 오류: ' + error.message);
+    }
+  }
+// =================================================================

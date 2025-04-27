@@ -1,51 +1,78 @@
+/* 폰트 정의 */
 @font-face {
     font-family: 'NanumSquareNeoExtraBold';
     src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.eot);
-    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.ttf) format("truetype");
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.eot?#iefix) format("embedded-opentype"), 
+        url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.woff) format("woff"), 
+        url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-dEb.ttf) format("truetype");
 }
 
 @font-face {
     font-family: 'NanumSquareNeoBold';
     src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.eot);
-    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.ttf) format("truetype");
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.eot?#iefix) format("embedded-opentype"), 
+        url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.woff) format("woff"), 
+        url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-cBd.ttf) format("truetype");
 }
 
 @font-face {
     font-family: 'NanumSquareNeo';
     src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.eot);
-    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.eot?#iefix) format("embedded-opentype"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.woff) format("woff"), url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.ttf) format("truetype");
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.eot?#iefix) format("embedded-opentype"), 
+        url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.woff) format("woff"), 
+        url(https://hangeul.pstatic.net/hangeul_static/webfont/NanumSquareNeo/NanumSquareNeoTTF-bRg.ttf) format("truetype");
 }
 
-.pay-button {
-    white-space: pre;
-}
-
+/* 기본 스타일 */
 body {
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
-    min-height: 100vh; /* 변경: height -> min-height */
+    min-height: 100vh;
     white-space: nowrap;
-  }
+    background: linear-gradient(135deg, #fff5f9 0%, #fef5ff 100%);
+    font-family: 'NanumSquareNeo', sans-serif;
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in forwards;
+}
 
-/* 컨테이너 크기 조정 */
 .container {
-    width: 1024px; /* 변경 */
-    height: 1562px; /* 변경 */
+    width: 1024px;
+    height: 1562px;
     background-color: white;
     padding: 6px;
     max-width: 100%;
-    overflow: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-  }
+    box-shadow: 0 10px 20px rgba(242, 12, 147, 0.2);
+    border: 1px solid rgba(242, 12, 147, 0.1);
+    position: relative;
+}
 
+.container::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: linear-gradient(45deg, 
+        rgba(242, 12, 147, 0.1) 0%, 
+        rgba(255, 255, 255, 0) 50%, 
+        rgba(242, 12, 147, 0.1) 100%);
+    z-index: -1;
+    border-radius: 10px;
+    opacity: 0.7;
+}
+
+/* 헤더 영역 */
 .top {
     display: flex;
     justify-content: space-between;
+    width: 100%;
 }
 
 .BR-logo {
@@ -59,34 +86,35 @@ body {
     position: relative;
     top: 20px;
     left: -20px;
-
     padding: 10px;
     margin: 6px;
     width: 40px;
     height: 40px;
-
     background-color: #F6A9D785;
     border-radius: 50%;
     border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
+.exit-button:hover {
+    transform: scale(1.1);
+}
+
+/* 탭 메뉴 스타일 */
 .select-text {
     display: flex;
     align-items: center;
-    align-content: center;
-    padding: 20px 0px;
-    width: 1024px;
+    padding: 20px 0;
+    width: 100%;
 }
 
 .select-text > ul {
     list-style-type: none;
-
     display: flex;
     justify-content: space-around;
-
     padding: 0;
     width: 100%;
-
     margin: 10px 0;
 }
 
@@ -96,89 +124,62 @@ body {
     cursor: pointer;
     font-size: 20px;
     padding: 20px 15px;
-
     border-radius: 50px;
-    transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease, margin 0.3s ease;
+    transition: all 0.3s ease;
 }
 
-.select-text > ul > li:hover {
+.select-text > ul > li:hover,
+.select-text > ul > li.active {
     color: #ffffff;
     background-color: #F20C93;
-    border-radius: 50px;
     padding: 20px 30px;
     margin: 0 7px;
-    transition: background-color 0.3s ease, color 0.3s ease, padding 0.3s ease, margin 0.3s ease;
-    
 }
 
-.select-icecream {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.select-icecream > .product {
-    font-family: 'NanumSquareNeoBold';
-    text-align: center;
-
-    margin: 10px 20px;
-    padding: 0 20px;
-
-    width: 160px;
-}
-
-.select-icecream > .product:hover {
-    cursor: pointer;
-}
-
-.select-coffee {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-}
-
-.select-coffee > .product {
-    font-family: 'NanumSquareNeoBold';
-    text-align: center;
-
-    margin: 10px 20px;
-    padding: 0 20px;
-
-    width: 160px;
-}
-
-.select-coffee > .product:hover {
-    cursor: pointer;
-}
-
+/* 제품 목록 스타일 */
+.select-icecream,
+.select-coffee,
 .select-drink {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    width: 100%;
 }
 
-.select-drink > .product {
+.product {
     font-family: 'NanumSquareNeoBold';
     text-align: center;
-
     margin: 10px 20px;
-    padding: 0 20px;
-
+    padding: 15px;
     width: 160px;
+    background: white;
+    border-radius: 20px;
+    /*box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);*/
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+    animation: slideUp 0.5s ease-out;
+    animation-fill-mode: both;
 }
 
-.select-drink > .product:hover {
-    cursor: pointer;
+.product:hover {
+    transform: translateY(-5px) scale(1.03);
+    box-shadow: 0 10px 20px rgba(242, 12, 147, 0.1);
 }
 
 .product > img {
     width: 130px;
+    transition: transform 0.5s ease;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
 }
 
-.product > .product-name {
+.product:hover > img {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.product-name {
     font-size: 19px;
     padding-bottom: 4px;
-    margin:0;
+    margin: 0;
 }
 
 .product-price {
@@ -186,53 +187,38 @@ body {
     font-size: 16px;
 }
 
+/* 하단 버튼 영역 */
 .select-next {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-
     padding: 40px;
-
     width: 800px;
 }
 
-.select-next > .cart {
+.cart {
     border: 1px solid #d3d3d3;
     border-radius: 99px;
-
     position: relative;
     width: 202px;
     height: 100px;
+    transition: all 0.3s ease;
 }
 
-.select-next > .pay {
-    display: flex;
-    flex-direction: row;
-}
-
-.select-next > .pay > a {
-    font-family: 'NanumSquareNeo';
-    text-decoration: none;
-    
-    width: 384px;
-    height: 100px;
-    /*padding: 14px 40px;*/
-    font-size: 14px;
-    color: #ffffff;
-
-    border: none;
-    border-radius: 99px;
-    background-color: #F20C93;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.cart:hover {
+    border-color: #F20C93;
+    background-color: rgba(242, 12, 147, 0.05);
 }
 
 .cart-button {
     position: relative;
     top: 22px;
     left: 80px;
+    transition: transform 0.3s ease;
+}
+
+.cart:hover .cart-button {
+    transform: scale(1.1);
 }
 
 .cart-count {
@@ -249,7 +235,11 @@ body {
     border-radius: 50%;
 }
 
-/* 장바구니 숫자를 표시하는 부분 */
+.cart-count.show {
+    display: flex;
+    animation: bounce 0.5s ease;
+}
+
 .cart-count::after {
     content: attr(data-count);
 }
@@ -258,13 +248,121 @@ body {
     position: relative;
     display: flex;
     align-items: center;
-  }
+}
+
+.pay > a {
+    font-family: 'NanumSquareNeo';
+    text-decoration: none;
+    width: 384px;
+    height: 100px;
+    font-size: 14px;
+    color: #ffffff;
+    border: none;
+    border-radius: 99px;
+    background-color: #F20C93;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(242, 12, 147, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.pay > a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(242, 12, 147, 0.4);
+    background-color: #e00b85;
+}
+
+.pay > a:active {
+    transform: translateY(1px);
+}
+
+.pay > a::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.3),
+        rgba(255, 255, 255, 0)
+    );
+    transform: rotate(30deg);
+    animation: shine 3s infinite;
+}
 
 .pay-button {
     font-size: 28px;
+    white-space: pre;
 }
 
 .arrow {
     position: absolute;
     left: 336px;
+}
+
+/* 애니메이션 정의 */
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes shine {
+    0% { left: -50%; top: -50%; }
+    100% { left: 150%; top: 150%; }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        height: auto;
+        padding: 10px;
+    }
+    
+    .select-text > ul {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .select-icecream, 
+    .select-coffee, 
+    .select-drink {
+        justify-content: center;
+    }
+    
+    .product {
+        width: 120px;
+        margin: 10px;
+    }
+    
+    .select-next {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+    
+    .cart, .pay > a {
+        width: 90%;
+        margin-bottom: 15px;
+    }
 }

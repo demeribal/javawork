@@ -7,7 +7,6 @@
         <id property="id" column="id"/>
         <result property="menuId" column="menu_id"/>
         <result property="officeId" column="office_id"/>
-        <result property="orderId" column="order_id"/>
         <result property="quantity" column="quantity"/>
         <result property="isUse" column="is_use"/>
         <result property="officeName" column="office_name"/>
@@ -19,79 +18,88 @@
     <!-- StockBranch 단건 조회 (id) -->
     <select id="getStockBranchById" parameterType="int" resultMap="stockBranchResultMap">
         SELECT
-            s.id,
-            s.menu_id,
-            s.office_id,
-            s.order_id,
-            s.quantity,
-            s.is_use,
-            o.office_name,
-            m.menuName,
-            m.imagePath,
-            ob.status
-        FROM stock s
-        LEFT JOIN office o ON s.office_id = o.id
-        LEFT JOIN menu m ON s.menu_id = m.id
-        LEFT JOIN orders ob ON s.order_id = ob.id
-        WHERE s.id = #{id}
+		    s.id,
+		    o.office_name,
+		    m.menuName,
+		    m.imagePath,
+		    s.quantity,
+		    s.is_use,
+		    od.status
+		FROM stock s
+		LEFT JOIN office o ON s.office_id = o.id
+		LEFT JOIN menu m ON s.menu_id = m.id
+		LEFT JOIN (
+		    SELECT *
+		    FROM orders
+		    WHERE stock_id = 1
+		    ORDER BY last_update DESC
+		    LIMIT 1
+		) od ON s.id = od.stock_id
+		WHERE s.id = 1;
     </select>
 
     <!-- StockBranch 전체 조회 -->
     <select id="getAllStockBranches" resultMap="stockBranchResultMap">
-        SELECT
-            s.id,
-            s.menu_id,
-            s.office_id,
-            s.order_id,
-            s.quantity,
-            s.is_use,
-            o.office_name,
-            m.menuName,
-            m.imagePath,
-            ob.status
-        FROM stock s
-        LEFT JOIN office o ON s.office_id = o.id
-        LEFT JOIN menu m ON s.menu_id = m.id
-        LEFT JOIN orders ob ON s.order_id = ob.id
+        WITH latest_orders AS (
+		  SELECT *,
+		         ROW_NUMBER() OVER (PARTITION BY stock_id ORDER BY last_update DESC) AS rn
+		  FROM orders
+		)
+		SELECT
+		   s.id,
+		   o.office_name,
+		   m.menuName,
+		   m.imagePath,
+		   s.quantity,
+		   s.is_use,
+		   od.status
+		FROM stock s
+		LEFT JOIN office o ON s.office_id = o.id
+		LEFT JOIN menu m ON s.menu_id = m.id
+		LEFT JOIN latest_orders od ON s.id = od.stock_id AND od.rn = 1;
     </select>
 
     <!-- officeId로 StockBranch 조회 -->
     <select id="getStockBranchesByOfficeId" parameterType="int" resultMap="stockBranchResultMap">
-        SELECT
-        s.id,
-        s.menu_id,
-        s.office_id,
-        s.order_id,
-        s.quantity,
-        s.is_use,
-        o.office_name,
-        m.menuName,
-        m.imagePath,
-        ob.status
-        FROM stock s
-        LEFT JOIN office o ON s.office_id = o.id
-        LEFT JOIN menu m ON s.menu_id = m.id
-        LEFT JOIN orders ob ON s.order_id = ob.id
+        WITH latest_orders AS (
+		  SELECT *,
+		         ROW_NUMBER() OVER (PARTITION BY stock_id ORDER BY last_update DESC) AS rn
+		  FROM orders
+		)
+		SELECT
+		   s.id,
+		   o.office_name,
+		   m.menuName,
+		   m.imagePath,
+		   s.quantity,
+		   s.is_use,
+		   od.status
+		FROM stock s
+		LEFT JOIN office o ON s.office_id = o.id
+		LEFT JOIN menu m ON s.menu_id = m.id
+		LEFT JOIN latest_orders od ON s.id = od.stock_id AND od.rn = 1;
         WHERE s.office_id = #{officeId}
     </select>
 
     <!-- menuId로 StockBranch 조회 -->
     <select id="getStockBranchesByMenuId" parameterType="int" resultMap="stockBranchResultMap">
-        SELECT
-        s.id,
-        s.menu_id,
-        s.office_id,
-        s.order_id,
-        s.quantity,
-        s.is_use,
-        o.office_name,
-        m.menuName,
-        m.imagePath,
-        ob.status
-        FROM stock s
-        LEFT JOIN office o ON s.office_id = o.id
-        LEFT JOIN menu m ON s.menu_id = m.id
-        LEFT JOIN orders ob ON s.order_id = ob.id
+        WITH latest_orders AS (
+		  SELECT *,
+		         ROW_NUMBER() OVER (PARTITION BY stock_id ORDER BY last_update DESC) AS rn
+		  FROM orders
+		)
+		SELECT
+		   s.id,
+		   o.office_name,
+		   m.menuName,
+		   m.imagePath,
+		   s.quantity,
+		   s.is_use,
+		   od.status
+		FROM stock s
+		LEFT JOIN office o ON s.office_id = o.id
+		LEFT JOIN menu m ON s.menu_id = m.id
+		LEFT JOIN latest_orders od ON s.id = od.stock_id AND od.rn = 1;
         WHERE s.menu_id = #{menuId}
     </select>
 
@@ -100,13 +108,11 @@
         INSERT INTO stock (
             menu_id,
             office_id,
-            order_id,
             quantity,
             is_use
         ) VALUES (
             #{menuId},
             #{officeId},
-            #{orderId},
             #{quantity},
             #{isUse}
         )
@@ -118,7 +124,6 @@
         SET
             menu_id = #{menuId},
             office_id = #{officeId},
-            order_id = #{orderId},
             quantity = #{quantity},
             is_use = #{isUse}
         WHERE id = #{id}

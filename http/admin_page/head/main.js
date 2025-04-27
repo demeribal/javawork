@@ -52,6 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector(`.tab[data-tab="${defaultTab}"]`).classList.add("active");
   document.getElementById(`${defaultTab}-content`).classList.add("active");
 
+  loadTabAssets(defaultTab);
+
   fetch(`${defaultTab}.html`)
     .then((res) => res.text())
     .then((html) => {
@@ -106,6 +108,9 @@ function loadTabAssets(tabName) {
       }
       if (tabName === "pay" && typeof initPayPage === "function") {
         initPayPage();
+      }
+      if (tabName === "stock" && typeof fetchOrderList === "function") {
+        fetchOrderList();
       }
       if (tabName === "menu" && typeof initMenuPage === "function") {
         setTimeout(() => {
@@ -172,11 +177,12 @@ function addEmptyRows(tbodyId = 'pay-table-body', minRows = 11) {
   if (!tbody) return;
 
   const currentRows = tbody.querySelectorAll('tr').length;
+  const tds = tbody.querySelector('tr').querySelectorAll('td').length;
   const emptyCount = minRows - currentRows;
 
   for (let i = 0; i < emptyCount; i++) {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td colspan="7">&nbsp;</td>`;
+    tr.innerHTML = `<td colspan="${tds}">&nbsp;</td>`;
     tbody.appendChild(tr);
   }
 }

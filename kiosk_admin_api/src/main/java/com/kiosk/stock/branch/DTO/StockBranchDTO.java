@@ -7,7 +7,6 @@ public class StockBranchDTO {
     private int id;             // 재고 ID (PK)
     private int menuId;         // 메뉴 ID (menu 테이블에서 받아옴)
     private int officeId;       // 가맹점 ID (office 테이블에서 받아옴)
-    private int orderId;        // 주문 ID
     private String officeName;  // 가맹점 이름 (office 테이블에서 받아옴)
     private String menuName;    // 메뉴 이름 (menu 테이블에서 받아옴)
     private String imagePath;   // 이미지 경로 (menu 테이블에서 받아옴)
