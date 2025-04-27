@@ -13,29 +13,6 @@ function initMenuPage() {
       menuModal.style.display = "flex";
     });
   }
-  //메뉴추가 모달닫을 시 초기화
-function resetMenuAddModal() {
-  document.getElementById("menuName").value = "";
-  document.getElementById("menuCode").value = "";
-  document.getElementById("fileInput").value = null;
-
-  document.getElementById("imagePreview").src = "#";
-  document.getElementById("fileName").textContent = "파일명.png";
-
-  document.getElementById("imagePreviewContainer").classList.add("hidden");
-  document.getElementById("uploadInitial").classList.remove("hidden");
-}
-const menuAddModal = document.getElementById("menuAddModal");
-
-const observer = new MutationObserver(() => {
-  const display = window.getComputedStyle(menuAddModal).display;
-  if (display === "none") {
-    resetMenuAddModal();
-  }
-});
-
-observer.observe(menuAddModal, { attributes: true, attributeFilter: ["style"] });
-
 
   // ✅ 파일 업로드 관련 요소
   const fileInput = document.getElementById("fileInput");
@@ -114,10 +91,6 @@ confirmYes?.addEventListener("click", () => {
   createMenu();
 });
 
-document.getElementById("menuConfirmNo").addEventListener("click", () => {
-  document.getElementById("menuConfirmModal").style.display = "none";
-});
-
 function createMenu() {
   const menuName = document.getElementById("menuName").value.trim();
   const menuCode = document.getElementById("menuCode").value.trim();
@@ -162,6 +135,7 @@ function createMenu() {
 
       // ✅ 메뉴 등록 성공 toast
       showToast("메뉴등록이 완료되었습니다.");
+
       fetchMenuData();
     })
     .catch(err => {
@@ -219,41 +193,6 @@ function renderMenuList(menuList) {
       const currentIsUse = this.checked;
       toggleIsUse(menuId, currentIsUse);
     });
-  });
-}
-
-// 토스트 메시지 요소
-const statusToast = document.getElementById('statusToast');
-    
-// 토스트 메시지 표시 함수
-function showToast(message) {
-    statusToast.querySelector('.toast-message').textContent = message;
-    statusToast.style.display = 'flex';
-    setTimeout(() => {
-        statusToast.style.display = 'none';
-    }, 3000);
-}
-
-// ✅ 판매 상태 변경 함수
-function toggleIsUse(menuId, newValue) {
-  fetch(`http://localhost:8080/api/menus/${menuId}/isUse`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ isUse: newValue })
-  })
-  .then(res => {
-    if (!res.ok) throw new Error("상태 변경 실패");
-    return res.json();
-  })
-  .then(() => {
-    // ✅ 판매 상태 변경 성공 toast
-    showToast("판매상태가 변경되었습니다.");
-
-    fetchMenuData();
-  })
-  .catch(err => {
-    console.error("❌ 상태 변경 실패:", err);
-    alert("판매 상태 변경에 실패했습니다.");
   });
 }
 
@@ -324,5 +263,59 @@ function updateMenuStatus(menuId, isUseValue) {
 }
 
 
+// 토스트 요소를 안전하게 가져오기
+function getToastElement() {
+  const toast = document.getElementById('statusToast');
+  if (!toast) {
+    console.error('토스트 요소를 찾을 수 없습니다');
+    return null;
+  }
+  return toast;
+}
 
+// 안전한 토스트 표시 함수
+function showToast(message) {
+  const toast = getToastElement();
+  if (!toast) {
+    console.warn('토스트 요소 없음. 대체로 alert 사용');
+    alert(message); // 토스트 없을 경우 대체 처리
+    return;
+  }
 
+  const messageElement = toast.querySelector('.toast-message');
+  if (messageElement) {
+    messageElement.textContent = message;
+    toast.style.display = 'flex';
+    
+    setTimeout(() => {
+      toast.style.display = 'none';
+    }, 3000);
+  }
+}
+
+// 상태 변경 함수 보완
+function toggleIsUse(menuId, newValue) {
+  fetch(`http://localhost:8080/api/menus/${menuId}/isUse`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ isUse: newValue })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error("상태 변경 실패");
+    return res.json();
+  })
+  .then(() => {
+    showToast("판매상태가 변경되었습니다.");
+    fetchMenuData();
+  })
+  .catch(err => {
+    console.error("❌ 상태 변경 실패:", err);
+    showToast("상태 변경에 실패했습니다.");
+    
+    // 체크박스 상태 원복
+    const checkbox = document.querySelector(`.isUse-checkbox[data-id="${menuId}"]`);
+    if (checkbox) {
+      checkbox.checked = !newValue;
+    }
+  });
+}

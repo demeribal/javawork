@@ -1,4 +1,6 @@
-let isSubmitting = false; // 중복 클릭 방지용 상태
+// 모든 코드를 DOMContentLoaded 이벤트 내부로 이동
+document.addEventListener('DOMContentLoaded', function() {
+  let isSubmitting = false; // 중복 클릭 방지용 상태
 
 //버튼 active
 const methodButtons = document.querySelectorAll('.method');
@@ -34,6 +36,18 @@ function closeAlert() {
     window.addEventListener('DOMContentLoaded', updateSelectColor);
   }
 
+  document.addEventListener('DOMContentLoaded', function() {
+    const payBtn = document.getElementById('payBtn');
+    
+    if (payBtn) { // 요소 존재 확인 추가
+      payBtn.addEventListener('click', async function(e) {
+        // 결제 로직
+      });
+    } else {
+      console.error('결제 버튼 요소를 찾을 수 없습니다.');
+    }
+  });
+
   //필수 버튼 선택 후 결제하기 버튼 활성화
   document.getElementById('payBtn').addEventListener('click', async function (e) {
     
@@ -56,7 +70,6 @@ function closeAlert() {
     const paidat = new Date().toISOString();
     const officeId = 1;
     const paycode = 'PAY-' + Date.now();
-    const payBtn = document.getElementById('payBtn');
     payBtn.disabled = true;
     payBtn.textContent = '처리 중...'; // 사용자가 중복 클릭하지 않도록 시각적 피드백
   
@@ -67,8 +80,11 @@ function closeAlert() {
       paidat,
       officeId,
       paycode,
-      menuId: null
-    };
+      flavors: productData
+    .map(p => p.flavors) // 각 제품의 flavors 배열 가져오기
+    .flat() // 2차원 배열을 1차원으로 평탄화
+    .join(',') // 쉼표로 구분된 문자열로 변환
+};
     
   try{
   // 🔽 API 요청 (POST)
@@ -77,7 +93,10 @@ function closeAlert() {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
   });
-  if (!response.ok) throw new Error('서버 응답 오류');
+  if (!response.ok) {
+    const errorText = await response.text(); // 서버에서 반환한 상세 오류 확인
+    throw new Error(`서버 오류 (${response.status}): ${errorText}`);
+  }
 
   try{
   // 2. 영수증 프린트 요청
@@ -114,4 +133,5 @@ function closeAlert() {
   
   return;
 }
+});
 });

@@ -345,3 +345,59 @@ function createDots() {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function animateSelection(item) {
+  // 1. 원본 요소 위치 정보
+  const itemRect = item.getBoundingClientRect();
+  
+  // 2. 목표 위치 계산 (선택 영역)
+  const targetArea = document.querySelector('.selection-area');
+  const targetRect = targetArea.getBoundingClientRect();
+  
+  // 3. 이동 거리 계산
+  const targetX = targetRect.left - itemRect.left + targetRect.width/2 - itemRect.width/2;
+  const targetY = targetRect.top - itemRect.top + targetRect.height/2 - itemRect.height/2;
+  
+  // 4. 애니메이션 적용
+  item.style.setProperty('--target-x', `${targetX}px`);
+  item.style.setProperty('--target-y', `${targetY}px`);
+  item.classList.add('animating');
+  
+  // 5. 실제 선택 처리 (0.4초 후)
+  setTimeout(() => {
+    addToSelectionArea(item);
+    item.classList.remove('animating');
+  }, 500);
+}
+
+function addToSelectionArea(item) {
+  // 기존 로직 유지
+  const imgSrc = item.querySelector('img').src;
+  const flavorName = item.querySelector('p').innerText;
+  
+  const currentProduct = selectedProducts[currentSlotIndex];
+  const currentFlavors = selectedFlavorsBySlot[currentSlotIndex];
+  
+  if (currentFlavors.length >= currentProduct.flavorsRequired) return;
+  
+  currentFlavors.push({ imgSrc, name: flavorName });
+  updateSelectionUI();
+}

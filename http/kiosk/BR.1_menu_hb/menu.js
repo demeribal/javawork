@@ -133,7 +133,7 @@ function pageUI(event){
 function sessionManagement(){
   if (sessionStorage.getItem("tempProductData")) {
     // ✅ 페이지가 로드되면 tempProductData를 productData로 넘기고 초기화
-      if (tempProductData.products.length > 0) {
+      if (tempProductData.products?.length > 0) {
         // 세션에서 기존 productData를 가져오기 (없으면 빈 배열로 초기화)
         let productData = JSON.parse(sessionStorage.getItem('productData')) || [];
     
@@ -162,6 +162,8 @@ function sessionManagement(){
         sessionStorage.removeItem('tempProductData');
       }
     }
-    
+    else {
+      return;
+    }
 }
 

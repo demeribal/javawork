@@ -106,8 +106,12 @@ body {
 .item {
     display: flex;
     align-items: center;
-    height: 100px;
+    min-height: 100px; /* 고정 높이 대신 최소 높이 사용 */
+    height: auto; /* 높이를 자동으로 조정 */
     border-bottom: 1px solid #f0f0f0;
+    overflow: visible; /* 넘치는 내용을 보이도록 변경 */
+    padding: 10px 0; /* 내부 여백 추가 */
+    flex-wrap: wrap; /* 내용이 많을 경우 줄 바꿈 */
 }
 
 .item-image {
