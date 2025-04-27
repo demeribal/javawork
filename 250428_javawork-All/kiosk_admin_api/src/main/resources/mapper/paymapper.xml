@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiosk.pay.mapper.PayMapper">
+
+<insert id="insert" parameterType="com.kiosk.pay.model.Pay">
+  INSERT INTO pay (pay_code, payment_method, payment_history, amount, paid_at, office_id, flavors)
+  VALUES (#{paycode}, #{paymentmethod}, #{paymenthistory}, #{amount}, #{paidat}, #{officeId}, #{flavors})
+</insert>
+
+<select id="getAllPayOrdered" resultType="com.kiosk.pay.DTO.PayDTO">
+  SELECT
+    p.id,
+    p.payment_method AS paymentmethod,
+    p.payment_history AS paymenthistory,
+    p.amount,
+    p.paid_at AS paidat,
+	o.office_name AS storeLocation,
+	p.pay_code AS paycode
+  FROM pay p
+  JOIN office o ON p.office_id = o.id
+  ORDER BY p.paid_at
+  <choose>
+    <when test="order == 'asc'">ASC</when>
+    <otherwise>DESC</otherwise>
+  </choose>
+</select>
+
+<select id="getPaysBetweenDates" resultType="com.kiosk.pay.DTO.PayDTO">
+  SELECT
+    p.id,
+    p.payment_method AS paymentmethod,
+    p.payment_history AS paymenthistory,
+    p.amount,
+    p.paid_at AS paidat,
+	o.office_name AS storeLocation,
+	p.pay_code AS paycode
+  FROM pay p
+  JOIN office o ON p.office_id = o.id
+  WHERE DATE(p.paid_at) BETWEEN #{fromDate} AND #{toDate}
+  ORDER BY p.paid_at
+  <choose>
+    <when test="order == 'asc'">ASC</when>
+    <otherwise>DESC</otherwise>
+  </choose>
+</select>
+</mapper>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <link rel="icon" href="/images/BR_favicon.png" type="image/png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1024, height=1562">
+  <title>키오스크 시작화면</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+        width: 100vw;
+        height: 100vh;
+        background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .container {
+        position: relative;
+        width: 1024px;
+        height: 1562px;
+        background-color: #ffe5ee; 
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 10px 30px rgba(233, 30, 99, 0.3);
+        border-radius: 40px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
+
+    .container:hover {
+        transform: scale(1.005);
+    }
+
+    .logo {
+        margin-bottom: 60px;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .logo img {
+        width: 800px;
+        height: auto;
+        filter: drop-shadow(0 5px 15px rgba(233, 30, 99, 0.4));
+    }
+
+    .touch-box {
+      background-color: white;
+      border-radius: 80px;
+      padding: 40px 60px;
+      box-shadow: 0 10px 25px rgba(233, 30, 99, 0.2);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .touch-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.3),
+        rgba(255, 255, 255, 0)
+      );
+      transform: rotate(30deg);
+      animation: shine 3s infinite;
+    }
+
+    .touch-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(233, 30, 99, 0.3);
+    }
+
+    .touch-box p {
+      font-size: 36px;
+      color: #e91e63;
+      font-weight: bold;
+      line-height: 1.4;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .admin-link {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      text-decoration: none;
+      transition: transform 0.3s ease;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    .admin-link:hover {
+      transform: rotate(30deg);
+    }
+
+    .admin-link img {
+        width: 60px;
+        height: auto;
+        filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+    }
+
+    .ice-cream-icons {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .ice-cream {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      opacity: 0.6;
+      animation: float 5s infinite ease-in-out;
+      pointer-events: none;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    @keyframes shine {
+      0% {
+        left: -50%;
+        top: -50%;
+      }
+      100% {
+        left: 150%;
+        top: 150%;
+      }
+    }
+
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .sprinkles {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .sprinkle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #e91e63;
+      border-radius: 50%;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container" id="kioskContainer">
+    <div class="sprinkles" id="sprinkles"></div>
+    
+    <a href="./admin_page/login.html" class="admin-link">
+      <img src="images/cog.png" alt="관리자 설정">
+    </a>
+    
+    <div class="logo">
+      <img src="/images/baskin_logo.png" alt="Baskin Robbins Logo" class="pulse">
+    </div>
+    
+    <div class="ice-cream-icons">
+      <img src="./kiosk/BR.1_menu_hb/images/싱글레귤러-removebg-preview.png" class="ice-cream" style="top:15%; left:10%; animation-delay:0s;">
+      <img src="./kiosk/BR.1_menu_hb/images/더블레귤러-removebg-preview.png" class="ice-cream" style="top:25%; right:15%; animation-delay:1s;">
+      <img src="./kiosk/BR.1_menu_hb/images/쿼터-removebg-preview.png" class="ice-cream" style="bottom:20%; left:20%; animation-delay:1.5s;">
+    </div>
+    
+    <div class="touch-box">
+      <p>주문하시려면<br>화면을 터치하세요</p>
+    </div>
+  </div>
+
+  <script>
+    function goToKiosk() {
+      location.href = "./kiosk/BR.1_menu_hb/menu.html";
+    }
+
+    // 컨테이너에만 클릭 이벤트 추가
+    document.getElementById('kioskContainer').addEventListener('click', function(e) {
+      // 관리자 링크를 클릭한 경우는 제외
+      if (!e.target.closest('.admin-link')) {
+        goToKiosk();
+      }
+    });
+
+    // 스프링클 효과 생성
+    document.addEventListener('DOMContentLoaded', function() {
+      const sprinklesContainer = document.getElementById('sprinkles');
+      const container = document.querySelector('.container');
+      const containerRect = container.getBoundingClientRect();
+      
+      for (let i = 0; i < 50; i++) {
+        const sprinkle = document.createElement('div');
+        sprinkle.classList.add('sprinkle');
+        
+        // 랜덤 색상
+        const colors = ['#e91e63', '#ffeb3b', '#9c27b0', '#4caf50', '#2196f3'];
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        sprinkle.style.backgroundColor = randomColor;
+        
+        // 랜덤 위치
+        sprinkle.style.left = `${Math.random() * 100}%`;
+        sprinkle.style.top = `${Math.random() * 100}%`;
+        
+        // 랜덤 크기
+        const size = Math.random() * 8 + 4;
+        sprinkle.style.width = `${size}px`;
+        sprinkle.style.height = `${size}px`;
+        
+        // 랜덤 투명도
+        sprinkle.style.opacity = Math.random() * 0.6 + 0.2;
+        
+        sprinklesContainer.appendChild(sprinkle);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+.stocklist {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.stocklist th:nth-child(1) { width: 2%; } /* NO */
+.stocklist th:nth-child(2) { width: 3%; } /* 지점명 */
+.stocklist th:nth-child(3) { width: 5%; } /* 메뉴명 */
+.stocklist th:nth-child(4) { width: 4%; } /* 발주량 */
+.stocklist th:nth-child(5) { width: 3%; } /* 상품상태 */
+.stocklist th:nth-child(6) { width: 4%; } /* 발주상태 */
+
+
+#stock-data-area td:nth-child(4) { /* 이미지 경로 TD 선택 */
+  width: 22%; /* 너비 유지 */
+  word-break: break-word; /* 긴 단어 줄바꿈 */
+  overflow-wrap: anywhere; /* 공백 없는 문자열 줄바꿈 */
+  white-space: normal; /* 줄바꿈 허용 */
+}
+
+ #stock-data-area tr {
+  height: 46.5px;
+  min-height: 46.5px;
+  box-sizing: border-box;
+}
+
+#stock-data-area td {
+  height: 46.5px;
+  min-height: 46.5px;
+  box-sizing: border-box;
+}
+
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto; 
+}
+
+.tbody-scroll {
+  max-height: calc(46.5px * 11); /* 행 높이 × 11줄 */
+  overflow-y: auto;
+}
+
+.tbody-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+
+
+
+
+
+
+
+.order {
+    white-space: nowrap;
+    overflow-x: auto;
+    height: 47px;
+}
+
+.orderlist {
+    white-space: nowrap;
+    overflow-x: auto; 
+}
+
+.order > td {
+    height: 47px;
+    text-align: center;
+}
+
+.order:hover {
+    cursor: pointer;
+    background-color: #f2f2f2;
+    transition: background-color 0.3s ease;
+}
+
+.stock-container {
+    position: relative;
+    width: 80px;
+}
+
+
+
+
+
+
+.custom-dropdown {
+  position: relative; /* 드롭다운 위치 기준점 */
+  display: inline-block;
+}
+
+.dropdown-stock-options {
+  display: none;
+  position: absolute; /* absolute로 변경 */
+  z-index: 1001;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.1);
+  padding: 5px 0;
+  margin: 0;
+  list-style: none;
+  min-width: 120px;
+  top: 100%; /* 버튼 바로 아래 위치 */
+  left: 0;
+}
+
+.dropdown-stock-options.show {
+  display: block;
+}
+
+.dropdown-stock-options li {
+  display: flex;
+  justify-content: center;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-stock-options li:hover {
+  background: #f5f5f5;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.small-icon {
+  position: relative;
+  top: -6px;
+  right: 12px;
+  z-index: 2; /* 텍스트 위로 올림 */
+  width: 8px;
+  height: 4px;
+  margin-left: 8px; /* 텍스트와의 간격 */
+}
+
+/* 모달 스타일 */
+.modal {
+  display: none; /* 초기에는 숨김 상태 */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 확인 모달 */
+.confirm-modal {
+  text-align: center;
+  background-color: #f5f2fc;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+}
+
+.confirm-text {
+  font-size: 16px;
+  margin-bottom: 25px;
+  color: #4a4a4a;
+}
+
+.confirm-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.confirm-btn {
+  padding: 10px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.confirm-btn.yes {
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+.confirm-btn.no {
+  background-color: #6a5acd;
+  color: white;
+}
+
+.modal-close {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  border: none;
+  background: none;
+  font-size: 18px;
+  color: #ccc;
+  cursor: pointer;
+}
+
+/* 알림 토스트 스타일 */
+.notification-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  padding: 12px 20px;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  animation: fadeInOut 3s forwards;
+  display: none;
+}
+
+.toast-message {
+  color: #333;
+  font-size: 14px;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, 20px); }
+  10% { opacity: 1; transform: translate(-50%, 0); }
+  90% { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -20px); }
+}

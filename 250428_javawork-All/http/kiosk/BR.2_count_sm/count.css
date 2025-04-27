@@ -1,0 +1,527 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 1024px;
+    height: 1562px;
+    margin: 0 auto;
+    font-family: 'Noto Sans', sans-serif;
+    letter-spacing: -0.41px;
+    background: linear-gradient(135deg, #fff5f9 0%, #fef5ff 100%);
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 0 10px 20px rgba(242, 12, 147, 0.2);
+    border: 1px solid rgba(242, 12, 147, 0.1);
+}
+
+header {
+    background-color: white;
+    padding: 20px;
+    position: relative;
+    z-index: 10;
+}
+
+main {
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    border-radius: 8px;
+}
+
+footer {
+    background-color: white;
+    padding: 20px;
+    position: relative;
+    z-index: 10;
+}
+
+/* 미묘한 빛 효과 추가 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 20% 30%, 
+        rgba(242, 12, 147, 0.08) 0%, 
+        transparent 40%),
+              radial-gradient(circle at 80% 70%, 
+        rgba(242, 12, 147, 0.08) 0%, 
+        transparent 40%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* 부드러운 등장 효과 */
+body {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+
+
+
+
+
+
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin: 0 auto;
+}
+
+nav ul {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    background-color: #f2f2f2;
+}
+
+nav ul li {
+    flex: 1;
+    text-align: center;
+    font-size: 30px;
+    color: #CACACA;
+    line-height: 100px;
+    height: 100px;
+}
+
+.menu-img.single-img {
+    justify-content: center; /* 이미지 하나만 있을 때는 가운데 */
+    
+  }
+nav ul li.active {
+    background-color: #fff;
+    color: #F20C93;
+}
+
+main, footer {
+    padding: 0 20px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 319px;
+}
+
+.menu-info {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 187px;
+}
+
+.menu-img {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 5%;
+}
+/* 콘 이미지 회전 */
+.corn-img {
+    transform: rotate(10deg); /* 적당히 왼쪽으로 살짝 기울이기 */
+}
+  
+  /* 컵 이미지 회전 */
+.cup-img {
+    transform: rotate(-10deg); /* 오른쪽으로 살짝 기울이기 */
+}
+
+.menu-txt { 
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.menu-price {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    margin-right: 5%;
+    font-size: 40px;
+    color: #F20C93;
+}
+
+.menu-info-txt {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 132px;
+    margin-top: 2%;
+    font-size: 30px;
+    color: #989898;
+}
+
+.menu-guide{
+    margin: 20px 0;
+    text-align: center;
+    font-size: 30px;
+    color: #989898;
+}
+
+.option-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 473px;
+}
+
+.option-info {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 114.75px;
+    font-size: 30px;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.option-item {
+    display: flex;
+    width: 341.33px;
+    height: 320px;
+    justify-content: center;
+    align-items: center;
+}
+
+.option-item-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 280px;
+    width: 280px;
+    border: solid 1px #9F9F9F;
+    border-radius: 25px;
+    padding: 10px;
+    position: relative;
+    color: #9F9F9F;
+}
+
+.option-item-box.selected {
+    border: solid 5px #EF9BCD;
+    color: #F20C93;
+}
+
+.option-item-box img {
+    transform: scale(0.9);
+}
+
+.option-name {   
+    position: absolute;
+    top: 55%;
+    transform: translateY(-50%);
+    background: white;
+    padding: 5px;
+}
+
+.option-item-box p:last-child {
+    position: relative; 
+    top: -50px; 
+    color: #000;
+}
+
+.none {
+    width: 100%;
+    height: 390px;
+}
+
+.option-info {
+    color: #F20C0C;
+}
+
+.quantity-container *{
+    all: unset;
+    cursor: pointer;
+    margin: 10px;
+    font-size: 25px;
+    
+}
+.option-item-box:focus .quantity-container {
+    color: #000; 
+}
+.option-item-box.selected .quantity-container{
+    color:#000;
+}
+footer {
+    display: flex;
+    justify-content: center;
+    height: 233px;
+
+}
+
+.btn-box{
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    width: 512px;
+    height: 233px;
+}
+
+footer button {
+    width: 471px;  
+    height: 114px;
+    border-radius: 100px;
+    font-size: 30px;
+    border: 1px solid#B9B9B9 ;
+    cursor: pointer;
+}
+
+.btn-back{
+    background-color: #fff;
+    color: #F20C93;
+}
+
+.btn-choose{
+    background-color: #F20C93;
+    color: #fff;
+}
+
+.btn-back:active  {
+    background-color: #f4eeee;
+}
+
+.btn-choose:active{
+    background-color: #ed50ac; 
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  /* 선택된 옵션 박스에 그림자 추가 */
+  .option-item-box.selected {
+    box-shadow: 0 10px 20px rgba(242, 12, 147, 0.2);
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+  }
+  
+  /* 버튼 호버 효과 */
+  footer button {
+    transition: all 0.2s ease;
+  }
+  footer button:hover {
+    box-shadow: 0 5px 15px rgba(242, 12, 147, 0.3);
+  }
+
+
+
+
+
+
+
+
+
+
+  /* 1. 전체 페이지 로딩 애니메이션 */
+body {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+/* 2. 네비게이션 바 개선 */
+nav ul {
+    border-radius: 50px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+nav ul li {
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+nav ul li.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 4px;
+    background: #F20C93;
+    border-radius: 2px;
+}
+
+/* 3. 메뉴 아이템 호버 효과 강화 */
+.menu-info {
+    transition: transform 0.3s ease;
+}
+
+.menu-info:hover {
+    transform: translateY(-3px);
+}
+
+/* 4. 옵션 박스 3D 효과 */
+.option-item-box {
+    transition: all 0.3s ease, transform 0.2s ease;
+    perspective: 1000px;
+}
+
+.option-item-box:hover {
+    transform: translateY(-5px) rotateX(5deg);
+    box-shadow: 0 10px 25px rgba(242, 12, 147, 0.15);
+}
+
+.option-item-box.selected {
+    transform: translateY(-7px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(242, 12, 147, 0.25);
+}
+
+/* 5. 수량 조절 버튼 디자인 */
+.quantity-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.quantity-container button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f8f8f8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    transition: all 0.2s ease;
+}
+
+.quantity-container button:hover {
+    background: #F20C93;
+    color: white;
+}
+
+.quantity-container span {
+    min-width: 30px;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* 6. 버튼 그라데이션 효과 */
+.btn-choose {
+    background: linear-gradient(135deg, #F20C93, #FF6B9E);
+    border: none !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-choose::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255,255,255,0.3),
+        rgba(255,255,255,0)
+    );
+    transform: rotate(30deg);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% { left: -50%; top: -50%; }
+    100% { left: 150%; top: 150%; }
+}
+
+/* 7. 이미지 미묘한 움직임 효과 */
+.corn-img, .cup-img {
+    transition: transform 0.5s ease;
+}
+
+.menu-img:hover .corn-img {
+    transform: rotate(15deg) scale(1.05);
+}
+
+.menu-img:hover .cup-img {
+    transform: rotate(-15deg) scale(1.05);
+}
+
+/* 8. 반응형 디자인 추가 */
+@media (max-width: 768px) {
+    nav ul li {
+        font-size: 20px;
+        line-height: 70px;
+        height: 70px;
+    }
+    
+    .menu-info {
+        flex-direction: column;
+        height: auto;
+        padding: 20px 0;
+    }
+    
+    .option-item {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    footer button {
+        width: 90%;
+    }
+}
+
+/* 9. 미묘한 배경 패턴 효과 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(rgba(242, 12, 147, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* 10. 활성화 요소에 대한 강조 효과 */
+:focus-visible {
+    outline: 2px solid #F20C93;
+    outline-offset: 3px;
+    border-radius: 5px;
+}

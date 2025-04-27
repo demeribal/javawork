@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kiosk.stock.branch.mapper.StockBranchMapper">
+
+    <resultMap id="stockBranchResultMap" type="com.kiosk.stock.branch.DTO.StockBranchDTO">
+        <id property="id" column="id"/>
+        <result property="menuId" column="menu_id"/>
+        <result property="officeId" column="office_id"/>
+        <result property="quantity" column="quantity"/>
+        <result property="isUse" column="is_use"/>
+        <result property="officeName" column="office_name"/>
+        <result property="menuName" column="menuName"/>
+        <result property="imagePath" column="imagePath"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+    <!-- StockBranch 단건 조회 (id) -->
+    <select id="getStockBranchById" parameterType="int" resultMap="stockBranchResultMap">
+        SELECT
+		    s.id,
+		    o.office_name,
+		    m.menuName,
+		    m.imagePath,
+		    s.quantity,
+		    s.is_use,
+		    od.status
+		FROM stock s
+		LEFT JOIN office o ON s.office_id = o.id
+		LEFT JOIN menu m ON s.menu_id = m.id
+		LEFT JOIN (
+		    SELECT *
+		    FROM orders
+		    WHERE stock_id = 1
+		    ORDER BY last_update DESC
+		    LIMIT 1
+		) od ON s.id = od.stock_id
+		WHERE s.id = 1;
+    </select>
+
+    <!-- StockBranch 전체 조회 -->
+    <select id="getAllStockBranches" resultMap="stockBranchResultMap">
+        WITH latest_orders AS (
+		  SELECT *,
+		         ROW_NUMBER() OVER (PARTITION BY stock_id ORDER BY last_update DESC) AS rn
+		  FROM orders
+		)
+		SELECT
+		   s.id,
+		   o.office_name,
+		   m.menuName,
+		   m.imagePath,
+		   s.quantity,
+		   s.is_use,
+		   od.status
+		FROM stock s
+		LEFT JOIN office o ON s.office_id = o.id
+		LEFT JOIN menu m ON s.menu_id = m.id
+		LEFT JOIN latest_orders od ON s.id = od.stock_id AND od.rn = 1;
+    </select>
+
+    <!-- officeId로 StockBranch 조회 -->
+    <select id="getStockBranchesByOfficeId" parameterType="int" resultMap="stockBranchResultMap">
+        WITH latest_orders AS (
+		  SELECT *,
+		         ROW_NUMBER() OVER (PARTITION BY stock_id ORDER BY last_update DESC) AS rn
+		  FROM orders
+		)
+		SELECT
+		   s.id,
+		   o.office_name,
+		   m.menuName,
+		   m.imagePath,
+		   s.quantity,
+		   s.is_use,
+		   od.status
+		FROM stock s
+		LEFT JOIN office o ON s.office_id = o.id
+		LEFT JOIN menu m ON s.menu_id = m.id
+		LEFT JOIN latest_orders od ON s.id = od.stock_id AND od.rn = 1;
+        WHERE s.office_id = #{officeId}
+    </select>
+
+    <!-- menuId로 StockBranch 조회 -->
+    <select id="getStockBranchesByMenuId" parameterType="int" resultMap="stockBranchResultMap">
+        WITH latest_orders AS (
+		  SELECT *,
+		         ROW_NUMBER() OVER (PARTITION BY stock_id ORDER BY last_update DESC) AS rn
+		  FROM orders
+		)
+		SELECT
+		   s.id,
+		   o.office_name,
+		   m.menuName,
+		   m.imagePath,
+		   s.quantity,
+		   s.is_use,
+		   od.status
+		FROM stock s
+		LEFT JOIN office o ON s.office_id = o.id
+		LEFT JOIN menu m ON s.menu_id = m.id
+		LEFT JOIN latest_orders od ON s.id = od.stock_id AND od.rn = 1;
+        WHERE s.menu_id = #{menuId}
+    </select>
+
+    <!-- StockBranch 삽입 -->
+    <insert id="insertStockBranch" parameterType="com.kiosk.stock.branch.DTO.StockBranchDTO" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO stock (
+            menu_id,
+            office_id,
+            quantity,
+            is_use
+        ) VALUES (
+            #{menuId},
+            #{officeId},
+            #{quantity},
+            #{isUse}
+        )
+    </insert>
+
+    <!-- StockBranch 업데이트 -->
+    <update id="updateStockBranch" parameterType="com.kiosk.stock.branch.DTO.StockBranchDTO">
+        UPDATE stock
+        SET
+            menu_id = #{menuId},
+            office_id = #{officeId},
+            quantity = #{quantity},
+            is_use = #{isUse}
+        WHERE id = #{id}
+    </update>
+
+    <!-- StockBranch 삭제 -->
+    <delete id="deleteStockBranch" parameterType="int">
+        DELETE FROM stock WHERE id = #{id}
+    </delete>
+
+</mapper>
