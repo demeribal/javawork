@@ -88,7 +88,7 @@ function closeAlert() {
     
   try{
   // 🔽 API 요청 (POST)
-  const response = await fetch('http://tomhoon.duckdns.org:8882/api/pay', {
+  const response = await fetch('tomhoon.duckdns.org:8882/api/pay', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)

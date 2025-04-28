@@ -34,9 +34,12 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO, HttpServletRequest request) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        System.out.println("++++++++++++++++++++++++++++++++++++++++");
         System.out.println("로그인 요청 들어옴!");
         System.out.println("입력값: " + loginDTO); // 디버깅용 추후에 삭제
+        System.out.println("아이디" + loginDTO.getUsername());
         System.out.println("입력된 비밀번호: " + loginDTO.getPassword());
+        System.out.println("리챠토큰"+ loginDTO.getRecaptchaToken());
         
         String username = loginDTO.getUsername();
         String encodedPassword = loginDTO.getPassword();
@@ -47,6 +50,7 @@ public class LoginController {
         }
 
         String recaptchaToken = loginDTO.getRecaptchaToken();
+        System.out.println(recaptchaToken);
         if (!verifyRecaptcha(recaptchaToken)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("message", "reCAPTCHA 인증 실패"));
         }
@@ -87,19 +91,19 @@ public class LoginController {
         try {
             // 리캡챠 확인 요청
             Map<String, Object> response = restTemplate.postForObject(url, params, Map.class);
+            System.out.println("리캡챠 응답: " + response);
             
             // "success"가 true이면 인증 성공
             if (response != null && Boolean.TRUE.equals(response.get("success"))) {
-                Double score = (Double) response.get("score");
-                System.out.println("리캡챠 점수: " + score);
-                return score >= 0.5; // 0.5 이상이면 통과
+                return true; // 인증 성공
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return false;
+        return false; // 인증 실패
     }
+
 
 
 

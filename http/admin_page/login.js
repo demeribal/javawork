@@ -23,7 +23,7 @@ function onSubmit() {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ username, password: encodedPassword, recaptchaToken: token }) // key를 password로 수정
+        body: JSON.stringify({ username:username, password: encodedPassword, recaptchaToken: token }) // key를 password로 수정
     })
     .then(response => response.json())
     .then(data => {
