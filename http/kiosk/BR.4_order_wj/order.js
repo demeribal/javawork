@@ -73,6 +73,74 @@ function renderProductList() {
     addEventListeners();
 }
 
+
+
+
+// 주문 내역이 있는지 확인하는 함수
+function hasOrderItems() {
+    return productData && productData.length > 0;
+}
+
+// 결제 옵션 클릭 이벤트 핸들러 수정
+function setupPaymentOptions() {
+    const cashOption = document.querySelector('.cash-option');
+    const cardOption = document.querySelector('.card-option');
+    
+    if (cashOption) {
+        cashOption.addEventListener('click', () => {
+            if (!hasOrderItems()) {
+                alert('주문 내역이 없습니다. 상품페이지로 넘어갑니다.');
+                location.href = '../BR.1_menu_hb/menu.html';
+                return;
+            }
+            location.href = '../BR.5_point_hm/point.html';
+        });
+    }
+    
+    if (cardOption) {
+        cardOption.addEventListener('click', () => {
+            if (!hasOrderItems()) {
+                alert('주문 내역이 없습니다. 상품페이지로 넘어갑니다.');
+                location.href = '../BR.1_menu_hb/menu.html';
+                return;
+            }
+            location.href = '../BR.5_point_hm/point.html';
+        });
+    }
+}
+
+// 초기 렌더링 시 호출
+function initialize() {
+    renderProductList();
+    updateTotalPriceDisplay();
+    setupPaymentOptions();
+    
+    // 주문 내역이 없으면 안내 메시지 표시
+    if (!hasOrderItems()) {
+        const itemList = document.querySelector('.item-list');
+        itemList.innerHTML = `
+            <div class="empty-cart-message">
+                <div class="empty-cart-icon">🛒</div>
+                <p>주문 내역이 없습니다</p>
+                <button class="go-to-menu-btn">메뉴 선택하러 가기</button>
+            </div>
+        `;
+        
+        // 메뉴 페이지로 이동하는 버튼 이벤트
+        document.querySelector('.go-to-menu-btn')?.addEventListener('click', () => {
+            location.href = '../BR.1_menu_hb/menu.html';
+        });
+    }
+}
+
+// 페이지 로드 시 초기화
+initialize();
+
+
+
+
+
+
 // 이벤트 리스너 추가 함수
 function addEventListeners() {
     // 수량 감소 버튼
@@ -151,28 +219,28 @@ function addEventListeners() {
     });
     
     // 수정 버튼
-    document.querySelectorAll('.edit-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const item = this.closest('.item');
-            const productIndex = parseInt(item.dataset.productIndex);
-            const itemIndex = parseInt(item.dataset.itemIndex);
+    // document.querySelectorAll('.edit-btn').forEach(btn => {
+    //     btn.addEventListener('click', function() {
+    //         const item = this.closest('.item');
+    //         const productIndex = parseInt(item.dataset.productIndex);
+    //         const itemIndex = parseInt(item.dataset.itemIndex);
             
-            // 수정할 아이템 정보를 세션 스토리지에 저장
-            sessionStorage.setItem('editItem', JSON.stringify({
-                productIndex: productIndex,
-                itemIndex: itemIndex
-            }));
+    //         // 수정할 아이템 정보를 세션 스토리지에 저장
+    //         sessionStorage.setItem('editItem', JSON.stringify({
+    //             productIndex: productIndex,
+    //             itemIndex: itemIndex
+    //         }));
             
-            // 수정 페이지로 이동 또는 모달 창 표시
-            // 예시: window.location.href = 'edit-flavor.html';
-            alert('수정 페이지로 이동합니다.');
-        });
-    });
+    //         // 수정 페이지로 이동 또는 모달 창 표시
+    //         // 예시: window.location.href = 'edit-flavor.html';
+    //         alert('수정 페이지로 이동합니다.');
+    //     });
+    // });
 
-    const card = document.querySelector('.card-option')
-    card?.addEventListener('click', () => {
-        location.href = '../BR.5_point_hm/point.html';
-    })
+    // const card = document.querySelector('.card-option')
+    // card?.addEventListener('click', () => {
+    //     location.href = '../BR.5_point_hm/point.html';
+    // })
 }
 
 // 총 금액 계산 및 업데이트

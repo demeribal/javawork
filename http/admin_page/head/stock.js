@@ -26,7 +26,8 @@ function getStatus(status) {
   const statusImg = {
       "확인중": "checking.svg",
       "배송중": "indelivery.svg",
-      "배송완료": "deliverycomplete.svg"
+      "배송완료": "deliverycomplete.svg",
+      "발주요청" : "orderrequest.svg"
   };
   return statusImg[status] || status;
 }
@@ -35,13 +36,14 @@ function setStatus(statusImg) {
   const status = {
       "checking.svg": "확인중",
       "indelivery.svg": "배송중",
-      "deliverycomplete.svg": "배송완료"
+      "deliverycomplete.svg": "배송완료",
+      "orderrequest.svg" : "발주요청"
   };
   return status[statusImg] || statusImg;
 }
 
 function fetchOrderList() {
-  fetch("http://tomhoon.duckdns.org:8882/api/stock/header")
+  fetch("http://localhost:8080/api/stock/header")
   .then(res => res.json())
     .then(data => {
       const tbody = document.getElementById("stock-table-body");
@@ -172,7 +174,7 @@ function selectOrderOption(element) {
 }
 
 function fetchPutOrder(id, status) {
-  fetch(`http://tomhoon.duckdns.org:8882/api/stock/header/${id}`, {
+  fetch(`http://localhost:8080/api/stock/header/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json;charset=UTF-8",
@@ -186,4 +188,54 @@ function fetchPutOrder(id, status) {
       throw new Error('Network response was not ok');
     }
   });
+}
+
+
+
+
+
+
+function adjustDropdownPosition(options) {
+  const btn = options.closest('.custom-dropdown')?.querySelector('.selected-stock-option');
+  if (!btn) return;
+
+  // 1. 버튼의 화면상 절대 위치 계산 (스크롤 무시)
+  const btnRect = btn.getBoundingClientRect();
+  
+  // 2. 드롭다운 크기 측정
+  const optionsRect = options.getBoundingClientRect();
+
+  // 3. 기본 위치 (버튼 아래)
+  let topPos = btnRect.bottom;
+  let leftPos = btnRect.left;
+
+  // 4. 경계 처리 (뷰포트 기준)
+  // 아래 공간 부족하면 위로 표시
+  if (btnRect.bottom + optionsRect.height > window.innerHeight) {
+    topPos = btnRect.top - optionsRect.height;
+  }
+
+  // 오른쪽 경계 처리
+  if (btnRect.left + optionsRect.width > window.innerWidth) {
+    leftPos = window.innerWidth - optionsRect.width - 5;
+  }
+
+  // 5. 위치 적용 (fixed)
+  options.style.cssText = `
+    top: ${topPos}px;
+    left: ${leftPos}px;
+    position: fixed;
+    z-index: 9999;
+  `;
+
+// 현재 열린 드롭다운 추적
+let currentOpenDropdown = null;
+
+  const dropdown = btn.closest('.custom-dropdown');
+  if (!dropdown) return;
+
+  // 다른 드롭다운 닫기
+  if (currentOpenDropdown && currentOpenDropdown !== options) {
+    currentOpenDropdown.classList.remove('show');
+  }
 }

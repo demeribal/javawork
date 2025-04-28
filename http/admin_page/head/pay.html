@@ -1,30 +1,28 @@
 <div class="table-wrapper">
- <table class="paymentlist">
-    <thead>
-      <tr>
-        <th>NO</th>
-        <th>결제수단</th>
-        <th>결제내역</th>
-        <th>결제금액</th>
-        <th>결제일</th>
-        <th>결제지점</th>
-        <th>결제번호</th>
-      </tr>
-    </thead>
-  </table>
   <div class="tbody-scroll">
     <table class="paymentlist">
-      <tbody id="pay-table-body">
-        <!-- JS에서 결제 데이터 삽입 예정 -->
-      <tr class="no-data" style="display: none;">
-        <td colspan="7" style="text-align:center; padding: 30px; color: #888;">
-          조회 내역이 없습니다
-        </td>
-      </tr>
-      </tbody>
-    </table>
+        <thead>
+          <tr>
+            <th>NO</th>
+            <th>결제수단</th>
+            <th>결제내역</th>
+            <th>결제금액</th>
+            <th>결제일</th>
+            <th>결제지점</th>
+            <th>결제번호</th>
+          </tr>
+        </thead>
+        <tbody id="pay-table-body">
+          <!-- JS에서 결제 데이터 삽입 예정 -->
+          <tr class="no-data" style="display: none;">
+            <td colspan="7" style="text-align:center; padding: 30px; color: #888;">
+              조회 내역이 없습니다
+            </td>
+          </tr>
+        </tbody>
+      </table>
   </div>
-  </div>
+  
     <!-- Date 모달과 dim -->
     <div id="date-modal-dim" class="dimmed" style="display: none;"></div>
     <div id="calendar-step" style="display: none;"></div>

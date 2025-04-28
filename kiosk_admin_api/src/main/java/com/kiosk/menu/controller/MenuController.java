@@ -13,12 +13,11 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.http.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value; // ✅ 이걸로 수정해야 함!
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -87,9 +86,19 @@ public class MenuController {
 
         // 이미지 처리
         if (image != null && !image.isEmpty()) {
+        	String imageName = image.getOriginalFilename();
+        	
+        	if (imageName == null || !isImageFile(imageName)) {
+        		Map<String, String> errorResponse = new HashMap<>();
+        		errorResponse.put("status", "error");
+        		errorResponse.put("message", "이미지 파일만 업로드 가능합니다.");
+                return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+            }
+
             String extension = FilenameUtils.getExtension(image.getOriginalFilename());
             String safeFileName = menuName.replaceAll("[^a-zA-Z0-9가-힣]", "_") + "." + extension;
             Path savePath = Paths.get("src/main/resources/static/images", safeFileName);
+            
             Files.copy(image.getInputStream(), savePath, StandardCopyOption.REPLACE_EXISTING);
             menuDAO.setImagePath("/images/" + safeFileName);
         }
@@ -106,6 +115,17 @@ public class MenuController {
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON)  // ✅ 추가
                 .body(response);
+    }
+    
+    private boolean isImageFile(String fileName) {
+        String[] imageExtensions = {".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp"};
+        String fileExtension = fileName.substring(fileName.lastIndexOf(".")).toLowerCase();
+        for (String ext : imageExtensions) {
+            if (fileExtension.equals(ext)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // [3] 메뉴 수정

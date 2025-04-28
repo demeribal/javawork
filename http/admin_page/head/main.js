@@ -53,10 +53,17 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById(`${defaultTab}-content`).classList.add("active");
 
   loadTabAssets(defaultTab);
+
   fetch(`${defaultTab}.html`)
     .then((res) => res.text())
     .then((html) => {
       document.getElementById(`${defaultTab}-data-area`).innerHTML = html;
+      
+      loadTabAssets(defaultTab, () => {
+        if (defaultTab === 'stock' && typeof window.fetchOrderList === 'function') {
+          window.fetchOrderList();
+        }
+      });
     })
     .catch((err) => console.error("초기 stock.html 로딩 실패:", err));
 
@@ -101,6 +108,9 @@ function loadTabAssets(tabName) {
       }
       if (tabName === "pay" && typeof initPayPage === "function") {
         initPayPage();
+      }
+      if (tabName === "stock" && typeof fetchOrderList === "function") {
+        fetchOrderList();
       }
       if (tabName === "menu" && typeof initMenuPage === "function") {
         setTimeout(() => {
@@ -167,11 +177,12 @@ function addEmptyRows(tbodyId = 'pay-table-body', minRows = 11) {
   if (!tbody) return;
 
   const currentRows = tbody.querySelectorAll('tr').length;
+  const tds = tbody.querySelector('tr').querySelectorAll('td').length;
   const emptyCount = minRows - currentRows;
 
   for (let i = 0; i < emptyCount; i++) {
     const tr = document.createElement('tr');
-    tr.innerHTML = `<td colspan="7">&nbsp;</td>`;
+    tr.innerHTML = `<td colspan="${tds}">&nbsp;</td>`;
     tbody.appendChild(tr);
   }
 }

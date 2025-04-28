@@ -3,22 +3,27 @@ function onSubmit() {
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
 
-    const encodedPassword = btoa(password);
+    if (!password) {
+        alert("비밀번호를 입력해주세요.");
+        return;
+    }
+
+    const encodedPassword = btoa(password);  // 비밀번호를 Base64로 인코딩
 
     if (token === "") {
         alert("사람 인증을 진행해주세요.");
         return;
     }
-console.log("리캡챠 토큰: " + token);
 
-    fetch("http://tomhoon.duckdns.org:8882/api/user/login", {
+    console.log("리캡챠 토큰: " + token);
 
+    fetch("http://192.168.0.17:8080/api/user/login", {
         method: "POST",
         credentials: "include",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ username, encodedPassword, recaptchaToken: token })
+        body: JSON.stringify({ username, password: encodedPassword, recaptchaToken: token }) // key를 password로 수정
     })
     .then(response => response.json())
     .then(data => {
