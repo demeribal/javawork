@@ -370,3 +370,194 @@ td {
     background: #888;
     border-radius: 4px;
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* ========== 기본 스타일 ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans KR', sans-serif;
+  letter-spacing: -0.3px;
+}
+
+body {
+  background: linear-gradient(135deg, #f5f9ff, #ebf2ff);
+  padding: 30px;
+  min-height: 100vh;
+}
+
+/* ========== 메인 컨테이너 ========== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(41, 98, 255, 0.1);
+  position: relative;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #2962FF, #448AFF);
+}
+
+/* ========== 타이틀 영역 ========== */
+.title {
+  padding: 25px 30px;
+  font-size: 22px;
+  color: #333;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(41, 98, 255, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 20px;
+  background: #2962FF;
+  margin-right: 12px;
+  border-radius: 2px;
+}
+
+/* ========== 탭 스타일 ========== */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(41, 98, 255, 0.1);
+  padding: 0 30px;
+}
+
+.tab {
+  padding: 18px 25px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #888;
+  position: relative;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.tab:hover {
+  color: #2962FF;
+}
+
+.tab.active {
+  color: #2962FF;
+  font-weight: 600;
+}
+
+.tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #2962FF, #448AFF);
+  border-radius: 3px 3px 0 0;
+}
+
+/* ========== 필터 및 검색 영역 ========== */
+.controls {
+  display: flex;
+  padding: 20px 30px;
+  align-items: center;
+  justify-content: space-between;
+  background: #f7faff;
+  border-bottom: 1px solid rgba(41, 98, 255, 0.1);
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #d6e4ff;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(41, 98, 255, 0.05);
+}
+
+.filter-btn:hover {
+  border-color: #2962FF;
+  box-shadow: 0 4px 12px rgba(41, 98, 255, 0.1);
+}
+
+.search-box input {
+  border: 1px solid #d6e4ff;
+  box-shadow: 0 2px 8px rgba(41, 98, 255, 0.05);
+}
+
+.search-box input:focus {
+  border-color: #2962FF;
+  box-shadow: 0 4px 12px rgba(41, 98, 255, 0.1);
+}
+
+/* ========== 지점 버튼 스타일 ========== */
+.branch-btn {
+  background: #ebf1ff;
+  color: #666;
+  box-shadow: 0 2px 8px rgba(41, 98, 255, 0.05);
+}
+
+.branch-btn:hover {
+  background: #d6e4ff;
+}
+
+.branch-btn.active {
+  background: linear-gradient(135deg, #2962FF, #448AFF);
+  box-shadow: 0 4px 12px rgba(41, 98, 255, 0.2);
+}
+
+/* ========== 테이블 스타일 ========== */
+th {
+  background: linear-gradient(to bottom, #f5f9ff, #ebf1ff);
+  color: #2962FF;
+  border-bottom: 1px solid rgba(41, 98, 255, 0.1);
+}
+
+td {
+  border-bottom: 1px solid rgba(41, 98, 255, 0.05);
+}
+
+tr:hover td {
+  background: rgba(41, 98, 255, 0.03);
+}
+
+
+/* ========== 데이터 없음 메시지 ========== */
+.no-data::before {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23aaa"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>');
+}

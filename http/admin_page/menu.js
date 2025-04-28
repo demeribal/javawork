@@ -120,7 +120,7 @@ function createMenu() {
   }
 
   // 🔧 API 요청
-  fetch("http://localhost:8080/api/menus", {
+  fetch("http://tomhoon.duckdns.org:8882/api/menus", {
     method: "POST",
     body: formData
   })
@@ -151,7 +151,7 @@ window.initMenuPage = initMenuPage;
 
 // 메뉴 리스트 조회
 function fetchMenuData() {
-    fetch("http://localhost:8080/api/menus")
+    fetch("http://tomhoon.duckdns.org:8882/api/menus")
         .then(res => {
             if (!res.ok) throw new Error("응답 실패");
             return res.json();
@@ -210,7 +210,7 @@ function showToast(message) {
 
 // ✅ 판매 상태 변경 함수
 function toggleIsUse(menuId, newValue) {
-  fetch(`http://localhost:8080/api/menus/${menuId}/isUse`, {
+  fetch(`http://tomhoon.duckdns.org:8882/api/menus/${menuId}/isUse`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ isUse: newValue })
@@ -243,7 +243,7 @@ function toggleIsUse(menuId, newValue) {
   
   // PATCH 요청 보내기
   function updateIsUse(menuId, newValue) {
-    fetch(`http://localhost:8080/api/menus/${menuId}/isUse`, {
+    fetch(`http://tomhoon.duckdns.org:8882/api/menus/${menuId}/isUse`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ isUse: newValue })
@@ -277,7 +277,7 @@ function toggleIsUse(menuId, newValue) {
 
 // 메뉴 사용 여부 상태 변경 함수 (리팩토링 완료)
 function updateMenuStatus(menuId, isUseValue) {
-  fetch(`http://localhost:8080/api/menus/${menuId}/isUse`, {
+  fetch(`http://tomhoon.duckdns.org:8882/api/menus/${menuId}/isUse`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json"
