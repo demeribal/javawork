@@ -16,57 +16,93 @@ function getOptionName(optionCode) {
     return options[optionCode] || optionCode;
 }
 
+// 맛 배열을 정규화하여 비교 가능한 문자열로 변환
+function normalizeFlavors(flavors) {
+    if (!flavors) return '';
+    if (Array.isArray(flavors)) {
+        return flavors.slice().sort().join(',');
+    }
+    return flavors.toString();
+}
+
 // 상품 목록 렌더링 함수
 function renderProductList() {
     const itemlist = document.querySelector('.item-list');
     itemlist.innerHTML = ''; // 목록 초기화
     
-    productData.forEach((product, productIndex) => {
-        const option = getOptionName(product.option);
-        const imageUrl = product.imageUrl;
-        //imageUrl.substring(imageUrl.search('kiosk'));
+    // 상품을 그룹화 (메뉴, 옵션, 맛이 모두 같은 경우만 같은 그룹)
+    const productGroups = [];
+    
+    productData.forEach(product => {
+        // 상품의 기본 키 (이름 + 옵션)
+        const baseKey = `${product.name}-${product.option}`;
         
-        for (let i = 0; i < product.quantity; i++) {
-            // 맛 정보 가져오기
-            let flavorText = '';
-            if (product.flavors && product.flavors[i]) {
-                // 맛은 2차원 배열로 저장되어 있음
-                if (Array.isArray(product.flavors[i])) {
-                    flavorText = product.flavors[i].join(', ');
-                } else {
-                    flavorText = product.flavors[i];
-                }
+        // 맛 정보 정규화
+        const normalizedFlavors = normalizeFlavors(product.flavors);
+        
+        // 동일한 그룹 찾기
+        let foundGroup = null;
+        for (const group of productGroups) {
+            const groupBaseKey = `${group.name}-${group.option}`;
+            const groupNormalizedFlavors = normalizeFlavors(group.flavors);
+            
+            // 같은 메뉴+옵션이고 맛도 같으면 같은 그룹
+            if (baseKey === groupBaseKey && normalizedFlavors === groupNormalizedFlavors) {
+                foundGroup = group;
+                break;
             }
-            
-            const item = document.createElement('div');
-            item.className = `item ${product.option} ${product.name}`;
-            item.dataset.productIndex = productIndex;
-            item.dataset.itemIndex = i;
-            
-            item.innerHTML = `
-                <div class="item-image" style="background-image: url('${imageUrl}')"></div>
-                <div class="item-details">
-                    <div class="item-name">${product.name}</div>
-                    <div class="item-option">(콘/컵) ${option}(포장불가)</div>
-                    <div class="item-flavor">${flavorText}</div>
-                </div>
-                <div class="quantity-controls">
-                    <button class="quantity-btn decrease">-</button>
-                    <span class="quantity">1</span>
-                    <button class="quantity-btn increase">+</button>
-                </div>
-                <div class="item-actions">
-                    <button class="edit-btn">
-                        <img src="images/edit-btn.png" alt="수정">
-                    </button>
-                    <button class="delete-btn">
-                        <img src="images/delete-btn.png" alt="삭제">
-                    </button>
-                </div>
-            `;
-            
-            itemlist.appendChild(item);
         }
+        
+        if (foundGroup) {
+            // 같은 그룹이면 수량 증가
+            foundGroup.quantity += product.quantity;
+            foundGroup.totalPrice += product.totalPrice;
+        } else {
+            // 새로운 그룹 추가
+            productGroups.push({
+                ...product,
+                // 원본 인덱스 추적을 위해 originalIndices 추가
+                originalIndices: [productData.indexOf(product)]
+            });
+        }
+    });
+    
+    // 그룹화된 상품들을 렌더링
+    productGroups.forEach((group, index) => {
+        const option = getOptionName(group.option);
+        const imageUrl = group.imageUrl;
+        const flavorText = group.flavors ? 
+            (Array.isArray(group.flavors) ? group.flavors.join(', ') : group.flavors) : '';
+        
+        const item = document.createElement('div');
+        item.className = `item ${group.option} ${group.name}`;
+        item.dataset.groupKey = `${group.name}-${group.option}-${normalizeFlavors(group.flavors)}`;
+        item.dataset.originalIndices = JSON.stringify(group.originalIndices);
+        item.style.setProperty('--order', index);
+        
+        item.innerHTML = `
+            <div class="item-image" style="background-image: url('${imageUrl}')"></div>
+            <div class="item-details">
+                <div class="item-name">${group.name}</div>
+                <div class="item-option">(콘/컵) ${option}(포장불가)</div>
+                ${flavorText ? `<div class="item-flavor">${flavorText}</div>` : ''}
+            </div>
+            <div class="quantity-controls">
+                <button class="quantity-btn decrease">-</button>
+                <span class="quantity">${group.quantity}</span>
+                <button class="quantity-btn increase">+</button>
+            </div>
+            <div class="item-actions">
+                <button class="edit-btn">
+                    <img src="images/edit-btn.png" alt="수정">
+                </button>
+                <button class="delete-btn">
+                    <img src="images/delete-btn.png" alt="삭제">
+                </button>
+            </div>
+        `;
+        
+        itemlist.appendChild(item);
     });
     
     // 이벤트 리스너 추가
@@ -79,24 +115,32 @@ function addEventListeners() {
     document.querySelectorAll('.quantity-btn.decrease').forEach(btn => {
         btn.addEventListener('click', function() {
             const item = this.closest('.item');
-            const productIndex = parseInt(item.dataset.productIndex);
-            const itemIndex = parseInt(item.dataset.itemIndex);
+            const originalIndices = JSON.parse(item.dataset.originalIndices);
             
-            // 수량이 1보다 크면 감소
-            if (productData[productIndex].quantity > 1) {
-                productData[productIndex].quantity -= 1;
-                productData[productIndex].totalPrice = productData[productIndex].unitPrice * productData[productIndex].quantity;
+            // 마지막 상품의 수량 감소
+            const lastIndex = originalIndices[originalIndices.length - 1];
+            if (productData[lastIndex].quantity > 1) {
+                productData[lastIndex].quantity -= 1;
+                productData[lastIndex].totalPrice = productData[lastIndex].unitPrice * productData[lastIndex].quantity;
+            } else {
+                // 수량이 1이면 해당 상품 제거
+                productData.splice(lastIndex, 1);
+                originalIndices.pop();
                 
-                // 맛 배열에서 해당 아이템 제거
-                if (productData[productIndex].flavors && productData[productIndex].flavors.length > itemIndex) {
-                    productData[productIndex].flavors.splice(itemIndex, 1);
+                // 원본 인덱스 업데이트
+                if (originalIndices.length === 0) {
+                    item.remove();
+                    updateSessionStorage();
+                    updateTotalAmount();
+                    renderProductList();
+                    return;
                 }
-                
-                // 세션 스토리지 업데이트 및 화면 다시 렌더링
-                updateSessionStorage();
-                updateTotalAmount();
-                renderProductList();
+                item.dataset.originalIndices = JSON.stringify(originalIndices);
             }
+            
+            //updateSessionStorage();
+            //updateTotalAmount();
+            renderProductList();
         });
     });
     
@@ -104,20 +148,14 @@ function addEventListeners() {
     document.querySelectorAll('.quantity-btn.increase').forEach(btn => {
         btn.addEventListener('click', function() {
             const item = this.closest('.item');
-            const productIndex = parseInt(item.dataset.productIndex);
+            const originalIndices = JSON.parse(item.dataset.originalIndices);
             
-            // 수량 증가
-            productData[productIndex].quantity += 1;
-            productData[productIndex].totalPrice = productData[productIndex].unitPrice * productData[productIndex].quantity;
+            // 첫 번째 상품의 수량 증가
+            productData[originalIndices[0]].quantity += 1;
+            productData[originalIndices[0]].totalPrice = productData[originalIndices[0]].unitPrice * productData[originalIndices[0]].quantity;
             
-            // 맛 배열에 기본 맛 추가 (첫 번째 맛 복제)
-            if (productData[productIndex].flavors && productData[productIndex].flavors.length > 0) {
-                productData[productIndex].flavors.push([...productData[productIndex].flavors[0]]);
-            }
-            
-            // 세션 스토리지 업데이트 및 화면 다시 렌더링
-            updateSessionStorage();
-            updateTotalAmount();
+            //updateSessionStorage();
+            //updateTotalAmount();
             renderProductList();
         });
     });
@@ -126,89 +164,100 @@ function addEventListeners() {
     document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const item = this.closest('.item');
-            const productIndex = parseInt(item.dataset.productIndex);
-            const itemIndex = parseInt(item.dataset.itemIndex);
+            const originalIndices = JSON.parse(item.dataset.originalIndices);
             
-            // 해당 아이템만 삭제 (수량 1 감소)
-            if (productData[productIndex].quantity > 1) {
-                productData[productIndex].quantity -= 1;
-                productData[productIndex].totalPrice = productData[productIndex].unitPrice * productData[productIndex].quantity;
-                
-                // 맛 배열에서 해당 아이템 제거
-                if (productData[productIndex].flavors && productData[productIndex].flavors.length > itemIndex) {
-                    productData[productIndex].flavors.splice(itemIndex, 1);
-                }
-            } else {
-                // 마지막 아이템이면 주문 자체를 삭제
-                productData.splice(productIndex, 1);
-            }
+            // 해당 그룹의 모든 상품 삭제 (내림차순으로 삭제해야 인덱스 문제 없음)
+            originalIndices.sort((a, b) => b - a).forEach(index => {
+                productData.splice(index, 1);
+            });
             
-            // 세션 스토리지 업데이트 및 화면 다시 렌더링
-            updateSessionStorage();
-            updateTotalAmount();
+            //updateSessionStorage();
+            //updateTotalAmount();
             renderProductList();
         });
     });
-    
-    // 수정 버튼
-    document.querySelectorAll('.edit-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const item = this.closest('.item');
-            const productIndex = parseInt(item.dataset.productIndex);
-            const itemIndex = parseInt(item.dataset.itemIndex);
-            
-            // 수정할 아이템 정보를 세션 스토리지에 저장
-            sessionStorage.setItem('editItem', JSON.stringify({
-                productIndex: productIndex,
-                itemIndex: itemIndex
-            }));
-            
-            // 수정 페이지로 이동 또는 모달 창 표시
-            // 예시: window.location.href = 'edit-flavor.html';
-            alert('수정 페이지로 이동합니다.');
-        });
-    });
-
-    const card = document.querySelector('.card-option')
-    card?.addEventListener('click', () => {
-        location.href = '../BR.5_point_hm/point.html';
-    })
 }
 
-// 총 금액 계산 및 업데이트
+// 나머지 함수들은 동일하게 유지 (updateTotalAmount, updateSessionStorage, updateTotalPriceDisplay 등)
+
+// 초기 렌더링
+renderProductList();
+//updateTotalPriceDisplay();
+
+
+
+// 총 금액 계산 및 업데이트 (주석 해제)
 function updateTotalAmount() {
     let totalAmount = 0;
     
-    // 모든 상품의 totalPrice 합산
     productData.forEach(product => {
-        totalAmount += product.totalPrice;
+        totalAmount += product.totalPrice || (product.unitPrice * product.quantity);
     });
     
-    // priceData 업데이트
     priceData.totalAmount = totalAmount;
-    priceData.paymentPrice = totalAmount - priceData.discountAmount;
+    priceData.paymentPrice = totalAmount - (priceData.discountAmount || 0);
     
-    // 세션 스토리지 업데이트
     sessionStorage.setItem('priceData', JSON.stringify(priceData));
-    
-    // 화면에 표시
-    updateTotalPriceDisplay();
+    //updateTotalPriceDisplay();
 }
 
-// 세션 스토리지 업데이트 함수
+// 세션 스토리지 업데이트 (주석 해제)
 function updateSessionStorage() {
     sessionStorage.setItem('productData', JSON.stringify(productData));
 }
 
-// 총 금액 표시 함수
-function updateTotalPriceDisplay() {
-    const totalPrice = document.querySelector(".total-price");
+// 결제 버튼 이벤트 핸들러 추가
+function setupPaymentButtons() {
+    const cashBtn = document.querySelector('.cash-option');
+    const cardBtn = document.querySelector('.card-option');
     
-    if (priceData && totalPrice) {
-        totalPrice.textContent = `₩${parseInt(priceData.paymentPrice).toLocaleString()}`;
+    if (cashBtn) {
+        cashBtn.addEventListener('click', () => {
+            if (productData.length === 0) {
+                alert('주문 내역이 없습니다.');
+                return;
+            }
+            updateSessionStorage();
+            updateTotalAmount();
+            location.href = '../BR.5_point_hm/point.html';
+        });
+    }
+    
+    if (cardBtn) {
+        cardBtn.addEventListener('click', () => {
+            if (productData.length === 0) {
+                alert('주문 내역이 없습니다.');
+                return;
+            }
+            updateSessionStorage();
+            updateTotalAmount();
+            location.href = '../BR.5_point_hm/point.html';
+        });
     }
 }
 
-// 초기 렌더링
-renderProductList();
-updateTotalPriceDisplay();
+// 초기화 함수 수정
+function initialize() {
+    renderProductList();
+    updateTotalAmount();
+    setupPaymentButtons(); // 결제 버튼 이벤트 등록
+    
+    // 주문 내역이 없을 때 처리
+    if (productData.length === 0) {
+        const itemList = document.querySelector('.item-list');
+        itemList.innerHTML = `
+            <div class="empty-cart-message">
+                <div class="empty-cart-icon">🛒</div>
+                <p>주문 내역이 없습니다</p>
+                <button class="go-to-menu-btn">메뉴 선택하러 가기</button>
+            </div>
+        `;
+        
+        document.querySelector('.go-to-menu-btn')?.addEventListener('click', () => {
+            location.href = '../BR.1_menu_hb/menu.html';
+        });
+    }
+}
+
+// 페이지 로드 시 초기화
+document.addEventListener('DOMContentLoaded', initialize);

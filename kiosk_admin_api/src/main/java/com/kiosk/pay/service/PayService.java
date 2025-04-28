@@ -2,7 +2,6 @@ package com.kiosk.pay.service;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,30 +15,16 @@ public class PayService {
 	@Autowired
 	PayMapper mapper;
 
-	public void createPay(PayDTO paydto) {
-		Pay pay = new Pay();
-		BeanUtils.copyProperties(paydto, pay);
-		mapper.insert(paydto);
-	}
-
-	public List<Pay> getAllPay() {
-		return mapper.getAllPay();
-	}
-
-	public List<Pay> getPaysFiltered(String date, String order) {
-		return mapper.getPaysFiltered(date, order);
+	public void createPay(Pay pay) {
+		mapper.insert(pay);
 	}
 	
-	public List<Pay> getPaysBetweenDates(String fromDate, String toDate, String order) {
+	public List<PayDTO> getPaysBetweenDates(String fromDate, String toDate, String order) {
 	    return mapper.getPaysBetweenDates(fromDate, toDate, order);
 	}
 
-	public List<Pay> getAllPayOrdered(String order) {
+	public List<PayDTO> getAllPayOrdered(String order) {
 	    return mapper.getAllPayOrdered(order);
-	}
-
-	public List<PayDTO> getPayWithMenuAndOffice() {
-	    return mapper.getPayWithMenuAndOffice();
 	}
 
 }

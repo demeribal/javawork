@@ -1,0 +1,40 @@
+<div class="table-wrapper">
+  <div class="tbody-scroll">
+    <table class="stocklist">
+      <thead class="thead-bar">
+        <tr>
+            <th>NO</th>
+            <th>지점명</th>
+            <th>메뉴명</th>
+            <th>주문발주량</th>
+            <th>상품상태</th>
+            <th>발주상태</th>
+        </tr>
+    </thead>
+    <tbody id="stock-table-body">
+
+    </tbody>
+  </table>
+</div>
+
+  <div class="no-data">
+    조회 내용이 없습니다.
+  </div>
+  
+  <!-- 발주상태 변경 확인 모달 -->
+  <div class="modal" id="statusConfirmModal">
+    <div class="modal-content confirm-modal">
+        <button class="modal-close" id="confirmCloseBtn">&times;</button>
+        <p class="confirm-text"><strong id="confirmStatusChange">정말 발주상태를 변경하시겠습니까?</strong></p>
+        <div class="confirm-buttons">
+            <button id="statusConfirmYes" class="confirm-btn yes">예</button>
+            <button id="statusConfirmNo" class="confirm-btn no">아니요</button>
+        </div>
+    </div>
+  </div>
+
+  <!-- 토스트 팝업 메세지 -->
+  <div class="notification-toast" id="orderStatusToast">
+    <span class="check-icon">✅</span>
+    <span class="toast-message"></span>
+  </div>

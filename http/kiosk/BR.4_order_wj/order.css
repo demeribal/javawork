@@ -106,8 +106,12 @@ body {
 .item {
     display: flex;
     align-items: center;
-    height: 100px;
+    min-height: 100px; /* 고정 높이 대신 최소 높이 사용 */
+    height: auto; /* 높이를 자동으로 조정 */
     border-bottom: 1px solid #f0f0f0;
+    overflow: visible; /* 넘치는 내용을 보이도록 변경 */
+    padding: 10px 0; /* 내부 여백 추가 */
+    flex-wrap: wrap; /* 내용이 많을 경우 줄 바꿈 */
 }
 
 .item-image {
@@ -299,3 +303,250 @@ body {
     line-height: 33px;
     letter-spacing: -0.408px;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ========== 전체 레이아웃 개선 ========== */
+body {
+    background: linear-gradient(135deg, #fff5f9 0%, #fef5ff 100%);
+    box-shadow: 0 0 30px rgba(242, 12, 147, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        rgba(242, 12, 147, 0.05) 0%, 
+        rgba(255, 255, 255, 0) 50%, 
+        rgba(242, 12, 147, 0.05) 100%);
+    z-index: -1;
+}
+
+/* ========== 헤더 영역 디자인 업그레이드 ========== */
+.header {
+    padding: 0 30px;
+    background: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+    border-bottom: 1px solid rgba(242, 12, 147, 0.1);
+}
+
+.logo {
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+.close-btn {
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(246, 169, 215, 0.5);
+}
+
+.close-btn:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+    box-shadow: 0 5px 15px rgba(246, 169, 215, 0.7);
+}
+
+/* ========== 주문 단계 표시 영역 ========== */
+.step-section {
+    background: linear-gradient(to right, #fff5f9, #fff);
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+}
+
+.step-badge {
+    box-shadow: 0 4px 15px rgba(242, 12, 147, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.step-badge:hover {
+    transform: translateY(-3px);
+}
+
+.step-title {
+    text-shadow: 0 2px 5px rgba(255, 83, 184, 0.2);
+}
+
+/* ========== 주문 아이템 목록 디자인 ========== */
+.item-container {
+    padding: 20px;
+    background: white;
+}
+
+.item {
+    background: white;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(242, 12, 147, 0.05);
+}
+
+.item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(242, 12, 147, 0.1);
+    border-color: rgba(242, 12, 147, 0.2);
+}
+
+.item-image {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.item:hover .item-image {
+    transform: scale(1.05);
+}
+
+.quantity-controls {
+    background: #fafafa;
+    border-radius: 50px;
+    padding: 5px;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.quantity-btn {
+    transition: all 0.2s ease;
+    color: #f20c93;
+}
+
+.quantity-btn:hover {
+    background: rgba(242, 12, 147, 0.1);
+    border-radius: 50%;
+}
+
+.edit-btn, .delete-btn {
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.edit-btn:hover, .delete-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.edit-btn:hover {
+    color: #f20c93;
+}
+
+.delete-btn:hover {
+    color: #ff0000;
+}
+
+/* ========== 결제 섹션 디자인 업그레이드 ========== */
+.payment-section {
+    background: linear-gradient(to top, #fff, #fff5f9);
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+    border-top: 1px solid rgba(242, 12, 147, 0.1);
+    padding: 20px;
+}
+
+.payment-step-badge {
+    box-shadow: 0 4px 15px rgba(242, 12, 147, 0.3);
+}
+
+.total-price {
+    font-size: 36px;
+    text-shadow: 0 2px 5px rgba(242, 12, 147, 0.2);
+}
+
+.payment-options {
+    gap: 20px;
+}
+
+.cash-option, .card-option {
+    transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+    position: relative;
+}
+
+.cash-option {
+    background: white;
+    border: 2px solid #f20c93;
+}
+
+.cash-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(242, 12, 147, 0.2);
+}
+
+.card-option {
+    background: linear-gradient(135deg, #f20c93, #ff53b8);
+}
+
+.card-option:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(242, 12, 147, 0.4);
+}
+
+.card-option::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(255, 255, 255, 0.3),
+        rgba(255, 255, 255, 0)
+    );
+    transform: rotate(30deg);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% { left: -50%; top: -50%; }
+    100% { left: 150%; top: 150%; }
+}
+
+/* ========== 애니메이션 효과 ========== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.item {
+    animation: fadeIn 0.6s ease-out forwards;
+    animation-delay: calc(var(--order) * 0.1s);
+    opacity: 0;
+}
+
+
+
+body {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }

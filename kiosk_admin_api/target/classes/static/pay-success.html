@@ -4,7 +4,6 @@
 <head>
   <meta charset="utf-8" />
   <link rel="icon" href="https://static.toss.im/icons/png/4x/icon-toss-logo.png" />
-  <link rel="stylesheet" type="text/css" href="/style.css" />
   <title>결제 완료</title>
 </head>
 <body>
@@ -26,6 +25,8 @@
   </div>
 
   <script>
+  	
+  	console.log(location.search);
     (async () => {
       try {
         const params = new URLSearchParams(location.search);
@@ -33,31 +34,29 @@
         const amount = Number(params.get("amount"));
         const paymentmethod = params.get("method");
         const paymenthistory = params.get("history");
-        //const stockId = parseInt(params.get("stockId"));
-        //console.log("✅ 받은 stockId:", stockId);
-
         const paidat = new Date().toISOString();
-        
+        const productName = sessionStorage.getItem("productName");
+        const stockId = 1;
 
-        //<!--const productData = JSON.parse(sessionStorage.getItem("productData")) || [];-->
+
         
+        // 1. productData 가져오기
         const rawProductData = params.get("productData");
-		const productData = rawProductData ? JSON.parse(rawProductData) : [];
-		const flavors = productData.forEach(data =>{
-		    data.flavors.forEach(flavor =>{
-		        flavor.forEach(count => {
-		           return count;
-		        })
-		    })
-		})
-		
-		const stockId = [];
-		flavors.forEach(flavor=>{
-			stockId.add(fetch(`http://localhost:8080/api/menus/${flavor}`).then(res=>res.json()).then(data=> data.id))
-		})
-		
-		const orderId = fetch("http://localhost:8080/api/menus")
+        const productData = rawProductData ? JSON.parse(rawProductData) : [];
 
+     	// 2. flavors 목록 평탄화
+        const flavorList = productData.flatMap(data => data.flavors.flat());
+
+        // 3. 각 flavor를 기반으로 menuId → stockId 가져오기
+        const stockIdPromises = flavorList.map(flavor =>
+	        fetch(`http://localhost:8080/api/stocks/by-flavor-name/${flavor}`)
+	        .then(res => res.json())
+	        .then(data => data.menuId)  // ✅ stock이 참조하는 menuId
+        );
+		
+        const stockIds = await Promise.all(stockIdPromises);
+
+		// 4. 화면에 결제 정보 표시
         document.getElementById("amount").textContent = amount.toLocaleString() + "원";
         document.getElementById("orderId").textContent = paycode;
 		
@@ -67,7 +66,7 @@
           amount,
           paidat,
           paycode,
-          stockId: 1
+          stockId
         };
 
         // 1단계: DB 저장
@@ -82,18 +81,20 @@
         	  return;
         	}
 
+        const flavorText = flavorList.join(', ');
+        const productNames = productData.map(p => p.name).join(', ');
+        const details = `${productNames} - ${flavorText}`;
+        
         // 2단계: 영수증 프린트
         try {
           await fetch('http://192.168.0.10:4242/print', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              store: "강서지점",
-              details: history+`${flavors}`,
-              amount,
-              date: paidat, //new Date().toLocaleString("ko-KR"),
-              method: paymentmethod,
-              paycode
+              store: productName,
+              details: details,
+              amount: orderDate,
+              orderDate:"20250430", //new Date().toLocaleString("ko-KR")
             })
           });
 
@@ -104,7 +105,8 @@
         }
 
         // 3단계: 성공 페이지 이동
-        window.location.href = 'http://192.168.0.35:5500/kiosk/BR.8_success_wj/success.html';
+        window.location.href = 'http://localhost:8080/kiosk/BR.8_success_wj/success.html';
+
         
       } catch (err) {
         console.error('❌ 오류 발생:', err);

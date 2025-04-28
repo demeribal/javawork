@@ -1,18 +1,7 @@
 package com.kiosk.pay.controller;
 
-
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Reader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.List;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,14 +25,14 @@ public class PayController {
     PayService payService;
 
     @PostMapping
-    public ResponseEntity<Void> createPay(@RequestBody PayDTO paydto) {
-    	System.out.println("받은 결제 정보: " + paydto);
-        payService.createPay(paydto);
+    public ResponseEntity<Void> createPay(@RequestBody Pay pay) {
+    	System.out.println("받은 결제 정보: " + pay);
+        payService.createPay(pay);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
-
+    
     @GetMapping
-    public List<Pay> getPays(
+    public List<PayDTO> getPays(
         @RequestParam(required = false) String fromDate,
         @RequestParam(required = false) String toDate,
         @RequestParam(defaultValue = "desc") String order
@@ -54,11 +43,4 @@ public class PayController {
             return payService.getAllPayOrdered(order);
         }
     }
-    
-    @GetMapping("/admin")
-    public List<PayDTO> getPayAdminView() {
-        return payService.getPayWithMenuAndOffice();
-    }
-
-
 }

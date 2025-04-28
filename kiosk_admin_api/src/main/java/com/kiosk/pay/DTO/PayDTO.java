@@ -1,7 +1,6 @@
 package com.kiosk.pay.DTO;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import lombok.Data;
 
@@ -9,12 +8,10 @@ import lombok.Data;
 public class PayDTO {
     private int id;                 // 결제 식별자
     private String paymentmethod;  // 결제수단
-    private String paymenthistory;  
+    private String paymenthistory; // 결제내역
+    private String flavors;		   // 결제내역(맛)
     private int amount;            // 결제금액
     private LocalDateTime paidat;  // 결제일
-    private String paycode;
-    private String storeLocation;
-    private Integer stockId;
-    private String menuCodes; // ex) ICE101, ICE102
-    private List<Integer> menuIds; // stock 연동용
+    private String storeLocation;  // 결제지점
+    private String paycode;		   // 결제코드
 }

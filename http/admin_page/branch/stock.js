@@ -1,81 +1,90 @@
-// 발주 목록 가져오기
-function fetchOrderList() {
-    fetch("http://localhost:8080/api/stock/branch")
-        .then(res => res.json())
-        .then(data => {
-            const orders = Array.isArray(data) ? data : (data.orders || []);
-            const tbody = document.getElementById("stock-table-body");
+// 재고 목록 가져오기
+function fetchStockList() {
+  fetch("http://localhost:8080/api/stock/branch")
+      .then(res => res.json())
+      .then(data => {
+          const stocks = Array.isArray(data) ? data : (data || []);
+          const tbody = document.getElementById("stock-table-body");
 
-            if (!tbody) {
-                console.warn("⚠️ stock-table-body 요소 없음!");
-                return;
+          if (!tbody) {
+              console.warn("⚠️ stock-table-body 요소 없음!");
+              return;
+          }
+
+          tbody.innerHTML = ""; // 기존 내용 비우기
+
+          stocks.forEach((stock, idx) => {
+            const row = document.createElement("tr");
+            row.classList.add("order");
+            row.setAttribute('data-branch', stock.officeName || ""); // 지점명 데이터 속성 추가
+
+            // 데이터 추출
+            const officeName = stock.officeName || "";
+            const menuName = stock.menuName || "";
+            const quantity = stock.quantity ?? 0;
+            const imagePath = stock.imagePath || "";
+            console.log(stock)
+
+            // use 필드 기반 상태 처리
+            const isActive = stock.use !== false; // use가 명시적으로 false가 아닌 경우 활성화
+            const productStatus = !isActive ?
+                '<img src="/admin_page/images/stopsale.svg" data-use="0" />' :
+                (quantity === 0 ? '<img src="/admin_page/images/stopsale.svg" data-use="0" />' : '<img src="/admin_page/images/sale.svg" data-use="1" />');
+
+            // 주문 버튼 조건
+            const orderButtonHTML = !isActive || quantity === 0 ?
+                `<button class="no-style-button orderbutton disabled" disabled style="opacity: 0.5; cursor: not-allowed;"></button>` :
+                `<button class="no-style-button orderbutton" data-branch="${officeName}" data-image="${imagePath}" data-menu-name="${menuName}">
+                  <img src="/admin_page/images/orderbutton.svg" style="position: relative; left: 20px;"/>
+                </button>`;
+
+            // 주문 상태 처리
+            let orderStatus = '';
+            switch (stock.status) {
+                case "확인중":
+                    orderStatus = '<img src="/admin_page/images/checking.svg" data-status="확인중" />';
+                    break;
+                case "배송중":
+                    orderStatus = '<img src="/admin_page/images/indelivery.svg" data-status="배송중" />';
+                    break;
+                case "배송완료":
+                    orderStatus = '<img src="/admin_page/images/deliverycomplete.svg" data-status="배송완료" />';
+                    break;
+                case "발주요청":
+                    orderStatus = '<img src="/admin_page/images/orderrequest.svg" data-status="발주요청" />';
+                    break;   
+                default:
+                    //orderStatus = '<img src="/admin_page/images/orderrequest.svg" data-status="발주요청" />';
+                    orderStatus = `<pre>    <pre>`;
+                    break;
             }
 
-            tbody.innerHTML = ""; // 기존 내용 비우기
+            // quantityDisplay 추가: quantity가 0일 때 이미지로, 아니면 숫자로 표시
+            const quantityDisplay = quantity === 0 ? '<img src="/admin_page/images/nostock.svg" alt="재고 없음"/>' : quantity;
 
-            orders.forEach((order, idx) => {
-                const row = document.createElement("tr");
-                row.classList.add("order");
-                row.setAttribute('data-branch', order.officeName || ""); // 지점명 데이터 속성 추가
+            // 행 구성
+            row.innerHTML = `
+              <td>${idx + 1}</td>
+              <td>${officeName}</td>
+              <td>${menuName}</td>
+              <td>${imagePath}</td>
+              <td>${quantityDisplay}</td>
+              <td>${productStatus}</td>
+              <td>${orderStatus}</td>
+              <td>${orderButtonHTML}</td>
+            `;
+            tbody.appendChild(row);
+          });
 
-                // 데이터 추출
-                const officeName = order.officeName || "";
-                const menuName = order.menuName || "";
-                const quantity = order.quantity ?? 0;
-                const imagePath = order.imagePath || "";
-
-                // use 필드 기반 상태 처리
-                const isActive = order.use !== false; // use가 명시적으로 false가 아닌 경우 활성화
-                const productStatus = !isActive ?
-                    '<img src="/admin_page/images/stopsale.svg"/>' :
-                    (quantity === 0 ? '<img src="/admin_page/images/stopsale.svg"/>' : '<img src="/admin_page/images/sale.svg"/>');
-
-                // 주문 버튼 조건
-                const orderButtonHTML = !isActive || quantity === 0 ?
-                    `<button class="no-style-button orderbutton disabled" disabled style="opacity: 0.5; cursor: not-allowed;"></button>` :
-                    `<button class="no-style-button orderbutton" data-branch="${officeName}" data-image="${imagePath}" data-menu-name="${menuName}">
-            <img src="/admin_page/images/orderbutton.svg" style="position: relative; left: 20px;"/>
-          </button>`;
-
-                // 주문 상태 처리
-                let orderStatus = '';
-                switch (order.status) {
-                    case "배송중":
-                        orderStatus = '<img src="/admin_page/images/indelivery.svg"/>';
-                        break;
-                    case "배송완료":
-                        orderStatus = '<img src="/admin_page/images/deliverycomplete.svg"/>';
-                        break;
-                    default:
-                        orderStatus = '<img src="/admin_page/images/checking.svg"/>';
-                }
-
-                // quantityDisplay 추가: quantity가 0일 때 이미지로, 아니면 숫자로 표시
-                const quantityDisplay = quantity === 0 ? '<img src="/admin_page/images/nostock.svg" alt="재고 없음"/>' : quantity;
-
-                // 행 구성
-                row.innerHTML = `
-          <td>${idx + 1}</td>
-          <td>${officeName}</td>
-          <td>${menuName}</td>
-          <td>${imagePath}</td>
-          <td>${quantityDisplay}</td>
-          <td>${productStatus}</td>
-          <td>${orderStatus}</td>
-          <td>${orderButtonHTML}</td>
-        `;
-                tbody.appendChild(row);
-            });
-
-            addEmptyRows('stock-table-body');
-            checkForData('#stock-table-body', '.no-data');
-        })
+          addEmptyRows('stock-table-body');
+          checkForData('#stock-table-body', '.no-data');
+      })
         .catch(err => console.error("❌ 발주 데이터 불러오기 실패:", err));
 }
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  window.fetchOrderList = fetchOrderList;
+  window.fetchStockList = fetchStockList;
 });
 
 
@@ -95,33 +104,11 @@ function checkForData(tbodySelector, noDataSelector) {
 
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DOMContentLoaded 이벤트 발생');
-  window.fetchOrderList = fetchOrderList;
-  fetchOrderList();   // 초기 로딩
+  window.fetchStockList = fetchStockList;
+  fetchStockList();   // 초기 로딩
 
 });
 
-
-// function addEmptyRows(tbodyId, rowCount = 10) {
-//   const tbody = document.getElementById(tbodyId);
-//   const currentRows = tbody.querySelectorAll('tr').length;
-//   const emptyRowsToAdd = rowCount - currentRows;
-
-//   for (let i = 0; i < emptyRowsToAdd; i++) {
-//       const emptyRow = document.createElement("tr");
-//       emptyRow.innerHTML = `
-//           <td>&nbsp;</td>
-//           <td>&nbsp;</td>
-//           <td>&nbsp;</td>
-//           <td>&nbsp;</td>
-//           <td>&nbsp;</td>
-//           <td>&nbsp;</td>
-//           <td>&nbsp;</td>
-//           <td>&nbsp;</td>
-//       `;
-//       emptyRow.classList.add('empty-row'); // 필요시 스타일링용
-//       tbody.appendChild(emptyRow);
-//   }
-// }
 
 
 // 재고량 아이콘 업데이트
@@ -223,7 +210,7 @@ document.querySelectorAll('.branch-btn').forEach(button => {
   
   // 3. 초기화 코드 유지
   document.addEventListener('DOMContentLoaded', () => {
-    fetchOrderList();
+    fetchStockList();
   });
 
 
@@ -295,19 +282,16 @@ document.addEventListener('click', (e) => {
         const branchName = btn.getAttribute('data-branch');
         const imagePath = btn.getAttribute('data-image');
         const menuName = btn.getAttribute('data-menu-name');
-
-        console.log("버튼에서 가져온 이미지 경로:", imagePath);
-
+        
         currentOrderRow = btn.closest('tr.order');
         openOrderModal(branchName, imagePath, menuName);
     }
 
-    // #orderModal 클릭하면 .modal-content 닫히게
-    document.getElementById('orderModal').addEventListener('click', (e) => {
-        if (e.target.classList.contains('modal')) { // 모달 영역을 클릭했는지 확인
-            closeAllModals();
-        }
-    });
+    // 안전한 모달 닫기 처리
+    const orderModal = document.getElementById('orderModal');
+    if (orderModal && e.target === orderModal) {
+        closeAllModals();
+    }
 });
 
 // 범용 닫기 함수
@@ -332,29 +316,89 @@ function closeAllModals() {
 
 // 확인 버튼 핸들러
 function handleConfirmClick() {
-    if (currentOrderRow && currentModal) {
+    if (currentOrderRow  && currentModal) {
         const quantityInput = currentModal.querySelector('.quantity-input');
         const quantity = quantityInput ? parseInt(quantityInput.value, 10) : 0;
 
-        const orderData = {
-            branch: currentOrderRow.getAttribute('data-branch'),
-            no: currentOrderRow.cells[0].textContent,
-            name: currentOrderRow.cells[1].textContent,
-            menu: currentOrderRow.cells[2].textContent,
-            image: currentOrderRow.cells[3].textContent,
-            stock: parseInt(currentOrderRow.cells[4].textContent, 10),
-            status: currentOrderRow.cells[5].textContent,
-            orderStatus: currentOrderRow.cells[6].textContent,
-            quantity: quantity
-        };
-        sendOrderData(orderData);
+        const stockData = {
+          branch: currentOrderRow.getAttribute('data-branch'),
+          no: parseInt(currentOrderRow.cells[0].textContent),
+          name: currentOrderRow.cells[1].textContent,
+          menu: currentOrderRow.cells[2].textContent,
+          image: currentOrderRow.cells[3].textContent,
+          stock: parseInt(currentOrderRow.cells[4].textContent, 10),
+          status: parseInt(currentOrderRow.cells[5].querySelector('img').dataset.use),
+          StockStatus: currentOrderRow.cells[6].querySelector('img').dataset.status,
+          quantity: quantity
+      };
+      sendStockData(stockData);
     }
     closeAllModals();
 }
+// ===============================================================
 
-// 데이터 전송 함수
-function sendOrderData(data) {
-  console.log('발주 데이터 전송:', data);
-  /* 실제 전송 로직 구현 */
-}
-window.fetchOrderList = fetchOrderList;
+
+
+
+
+// 재고 업데이트 요청
+async function sendStockData(data) {
+    try {
+      console.log("재고 감소 요청 데이터:", {
+        officeName: data.branch,
+        menuName: data.menu,
+        quantity: data.quantity
+      });
+  
+      // 1. 재고 감소 요청
+      const stockUpdateResponse = await fetch("http://localhost:8080/api/stock/branch/update", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          officeName: data.branch,
+          menuName: data.menu,
+          quantity: data.quantity
+        })
+      });
+  
+      if (!stockUpdateResponse.ok) {
+        const errorText = await stockUpdateResponse.text();
+        throw new Error(`재고 업데이트 실패: ${errorText}`);
+      }
+  
+      const stockUpdateResult = await stockUpdateResponse.json();
+      console.log("재고 업데이트 성공:", stockUpdateResult);
+  
+      // 2. 발주 생성 요청
+      console.log("발주 생성 요청 데이터:", {
+        stockId: data.no,
+        quantity: data.quantity,
+        status: "발주요청"
+      });
+  
+      const orderCreateResponse = await fetch("http://localhost:8080/api/stock/header", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          stockId: data.no,
+          quantity: data.quantity,
+          status: "발주요청"
+        })
+      });
+  
+      if (!orderCreateResponse.ok) {
+        const errorText = await orderCreateResponse.text();
+        throw new Error(`발주 생성 실패: ${errorText}`);
+      }
+  
+      //const orderCreateResult = await orderCreateResponse.json();
+      console.log('발주 처리 완료:', orderCreateResponse);
+      alert('발주가 정상 처리되었습니다.');
+      fetchStockList(); // 테이블 갱신
+      
+    } catch (error) {
+      console.error('발주 처리 오류:', error);
+      alert('발주 처리 오류: ' + error.message);
+    }
+  }
+// =================================================================

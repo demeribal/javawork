@@ -159,3 +159,405 @@ td {
 
     height: 517px;
 }
+
+
+
+
+/* 필터 모달 스타일 */
+.filter-modal {
+  position: fixed;  /* 절대 위치 → 화면 고정 */
+  top: 50vh;       /* 뷰포트 높이 기준 50% */
+  left: 30vw;      /* 뷰포트 너비 기준 50% */
+  transform: translate(-50%, -50%); /* 정확한 중앙 정렬 */
+  width: min(320px, 90vw);  /* 최대 320px, 모바일에서는 90% */
+  height: min(280px, 80vh); /* 최대 280px, 모바일에서는 80% */
+  overflow: auto;  /* 내용 초과 시 스크롤 허용 */
+  /* 나머지 스타일 유지 */
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 16px;
+  font-family: 'Pretendard', sans-serif;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+  
+  .filter-modal:not(.hidden) {
+    opacity: 1; /* 부드러운 등장 효과 */
+  }
+  
+  /* 헤더 스타일 */
+  .filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid #f0f0f0; /* 세련된 구분선 */
+  }
+  
+  .filter-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .close-filter {
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .close-filter:hover {
+    color: #555; /* 호버 시 색상 변경 */
+  }
+  
+  /* 입력 필드 */
+  .filter-row {
+    margin-bottom: 12px;
+  }
+  
+  .filter-row label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #444;
+  }
+  
+  .filter-row input,
+  .filter-row select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 13px;
+    transition: border-color 0.3s;
+  }
+  
+  .filter-row input:focus,
+  .filter-row select:focus {
+    border-color: #5547D3; /* 포커스 시 초록 테두리 */
+    outline: none;
+  }
+  
+  /* 버튼 그룹 */
+  .filter-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px; /* 간격 조정 */
+    margin-top: 12px;
+  }
+  
+  .filter-footer button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 
+      background-color 0.3s,
+      transform 0.1s;
+  }
+  
+  .filter-footer button:active {
+    transform: scale(0.98); /* 클릭 시 미세한 압축 효과 */
+  }
+  
+  #apply-filter {
+    background-color: #5547D3;
+    color: white;
+  }
+  
+  #apply-filter:hover {
+    background-color: #5547D3; /* 호버 시 색상 강조 */
+  }
+  
+  #reset-filter {
+    background-color: #f5f5f5;
+    color: #494949;
+  }
+  
+  #reset-filter:hover {
+    background-color: #e0e0e0;
+  }
+  
+  /* 결과 없음 표시 */
+  #no-result {
+    text-align: center;
+    padding: 20px;
+    color: #888;
+    background: #fafafa;
+    border-radius: 8px;
+    margin-top: 10px;
+  }
+
+
+
+
+
+/*stock css*/
+.stocklist {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  
+  .stocklist th:nth-child(1) { width: 5%; } /* NO */
+  .stocklist th:nth-child(2) { width: 8%; } /* 지점명 */
+  .stocklist th:nth-child(3) { width: 11%; } /* 메뉴명 */
+  .stocklist th:nth-child(4) { width: 22%; } /* 이미지 */
+  .stocklist th:nth-child(5) { width: 6%; } /* 재고량 */
+  .stocklist th:nth-child(6) { width: 6%; } /* 상품상태 */
+  .stocklist th:nth-child(7) { width: 7%; } /* 발주상태 */
+  .stocklist th:nth-child(8) { width: 6%; } /* 발주하기 */
+  
+  
+  #stock-data-area td:nth-child(4) { /* 이미지 경로 TD 선택 */
+    width: 22%; /* 너비 유지 */
+    word-break: break-word; /* 긴 단어 줄바꿈 */
+    overflow-wrap: anywhere; /* 공백 없는 문자열 줄바꿈 */
+    white-space: normal; /* 줄바꿈 허용 */
+  }
+  
+   #stock-data-area tr {
+    height: 46.5px;
+    min-height: 46.5px;
+    box-sizing: border-box;
+  }
+  
+  #stock-data-area td {
+    height: 46.5px;
+    min-height: 46.5px;
+    box-sizing: border-box;
+  }
+  
+  .table-wrapper {
+    width: 100%;
+    overflow-x: auto; 
+  }
+  
+  .tbody-scroll {
+    max-height: calc(46.5px * 11); /* 행 높이 × 11줄 */
+    overflow-y: auto;
+  }
+  
+  .tbody-scroll table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+
+
+  #stock-data-area {
+    overflow-y: auto;  /* 항상 세로 스크롤 활성화 */
+    max-height: 70vh; /* 적절한 높이 제한 (예: 70% 화면 높이) */
+    display: block;
+    width: 100%;
+  }
+  
+  /* 스크롤바 스타일링 (선택 사항) */
+  #stock-data-area::-webkit-scrollbar {
+    width: 8px;
+  }
+  #stock-data-area::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* ========== 기본 스타일 ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans KR', sans-serif;
+  letter-spacing: -0.3px;
+}
+
+body {
+  background: linear-gradient(135deg, #f5f9ff, #ebf2ff);
+  padding: 30px;
+  min-height: 100vh;
+}
+
+/* ========== 메인 컨테이너 ========== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(41, 98, 255, 0.1);
+  position: relative;
+}
+
+.container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #2962FF, #448AFF);
+}
+
+/* ========== 타이틀 영역 ========== */
+.title {
+  padding: 25px 30px;
+  font-size: 22px;
+  color: #333;
+  font-weight: 600;
+  border-bottom: 1px solid rgba(41, 98, 255, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.title::before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 20px;
+  background: #2962FF;
+  margin-right: 12px;
+  border-radius: 2px;
+}
+
+/* ========== 탭 스타일 ========== */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid rgba(41, 98, 255, 0.1);
+  padding: 0 30px;
+}
+
+.tab {
+  padding: 18px 25px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #888;
+  position: relative;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.tab:hover {
+  color: #2962FF;
+}
+
+.tab.active {
+  color: #2962FF;
+  font-weight: 600;
+}
+
+.tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #2962FF, #448AFF);
+  border-radius: 3px 3px 0 0;
+}
+
+/* ========== 필터 및 검색 영역 ========== */
+.controls {
+  display: flex;
+  padding: 20px 30px;
+  align-items: center;
+  justify-content: space-between;
+  background: #f7faff;
+  border-bottom: 1px solid rgba(41, 98, 255, 0.1);
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #d6e4ff;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(41, 98, 255, 0.05);
+}
+
+.filter-btn:hover {
+  border-color: #2962FF;
+  box-shadow: 0 4px 12px rgba(41, 98, 255, 0.1);
+}
+
+.search-box input {
+  border: 1px solid #d6e4ff;
+  box-shadow: 0 2px 8px rgba(41, 98, 255, 0.05);
+}
+
+.search-box input:focus {
+  border-color: #2962FF;
+  box-shadow: 0 4px 12px rgba(41, 98, 255, 0.1);
+}
+
+/* ========== 지점 버튼 스타일 ========== */
+.branch-btn {
+  background: #ebf1ff;
+  color: #666;
+  box-shadow: 0 2px 8px rgba(41, 98, 255, 0.05);
+}
+
+.branch-btn:hover {
+  background: #d6e4ff;
+}
+
+.branch-btn.active {
+  background: linear-gradient(135deg, #2962FF, #448AFF);
+  box-shadow: 0 4px 12px rgba(41, 98, 255, 0.2);
+}
+
+/* ========== 테이블 스타일 ========== */
+th {
+  background: linear-gradient(to bottom, #f5f9ff, #ebf1ff);
+  color: #2962FF;
+  border-bottom: 1px solid rgba(41, 98, 255, 0.1);
+}
+
+td {
+  border-bottom: 1px solid rgba(41, 98, 255, 0.05);
+}
+
+tr:hover td {
+  background: rgba(41, 98, 255, 0.03);
+}
+
+
+/* ========== 데이터 없음 메시지 ========== */
+.no-data::before {
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23aaa"><path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/></svg>');
+}
