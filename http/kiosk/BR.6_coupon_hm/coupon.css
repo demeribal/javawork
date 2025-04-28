@@ -1,260 +1,426 @@
+/* ========== 기본 설정 ========== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Noto Sans KR', sans-serif;
-}
-
-body {
-    background-color: #FFFFFF;
+  }
+  
+  body {
     width: 1024px;
     height: 1562px;
-    overflow: hidden;
     margin: 0 auto;
+    background: #FFFFFF;
     position: relative;
-}
-.wrapper {
-    width: 1024px;
-    height: 1562px;
-    margin: 0 auto;
-}
-
-/* 로고 */
-
-.logo {
-    width: 96px;
-    height: 88px;
-    margin-left: 27px;
-    background: url('images/LOGO-BR-preview.png') no-repeat center/contain;
-}
-
-/* 헤더 */
-.header {
+    overflow: hidden;
+  }
+  
+  .wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  
+  /* ========== 헤더 영역 ========== */
+  .header {
     width: 100%;
     height: 114px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.exit-btn {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: none;
+    padding: 0 30px;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  
+  .logo {
+    width: 96px;
+    height: 88px;
+    background: url('images/LOGO-BR-preview.png') no-repeat center/contain;
+    transition: transform 0.3s ease;
+  }
+  
+  .logo:hover {
+    transform: scale(1.05);
+  }
+  
+  .exit-btn {
+    width: 50px;
+    height: 50px;
+    background: rgba(217, 79, 159, 0.1);
     border: none;
-    font-size: 24px;
-    color: #d94f9f;
-    cursor: pointer;
-}
-
-.close-btn img {
-    width: 30px;
-    height: 30px;
-}
-
-/* 탭 메뉴 */
-.tab-menu {
-    display: flex;
-    justify-content: center;
-}
-
-.tab {
-    font-size: 30px;
-    font-weight: 500;
-    cursor: pointer;
-    width: 512px;
-    height: 100px;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.tab.active {
+    font-size: 24px;
+    color: #d94f9f;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .exit-btn:hover {
+    background: rgba(217, 79, 159, 0.2);
+    transform: rotate(90deg);
+  }
+  
+  /* ========== 탭 메뉴 ========== */
+  .tab-menu {
+    display: flex;
+    justify-content: center;
+    background: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  
+  .tab {
+    width: 512px;
+    height: 100px;
+    font-size: 30px;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .tab.active {
     color: #F20C93;
-}
-
-.tab.inactive {
+    background: white;
+    font-weight: 600;
+  }
+  
+  .tab.inactive {
     color: #CACACA;
     background: #F8F8F8;
-}
-
-/* 전체 컨테이너 */
-.content-container {
-    position: relative;
-    top: 46px;
+  }
+  
+  /* ========== 메인 콘텐츠 ========== */
+  .content-container {
+    padding: 20px;
     height: 350px;
-}
-
-/* 제목 행 - 전체 너비 사용 */
-.title-row {
-    width: 100%;
-    height: 66px;
-    text-align: left;
-}
-
-.title-row > p {
-    margin: 0;
-    position: relative;
-    left:15px;
-}
-
-.section-title {
+    background: white;
+  }
+  
+  .title-row {
+    margin-bottom: 20px;
+    padding-left: 15px;
+  }
+  
+  .section-title {
     font-size: 35px;
     font-weight: 500;
-}
-
-/* 콘텐츠 행 - 좌우 배치 */
-.content-row {
+    color: #333;
+  }
+  
+  .content-row {
     display: flex;
-    position: relative;
     width: 100%;
     height: 164px;
-}
-
-/* 왼쪽/오른쪽 섹션 */
-.left-section, .right-section {
+  }
+  
+  .left-section, .right-section {
     width: 48%;
-}
-
-.left-section > .option-btn {
-    position: relative;
-    left: 50px;
-}
-
-.highlight {
-    color: #F20C93;
-    font-weight: 400;
-    font-size: 27px;
-    margin-top: 10px;
-}
-
-/* 결제 방식 */
-.payment-methods {
-    display: flex;
-    justify-content: space-between;
-    gap: 80px;
-    padding: 0 20px;
-    margin: 20px 30px;
-}
-
-/* 옵션 버튼 */
-.option-btn {
+  }
+  
+  .left-section {
+    padding-left: 50px;
+  }
+  
+  /* ========== 옵션 버튼 ========== */
+  .option-btn {
     width: 122px;
     height: 122px;
     border: 1px solid #D2D2D2;
     border-radius: 8px;
-    background-color: #fff;
+    background: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    padding: 0;
-}
-
-.option-btn img {
+    transition: all 0.3s ease;
+    margin: 10px;
+  }
+  
+  .option-btn:hover {
+    border-color: #F20C93;
+    box-shadow: 0 5px 15px rgba(242, 12, 147, 0.1);
+  }
+  
+  .option-btn.selected {
+    border: 2px solid #F20C93;
+    background: rgba(242, 12, 147, 0.05);
+  }
+  
+  .option-btn img {
     width: 50px;
     height: auto;
     margin-bottom: 10px;
-}
-
-.option-btn p {
+  }
+  
+  .option-btn p {
     font-size: 15px;
     font-weight: 500;
-    color: #000000;
-    margin: 0;
-}
-
-.option-btn:disabled {
+    color: #000;
+  }
+  
+  .option-btn:disabled {
     opacity: 0.4;
     cursor: not-allowed;
-}
-
-/* 설명 텍스트 */
-.coupon-info p {
-    font-size: 18px;
-    color: #A2A2A2;
-    margin: 5px 0;
-}
-
-.payment-section {
-   
+  }
+  
+  /* ========== 결제 섹션 ========== */
+  .payment-section {
     position: absolute;
-    width: 1024px;
-    height: 282px;
-    left: 0px;
-    top: 1047px;
-
-    background: #F6F6F6;
-
-    
-}
-.payment-summary {
-    position: relative;
+    bottom: 0;
     width: 100%;
-    text-align: center;
     height: 282px;
     background: #F6F6F6;
-}
+    padding: 20px;
+  }
 
-.total-title1{
-    position: absolute;
-    width: 1024px;
+  .payment-methods {
+    display: flex;
+  }
+  
+  .payment-summary {
+    text-align: center;
     height: 100px;
-    left: 0px;
-    top: 0px;
-    
+  }
+  
+  .total-title1, .total-title2 {
     font-size: 30px;
+    height: 50px;
+    line-height: 50px;
+  }
+  
+  .total-title1 {
     color: #F20C93;
-}
-.total-title2{
-    position: absolute;
-    width: 1024px;
-    height: 100px;
-    left: 0px;
-    top: 100px;
-    font-size: 30px;
-}
-
-.payment-buttons {
-    position: relative;
-    width: 1024px;
-    height: 233px;
-    background: #fff;
-}
-.prev-btn, .next-btn {
-    font-size: 30px;
-}
-
-.prev-btn{
-    position: absolute;
+    font-weight: 600;
+  }
+  
+  .payment-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 20px;
+  }
+  
+  .prev-btn, .next-btn {
     width: 471px;
     height: 114px;
-    left: 21px;
-    top: 59px;
-    
-    color:#F20C93;
-    background: #FFFFFF;
-    border: 1px solid #B9B9B9;
+    font-size: 30px;
     border-radius: 99px;
-}
-
-.prev-btn-img {
-    position: absolute;
-    left: 115px;
-    top: 30px;
-}
-
-.next-btn {
-    position: absolute;
-    width: 471px;
-    height: 114px;
-    left: 533px;
-    top: 59px;
-
-    color: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .prev-btn {
+    background: white;
+    color: #F20C93;
+    border: 1px solid #B9B9B9;
+  }
+  
+  .prev-btn:hover {
+    background: #f8f8f8;
+  }
+  
+  .next-btn {
     background: #F20C93;
-    border: 1px solid #B9B9B9;
-    border-radius: 99px;
-}
+    color: white;
+    border: none;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .next-btn:hover {
+    background: #e00b85;
+  }
+  
+  .next-btn::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom right,
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0)
+    );
+    transform: rotate(30deg);
+    animation: shine 3s infinite;
+  }
+  
+  @keyframes shine {
+    0% { left: -50%; top: -50%; }
+    100% { left: 150%; top: 150%; }
+  }
+  
+  /* ========== 반응형 디자인 ========== */
+  @media (max-width: 1024px) {
+    body, .wrapper {
+      width: 100%;
+      height: auto;
+    }
+    
+    .content-row {
+      flex-direction: column;
+      height: auto;
+    }
+    
+    .left-section, .right-section {
+      width: 100%;
+      padding: 10px;
+    }
+    
+    .payment-buttons {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .prev-btn, .next-btn {
+      width: 90%;
+      margin-bottom: 15px;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+  /* ========== 배경 디자인 추가 ========== */
+body {
+    background: linear-gradient(135deg, #fff5f9 0%, #fef5ff 100%);
+    margin: 20px auto; /* 주변 여백 추가 */
+    box-shadow: 0 0 30px rgba(242, 12, 147, 0.1);
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 30%, rgba(242, 12, 147, 0.05) 0%, transparent 30%),
+      radial-gradient(circle at 80% 70%, rgba(242, 12, 147, 0.05) 0%, transparent 30%);
+    z-index: -1;
+  }
+  
+  .wrapper {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* .wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: linear-gradient(90deg, #F20C93, #FF53B8);
+  } */
+  
+  /* ========== 헤더 배경 개선 ========== */
+  .header {
+    background: linear-gradient(to right, rgba(255,255,255,0.9), rgba(255,245,249,0.9));
+    backdrop-filter: blur(5px);
+    border-bottom: 1px solid rgba(242, 12, 147, 0.1);
+  }
+  
+  /* ========== 탭 메뉴 배경 개선 ========== */
+  .tab-menu {
+    background: linear-gradient(to right, rgba(255,255,255,0.9), rgba(255,245,249,0.9));
+    backdrop-filter: blur(5px);
+  }
+  
+  /* ========== 콘텐츠 영역 배경 ========== */
+  .content-container {
+    background: transparent;
+  }
+  
+  /* ========== 결제 섹션 배경 개선 ========== */
+  .payment-section {
+    background: linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,245,249,0.95));
+    backdrop-filter: blur(5px);
+    border-top: 1px solid rgba(242, 12, 147, 0.1);
+  }
+  
+  /* ========== 버튼 그라데이션 효과 ========== */
+  .next-btn {
+    background: linear-gradient(135deg, #F20C93, #FF53B8);
+    box-shadow: 0 5px 15px rgba(242, 12, 147, 0.3);
+  }
+  
+  .prev-btn:hover {
+    background: linear-gradient(to right, #fff, #f8f8f8);
+  }
+  
+  /* ========== 선택된 옵션 배경 효과 ========== */
+  .option-btn.selected {
+    background: linear-gradient(135deg, rgba(242, 12, 147, 0.05), rgba(255, 255, 255, 0.8));
+    box-shadow: 0 5px 15px rgba(242, 12, 147, 0.2);
+  }
+  
+  /* ========== 애니메이션 효과 추가 ========== */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  
+  .option-btn:hover {
+    animation: float 2s ease-in-out infinite;
+  }
+  
+  .logo {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .payment-methods {
+    display: flex;
+    padding: 40px;
+  }
+
+  .credit {
+    padding: 40px;
+  }
+  
+  /* ========== 반응형 조정 ========== */
+  @media (max-width: 768px) {
+    body {
+      margin: 10px 20px;
+      width: auto;
+      height: auto;
+      border-radius: 15px;
+    }
+    
+    .wrapper::after {
+      height: 5px;
+    }
+  }
+
+
+
+  body {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }

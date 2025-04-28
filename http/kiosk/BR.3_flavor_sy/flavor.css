@@ -7,6 +7,7 @@ html, body {
   background-color: #fff;
   font-family: Arial, sans-serif;
   background: linear-gradient(135deg, #fff5f9 0%, #fef5ff 100%);
+  font-family: 'Noto Sans', sans-serif;
   animation: fadeIn 0.5s ease-in forwards;
 }
 
@@ -54,9 +55,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 50px; /* 네비게이션의 둥근 모서리 적용 */
+  
   overflow: hidden; /* 내부 요소가 둥근 모서리를 벗어나지 않도록 */
-  box-shadow: 4px 4px 12px rgba(0,0,0,0.1); /* 네비게이션의 그림자 효과 */
   background-color: #ffffff; /* 기본 배경색 */
   border: none; /* 기존 border 제거 */
   position: relative; /* 하이라이트 효과를 위한 positioning */
@@ -74,10 +74,19 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1); /* 부드러운 전환 효과 */
   position: relative;
   color: #ccc; /* 기본 텍스트 색상 */
   background-color: #f5f5f5; /* 기본 배경색 */
+}
+
+.left_tab {
+  border-radius: 50px 0 0 50px;
+}
+
+.right_tab {
+  border-radius: 0 50px 50px 0;
 }
 
 /* 활성 탭 스타일 */

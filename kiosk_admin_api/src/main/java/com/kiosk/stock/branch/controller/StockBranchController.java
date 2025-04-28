@@ -1,21 +1,15 @@
 package com.kiosk.stock.branch.controller;
 
-import java.util.List;
-
+import com.kiosk.stock.branch.DTO.StockBranchDTO;
+import com.kiosk.stock.branch.DTO.StockUpdateRequest;
+import com.kiosk.stock.branch.service.StockBranchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.kiosk.stock.branch.DTO.StockBranchDTO;
-import com.kiosk.stock.branch.service.StockBranchService;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/stock/branch")
@@ -23,6 +17,31 @@ public class StockBranchController {
 
     @Autowired
     private StockBranchService stockBranchService;
+    
+    // 재고 업데이트 API 추가
+    @PostMapping("/update")
+    public ResponseEntity<?> updateStock(@RequestBody StockUpdateRequest request) {
+        try {
+            stockBranchService.decreaseStock(request);
+            return ResponseEntity.ok(Map.of(
+                "success", true,
+                "message", "재고 업데이트 성공"
+            ));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of(
+                "success", false,
+                "error", "유효성 검사 실패",
+                "message", e.getMessage()
+            ));
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(Map.of(
+                "success", false,
+                "error", "재고 처리 실패",
+                "message", e.getMessage()
+            ));
+        }
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<StockBranchDTO> getStockBranchById(@PathVariable("id") int id) {
@@ -48,12 +67,6 @@ public class StockBranchController {
     public ResponseEntity<List<StockBranchDTO>> getStockBranchesByMenuId(@PathVariable int menuId) {
         List<StockBranchDTO> stockBranches = stockBranchService.getStockBranchesByMenuId(menuId);
         return new ResponseEntity<>(stockBranches, HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<Void> addStockBranch(@RequestBody StockBranchDTO stockBranchDTO) {
-        stockBranchService.addStockBranch(stockBranchDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")

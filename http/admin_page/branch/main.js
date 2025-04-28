@@ -35,8 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 
             }
             if (tabName === 'stock') {
-              if (typeof window.fetchOrderList === 'function') {
-                window.fetchOrderList();
+              if (typeof window.fetchStockList === 'function') {
+                window.fetchStockList();
               }
             }
           });
@@ -59,8 +59,8 @@ document.addEventListener("DOMContentLoaded", () => {
       
       // CSS & JS 한 번만 로드
       loadTabAssets(defaultTab, () => {
-        if (typeof window.fetchOrderList === 'function') {
-          window.fetchOrderList();
+        if (typeof window.fetchStockList === 'function') {
+          window.fetchStockList();
         }
       });
     })
@@ -90,7 +90,7 @@ function loadTabAssets(tabName, callback) {
     const existingScript = document.getElementById('tab-script');
     if (existingScript) {
       existingScript.parentNode.removeChild(existingScript);
-      ['initPayPage', 'fetchPayList', 'fetchOrderList'].forEach(fn => {
+      ['initPayPage', 'fetchPayList', 'fetchStockList'].forEach(fn => {
         if (window[fn]) delete window[fn];
       });  
     }
@@ -360,6 +360,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
-
-
-
