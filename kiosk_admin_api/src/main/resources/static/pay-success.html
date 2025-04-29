@@ -67,7 +67,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-		
+        window.location.href = 'http://localhost:5501/kiosk/BR.8_success_wj/success.html';
         if (!response.ok) {
     	  window.location.href = `http://localhost:8080/pay-fail.html?message=${encodeURIComponent('DB 저장 실패')}&code=500`;
     	  return;

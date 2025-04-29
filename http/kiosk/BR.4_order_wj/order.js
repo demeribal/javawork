@@ -198,7 +198,7 @@ function updateTotalAmount() {
     priceData.paymentPrice = totalAmount - (priceData.discountAmount || 0);
     
     sessionStorage.setItem('priceData', JSON.stringify(priceData));
-    updateTotalPriceDisplay();
+    //updateTotalPriceDisplay();
 }
 
 // 세션 스토리지 업데이트 (주석 해제)
