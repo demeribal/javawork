@@ -4,6 +4,15 @@
     box-sizing: border-box;
 }
 
+html, body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
 body {
     width: 1024px;
     height: 1562px;
@@ -16,16 +25,23 @@ body {
 
     box-shadow: 0 10px 20px rgba(242, 12, 147, 0.2);
     border: 1px solid rgba(242, 12, 147, 0.1);
+    
+    border-radius: 40px;
 }
 
 header {
+    width: 1024px;
     background-color: white;
     padding: 20px;
     position: relative;
     z-index: 10;
+
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
 }
 
 main {
+    width: 1024px;
     background-color: white;
     padding: 20px;
     box-shadow: 0 0 15px rgba(0,0,0,0.05);
@@ -37,6 +53,8 @@ footer {
     padding: 20px;
     position: relative;
     z-index: 10;
+
+    border-radius: 40px;
 }
 
 /* 미묘한 빛 효과 추가 */
@@ -281,7 +299,7 @@ footer {
     justify-content: center;
     align-items: center; 
     width: 512px;
-    height: 233px;
+    height: 290px;
 }
 
 footer button {
@@ -296,11 +314,13 @@ footer button {
 .btn-back{
     background-color: #fff;
     color: #F20C93;
+    width: 460px;
 }
 
 .btn-choose{
     background-color: #F20C93;
     color: #fff;
+    width: 460px;
 }
 
 .btn-back:active  {
