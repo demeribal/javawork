@@ -6,6 +6,18 @@
     font-family: 'Noto Sans KR', sans-serif;
 }
 
+
+html {
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+
 body {
     width: 1024px;
     height: 1562px;
@@ -22,8 +34,6 @@ body {
     height: 100%;
     background: white;
     box-shadow: 0 10px 30px rgba(242, 12, 147, 0.1);
-    position: relative;
-    overflow: hidden;
 }
 
 .wrapper::before {
@@ -95,13 +105,10 @@ body {
     display: flex;
     justify-content: center;
     background: white;
-    border-radius: 0 0 20px 20px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    position: relative;
-}
-
-.tab {
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  }
+  
+  .tab {
     width: 512px;
     height: 100px;
     font-size: 30px;
@@ -110,10 +117,8 @@ body {
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1);
-    position: relative;
-    z-index: 1;
-}
+    transition: all 0.3s ease;
+  }
 
 .tab.active {
     color: #F20C93;
@@ -392,3 +397,148 @@ body {
   @keyframes fadeIn {
     to { opacity: 1; }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* ========== 기본 설정 ========== */
+.wrapper {
+    border-radius: 40px; /* 전체 모서리 둥글게 */
+    overflow: hidden;
+}
+
+/* ========== 헤더 영역 ========== */
+.header {
+    border-radius: 40px 40px 0 0; /* 상단만 둥글게 */
+}
+
+/* ========== 콘텐츠 영역 ========== */
+.content-container {
+    border-radius: 0 0 40px 40px; /* 하단만 둥글게 */
+    padding: 30px; /* 패딩 증가 */
+}
+
+/* ========== 결제 섹션 ========== */
+.payment-section {
+    border-radius: 40px 40px 0 0; /* 상단만 둥글게 */
+    box-shadow: 0 -10px 30px rgba(242, 12, 147, 0.1); /* 그림자 강조 */
+}
+
+/* ========== 버튼 디자인 보강 ========== */
+.prev-btn, .next-btn {
+    border-radius: 40px; /* 버튼 모서리 둥글게 */
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.prev-btn {
+    border: 2px solid #F20C93;
+}
+
+.next-btn {
+    box-shadow: 0 5px 15px rgba(242, 12, 147, 0.4);
+}
+
+/* ========== 아이템 디자인 보강 ========== */
+.item {
+    border-radius: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+.item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(242, 12, 147, 0.1);
+}
+
+/* ========== 수량 컨트롤 ========== */
+.quantity-controls {
+    background: rgba(242, 12, 147, 0.05);
+    border-radius: 20px;
+    padding: 5px;
+}
+
+.quantity-btn {
+    border-radius: 50%;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.quantity-btn:hover {
+    background: rgba(242, 12, 147, 0.1);
+}
+
+/* ========== 삭제 버튼 ========== */
+.delete-btn {
+    background: rgba(242, 12, 147, 0.05);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+    background: rgba(242, 12, 147, 0.1);
+    transform: rotate(90deg);
+}
+
+/* ========== 반응형 보강 ========== */
+@media (max-width: 768px) {
+    .item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .item-image {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .quantity-controls {
+        margin: 15px 0;
+    }
+}
+
+/* ========== 애니메이션 보강 ========== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== 스크롤바 디자인 ========== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(242, 12, 147, 0.05);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(242, 12, 147, 0.2);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(242, 12, 147, 0.3);
+}

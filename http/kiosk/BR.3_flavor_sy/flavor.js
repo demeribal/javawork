@@ -287,7 +287,7 @@ tempProductData.forEach(product => {
 });
 
   //--10. menuAPI fetch
-  fetch("http://localhost:8080/api/menus")
+  fetch("http://tomhoon.duckdns.org:8882/api/menus")
   // API 주소 확인
     .then(res => res.json())
     .then(data => {
