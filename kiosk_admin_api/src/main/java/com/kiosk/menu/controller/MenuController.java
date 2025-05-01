@@ -14,7 +14,7 @@ import java.util.UUID;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value; // ✅ 이걸로 수정해야 함!
+import org.springframework.beans.factory.annotation.Value; 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -99,7 +99,13 @@ public class MenuController {
             String safeFileName = menuName.replaceAll("[^a-zA-Z0-9가-힣]", "_") + "." + extension;
             Path savePath = Paths.get("src/main/resources/static/images", safeFileName);
             
-            Files.copy(image.getInputStream(), savePath, StandardCopyOption.REPLACE_EXISTING);
+            try {
+                Files.copy(image.getInputStream(), savePath, StandardCopyOption.REPLACE_EXISTING);
+            } catch (FileAlreadyExistsException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             menuDAO.setImagePath("/images/" + safeFileName);
         }
 
