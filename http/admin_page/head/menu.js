@@ -89,7 +89,7 @@ function initMenuPage() {
 const confirmYes = document.getElementById("menuConfirmYes");
 confirmYes?.addEventListener("click", () => {
   createMenu();
-});
+}, { once: true });
 
 function createMenu() {
   const menuName = document.getElementById("menuName").value.trim();
