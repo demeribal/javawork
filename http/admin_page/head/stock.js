@@ -43,7 +43,7 @@ function setStatus(statusImg) {
 }
 
 function fetchOrderList() {
-  fetch("http://tomhoon.duckdns.org:8882/api/stock/header")
+  fetch("http://34.201.234.67:8080/api/stock/header")
   .then(res => res.json())
     .then(data => {
       const tbody = document.getElementById("stock-table-body");
@@ -174,7 +174,7 @@ function selectOrderOption(element) {
 }
 
 function fetchPutOrder(id, status) {
-  fetch(`http://tomhoon.duckdns.org:8882/api/stock/header/${id}`, {
+  fetch(`http://34.201.234.67:8080/api/stock/header/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json;charset=UTF-8",

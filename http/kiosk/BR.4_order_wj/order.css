@@ -9,8 +9,9 @@ body {
     background-color: #FFFFFF;
     width: 1024px;
     height: 1562px;
-    overflow: hidden;
-    margin: 0 auto;
+    margin: 129px auto; /* 상하 여백 추가 */
+    border-radius: 40px; /* border-radius 추가 */
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
     position: relative;
 }
 
@@ -36,8 +37,9 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-radius: 40px 40px 0 0; /* 상단 모서리만 둥글게 */
+    overflow: hidden; /* 둥근 모서리를 위해 필요 */
 }
-
 .logo {
     width: 96px;
     height: 88px;
@@ -199,7 +201,7 @@ body {
     width: 1024px;
     height: 431px;
     background-color: #F6F6F6;
-    position: absolute;
+    position: relative;
     bottom: 0;
     left: 0;
 }
@@ -328,6 +330,8 @@ body {
     border-radius: 20px;
     overflow: hidden;
     position: relative;
+
+    border-radius: 40px;
 }
 
 body::before {
@@ -338,9 +342,9 @@ body::before {
     right: 0;
     bottom: 0;
     background: linear-gradient(45deg, 
-        rgba(242, 12, 147, 0.05) 0%, 
+        rgba(254, 245, 255, 0.05) 0%, 
         rgba(255, 255, 255, 0) 50%, 
-        rgba(242, 12, 147, 0.05) 100%);
+        rgba(254, 245, 255, 0.05) 100%);
     z-index: -1;
 }
 
@@ -462,10 +466,13 @@ body::before {
 /* ========== 결제 섹션 디자인 업그레이드 ========== */
 .payment-section {
     background: linear-gradient(to top, #fff, #fff5f9);
-    border-radius: 20px 20px 0 0;
     box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
     border-top: 1px solid rgba(242, 12, 147, 0.1);
     padding: 20px;
+
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+
 }
 
 .payment-step-badge {
@@ -474,6 +481,7 @@ body::before {
 
 .total-price {
     font-size: 36px;
+    margin-right: 50px;
     text-shadow: 0 2px 5px rgba(242, 12, 147, 0.2);
 }
 
@@ -550,3 +558,65 @@ body {
   @keyframes fadeIn {
     to { opacity: 1; }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* 빈 장바구니 메시지 스타일 */
+.empty-cart-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    text-align: center;
+    padding: 20px;
+}
+
+.empty-cart-icon {
+    font-size: 60px;
+    margin-bottom: 20px;
+    color: #F20C93;
+}
+
+.empty-cart-message p {
+    font-size: 24px;
+    color: #555;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+.go-to-menu-btn {
+    background-color: #F20C93;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(242, 12, 147, 0.3);
+}
+
+.go-to-menu-btn:hover {
+    background-color: #FF53B8;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(242, 12, 147, 0.4);
+}

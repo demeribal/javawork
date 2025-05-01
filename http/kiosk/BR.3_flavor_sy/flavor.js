@@ -190,7 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
       slot.appendChild(count);
       slotsContainer.appendChild(slot);
     });
-    onFlavorItemClick();
+    //onFlavorItemClick();
     updateSlotArrowPosition();  // 화살표 위치 업데이트
   }
 
@@ -287,7 +287,7 @@ tempProductData.forEach(product => {
 });
 
   //--10. menuAPI fetch
-  fetch("http://tomhoon.duckdns.org:8882/api/menus")
+  fetch("http://34.201.234.67:8080/api/menus")
   // API 주소 확인
     .then(res => res.json())
     .then(data => {
@@ -298,7 +298,7 @@ tempProductData.forEach(product => {
         const item = document.createElement("div");
         item.className = "flavor-item";
 
-      const serverURL = 'http://localhost:8080';
+      const serverURL = 'http://34.201.234.67:8080';
       
       const encodedImagePath = encodeURI(menu.imagePath);
       item.innerHTML = `

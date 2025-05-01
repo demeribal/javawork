@@ -1,53 +1,546 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>결제 페이지</title>
-  <link rel="stylesheet" href="pay.css">
-  <script src="/kiosk/all.js"></script>
-</head>
-<body>
-  <div class="payment-container">
-    <div class="alert" id="alertBox">
-      ⚠️ 테스트 환경 - 실제로 결제되지 않습니다.
-        <button class="close-btn" onclick="closeAlert()">×</button>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/857/857718.png" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>아이스크림 샵 결제</title>
+    <!-- 토스페이먼츠 SDK 추가 -->
+    <script src="https://js.tosspayments.com/v2/standard"></script>
+    <link href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+    <style>
+      /* ========== 전체 레이아웃 개선 ========== */
+      body {
+        background: linear-gradient(135deg, #fff5f5 0%, #f8f5ff 100%);
+        font-family: 'Pretendard', sans-serif;
+        padding: 40px;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+
+      .payment-container {
+        width: 1024px;
+        height: auto;
+        min-height: 1562px;
+        background-color: #fff;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #ffe6f2;
+      }
+
+      .payment-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 8px;
+        background: linear-gradient(90deg, #ff85a2, #ff9eb5);
+      }
+
+      /* ========== 알림 박스 디자인 업그레이드 ========== */
+      .alert {
+        background: linear-gradient(to right, #fff0f5, #ffe6f2);
+        color: #d23c72;
+        padding: 20px 25px;
+        border-radius: 12px;
+        font-size: 20px;
+        margin-bottom: 30px;
+        border: 1px solid #ffd6e7;
+        position: relative;
+        width: 90%;
+        box-shadow: 0 4px 12px rgba(210, 60, 114, 0.05);
+        transition: all 0.3s ease;
+      }
+
+      .alert:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(210, 60, 114, 0.1);
+      }
+
+      .alert .close-btn {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        color: #d23c72;
+        background: none;
+        border: none;
+        font-size: 22px;
+        transition: transform 0.3s ease;
+      }
+
+      .alert .close-btn:hover {
+        transform: rotate(90deg);
+      }
+
+      /* ========== 섹션 타이틀 디자인 ========== */
+      .section-title {
+        font-weight: 700;
+        font-size: 42px;
+        margin-bottom: 25px;
+        align-self: flex-start;
+        color: #2a2a2a;
+        position: relative;
+        padding-bottom: 10px;
+      }
+
+      .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, #ff85a2, #ff9eb5);
+        border-radius: 2px;
+      }
+
+      /* ========== 결제 방법 선택 영역 ========== */
+      .methods {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 25px;
+        margin-bottom: 30px;
+        width: 100%;
+      }
+
+      .method {
+        width: 100%;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid #f0e6ff;
+        border-radius: 12px;
+        background-color: #fff;
+        cursor: pointer;
+        padding: 15px;
+        font-size: 18px;
+        box-sizing: border-box;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+      }
+
+      .method:hover {
+        border-color: #ff85a2;
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(255, 133, 162, 0.1);
+      }
+
+      .method.active {
+        border: 3px solid #ff85a2;
+        background-color: #fff5f9;
+        box-shadow: 0 5px 15px rgba(255, 133, 162, 0.15);
+        position: relative;
+      }
+
+      .method.active::after {
+        content: '✓';
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        width: 25px;
+        height: 25px;
+        background: #ff85a2;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+      }
+
+      .method img {
+        max-width: 80%;
+        max-height: 40px;
+        object-fit: contain;
+        transition: transform 0.3s ease;
+      }
+
+      .method:hover img {
+        transform: scale(1.1);
+      }
+
+      /* ========== 혜택 박스 디자인 ========== */
+      .benefit-box {
+        background: linear-gradient(to right, #fff5f9, #fff0f5);
+        padding: 20px;
+        border-radius: 12px;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        width: 90%;
+        margin-top: 30px;
+        align-self: flex-start;
+        border: 1px solid #ffd6e7;
+        box-shadow: 0 4px 12px rgba(255, 133, 162, 0.05);
+      }
+
+      .card-logo {
+        width: 30px;
+        height: 30px;
+        object-fit: contain;
+        margin-right: 10px;
+      }
+
+      /* ========== 선택 박스 디자인 ========== */
+      .select-box {
+        background-color: #fff9fb;
+        border-radius: 10px;
+        padding: 16px;
+        font-size: 20px;
+        width: 60%;
+        border: 1px solid #ffd6e7;
+        color: #555;
+        align-self: flex-start;
+        transition: all 0.3s ease;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ff85a2'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 15px center;
+        background-size: 20px;
+      }
+
+      .select-box:focus {
+        border-color: #ff85a2;
+        box-shadow: 0 0 0 3px rgba(255, 133, 162, 0.2);
+        outline: none;
+      }
+
+      .select-box option {
+        color: #333;
+        padding: 10px;
+      }
+
+      /* ========== 정보 링크 디자인 ========== */
+      .info-link {
+        font-size: 18px;
+        margin-bottom: 30px;
+        width: 90%;
+        padding: 0;
+        align-self: flex-start;
+      }
+
+      .info-link a {
+        color: #ff85a2;
+        text-decoration: none;
+        font-weight: 600;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .info-link a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #ff85a2;
+        transition: width 0.3s ease;
+      }
+
+      .info-link a:hover::after {
+        width: 100%;
+      }
+
+      /* ========== 체크박스 디자인 ========== */
+      .checkbox {
+        margin: 20px 0;
+        font-size: 18px;
+        width: 90%;
+        display: flex;
+        align-items: center;
+      }
+
+      .checkbox input[type="checkbox"] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 22px;
+        height: 22px;
+        border: 2px solid #ffd6e7;
+        border-radius: 5px;
+        margin-right: 15px;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .checkbox input[type="checkbox"]:checked {
+        background-color: #ff85a2;
+        border-color: #ff85a2;
+      }
+
+      .checkbox input[type="checkbox"]:checked::after {
+        content: '✓';
+        position: absolute;
+        color: white;
+        font-size: 14px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      /* ========== 제출 버튼 디자인 ========== */
+      .submit-btn {
+        width: 90%;
+        background: linear-gradient(135deg, #ff85a2, #ff9eb5);
+        color: white;
+        font-size: 22px;
+        font-weight: 600;
+        padding: 22px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: 0 5px 15px rgba(255, 133, 162, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(255, 133, 162, 0.4);
+      }
+
+      .submit-btn:active {
+        transform: translateY(0);
+      }
+
+      .submit-btn::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(
+          to bottom right,
+          rgba(255, 255, 255, 0.3),
+          rgba(255, 255, 255, 0)
+        );
+        transform: rotate(30deg);
+        animation: shine 3s infinite;
+      }
+
+      @keyframes shine {
+        0% { left: -50%; top: -50%; }
+        100% { left: 150%; top: 150%; }
+      }
+
+      /* ========== 아이스크림 아이콘 디자인 ========== */
+      .icecream-icon {
+        position: absolute;
+        opacity: 0.1;
+        z-index: 0;
+      }
+
+      .icon-1 {
+        top: 50px;
+        right: 50px;
+        width: 100px;
+        height: 100px;
+      }
+
+      .icon-2 {
+        bottom: 100px;
+        left: 50px;
+        width: 80px;
+        height: 80px;
+      }
+
+      /* ========== 반응형 디자인 ========== */
+      @media (max-width: 1024px) {
+        .methods {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .select-box {
+          width: 90%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 20px;
+        }
+        
+        .payment-container {
+          padding: 30px 20px;
+        }
+        
+        .methods {
+          grid-template-columns: 1fr;
+        }
+        
+        .method {
+          height: 80px;
+        }
+      }
+
+      /* 페이드인 애니메이션 */
+      body {
+        opacity: 0;
+        animation: fadeIn 0.5s ease-out forwards;
+      }
+
+      @keyframes fadeIn {
+        to { opacity: 1; }
+      }
+
+      /* 활성 탭 스타일 */
+      .right_tab {
+        color: #ff85a2;
+        background-color: #fff;
+      }
+
+      /* 활성 탭 하이라이트 효과 - 네비게이션의 active 스타일 적용 */
+      .right_tab::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        height: 4px;
+        background: #ff85a2;
+        border-radius: 2px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 주문서 영역 -->
+    <div class="payment-container">
+      <!-- 아이스크림 아이콘 데코레이션 -->
+      <svg class="icecream-icon icon-1" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 8H17C17 6.89543 16.1046 6 15 6H9C7.89543 6 7 6.89543 7 8Z" fill="#FF85A2"/>
+        <path d="M7 8L5 18H19L17 8H7Z" fill="#FFB6C1"/>
+        <path d="M12 16C13.1046 16 14 15.1046 14 14V10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10V14C10 15.1046 10.8954 16 12 16Z" fill="#FF85A2"/>
+      </svg>
+      
+      <svg class="icecream-icon icon-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 8H17C17 6.89543 16.1046 6 15 6H9C7.89543 6 7 6.89543 7 8Z" fill="#FF85A2"/>
+        <path d="M7 8L5 18H19L17 8H7Z" fill="#FFB6C1"/>
+        <path d="M12 16C13.1046 16 14 15.1046 14 14V10C14 8.89543 13.1046 8 12 8C10.8954 8 10 8.89543 10 10V14C10 15.1046 10.8954 16 12 16Z" fill="#FF85A2"/>
+      </svg>
+
+      <h1 class="section-title">아이스크림 주문 결제</h1>
+      
+      <div class="alert">
+        🍦 주문하신 아이스크림이 녹지 않도록 빠르게 결제해주세요!
+        <button class="close-btn">&times;</button>
+      </div>
+      
+      <div class="wrapper" style="margin: 0 auto; width: 90%;">
+        <div class="box_section" style="padding: 30px; margin-top: 20px; margin-bottom: 30px; background: #fff9fb; border-radius: 15px; border: 1px solid #ffd6e7;">
+          <!-- 결제 UI -->
+          <div id="payment-method"></div>
+          <!-- 이용약관 UI -->
+          <div id="agreement"></div>
+          <!-- 쿠폰 체크박스 -->
+          <div style="padding-left: 25px">
+            <div class="checkbox">
+              <label for="coupon-box">
+                <input id="coupon-box" type="checkbox" aria-checked="true" />
+                <span>1,000원 아이스크림 쿠폰 적용</span>
+              </label>
+            </div>
+          </div>
+          <!-- 결제하기 버튼 -->
+          <button class="submit-btn" id="payment-button">
+            🍦 주문 결제하기
+          </button>
+        </div>
+      </div>
     </div>
 
-    <div class="section-title">결제 방법</div>
-    <div class="methods">
-      <div class="method">신용·체크카드</div>
-      <div class="method">퀵계좌이체</div>
-      <div class="method"><img src="images/tosspay.png" alt="TossPay"></div>
-      <div class="method"><img src="images/payco.png" alt="Payco"></div>
-      <div class="method"><img src="images/kakaopay.png" alt="KakaoPay"></div>
-      <div class="method"><img src="images/naverpay.png" alt="NaverPay"></div>
-      <div class="method">휴대폰</div>
-    </div>
+    <script>
+      main();
 
-    <div class="benefit-box">
-      <img src="images/shc_symbol.png" alt="신한카드 로고" class="card-logo">
-      신한카드 최대 5개월 무이자 할부
-    </div>
+      async function main() {
+        const button = document.getElementById("payment-button");
+        const coupon = document.getElementById("coupon-box");
+        // 세션 값 가져오기
+        const priceData = JSON.parse(sessionStorage.getItem("priceData")) || {};
+        const productData = JSON.parse(sessionStorage.getItem("productData")) || [];
 
-    <select class="select-box" id="cardSelect" required>
-      <option value="" disabled selected>카드사 선택</option>
-      <option value="shinhan">신한카드</option>
-      <option value="samsung">삼성카드</option>
-      <option value="hyundai">현대카드</option>
-      <option value="kb">국민카드</option>
-    </select>
+        const amount = {
+          currency: "KRW",
+          value: priceData.paymentPrice || 0
+        };
+        
+        const paycode = "ICECREAM-" + Date.now();
+        const method = encodeURI("카드");
 
-    <div class="info-link">
-      <a href="/installment-info">신용카드 무이자 할부 안내 &gt;</a>
-    </div>
+        const orderName = productData.map(p => p.name).join(', ') || "아이스크림 주문";
+        const flavors = productData.map(p => p.flavors).join(',') || "맛 선택";
 
-    <div class="checkbox">
-      <input type="checkbox" id="terms">
-      <label for="terms">[필수] 결제 서비스 이용 약관, 개인정보 처리 동의</label>
-    </div>
+        const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+        const customerKey = generateRandomString();
+        const tossPayments = TossPayments(clientKey);
+        // 회원 결제
+        const widgets = tossPayments.widgets({
+          customerKey,
+        });
 
-    <button class="submit-btn" id="payBtn">결제하기</button>
-  </div>
-</body>
+        await widgets.setAmount(amount);
+
+        await widgets.renderPaymentMethods({
+          selector: "#payment-method",
+          variantKey: "DEFAULT",
+        });
+
+        await widgets.renderAgreement({ selector: "#agreement", variantKey: "AGREEMENT" });
+
+        coupon.addEventListener("change", async function () {
+          if (coupon.checked) {
+            await widgets.setAmount({
+              currency: "KRW",
+              value: amount.value - 1000,
+            });
+
+            return;
+          }
+
+          await widgets.setAmount({
+            currency: "KRW",
+            value: amount,
+          });
+        });
+
+        button.addEventListener("click", async function () {
+          await widgets.requestPayment({
+            orderId: paycode,
+            orderName: orderName,
+            successUrl: `http://www.baskinjohn.store/kiosk/BR.7_pay/pay-success.html` +
+            `?paycode=${paycode}`+
+            `&amount=${amount.value}`+
+            `&method=${method}`+
+            `&history=${orderName}`+
+            `&flavors=${flavors}`,
+            failUrl: `http://www.baskinjohn.store/kiosk/BR.7_pay/pay-fail.html`,
+          });
+        });
+      }
+
+      function generateRandomString() {
+        return window.btoa(Math.random()).slice(0, 20);
+      }
+    </script>
+  </body>
 </html>
-<script defer src="pay.js"></script>

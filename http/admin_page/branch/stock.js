@@ -1,6 +1,6 @@
 // 재고 목록 가져오기
 function fetchStockList() {
-  fetch("http://tomhoon.duckdns.org:8882/api/stock/branch")
+  fetch("http://34.201.234.67:8080/api/stock/branch")
       .then(res => res.json())
       .then(data => {
           const stocks = Array.isArray(data) ? data : (data || []);
@@ -351,7 +351,7 @@ async function sendStockData(data) {
       });
   
       // 1. 재고 감소 요청
-      const stockUpdateResponse = await fetch("http://tomhoon.duckdns.org:8882/api/stock/branch/update", {
+      const stockUpdateResponse = await fetch("http://34.201.234.67:8080/api/stock/branch/update", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -376,7 +376,7 @@ async function sendStockData(data) {
         status: "발주요청"
       });
   
-      const orderCreateResponse = await fetch("http://tomhoon.duckdns.org:8882/api/stock/header", {
+      const orderCreateResponse = await fetch("http://34.201.234.67:8080/api/stock/header", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

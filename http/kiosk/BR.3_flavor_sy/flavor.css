@@ -11,9 +11,23 @@ html, body {
   animation: fadeIn 0.5s ease-in forwards;
 }
 
+html, body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
 body {
   opacity: 0;
   animation: fadeIn 0.5s ease-out forwards;
+}
+
+.top-menu {
+  border-top-right-radius: 40px;
+  border-top-left-radius: 40px;
 }
 
 @keyframes fadeIn {
@@ -25,13 +39,14 @@ body {
   width: 1024px;
   height: 1562px;
   background-color: #fff;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
 
   box-shadow: 0 10px 20px rgba(242, 12, 147, 0.2);
-    border: 1px solid rgba(242, 12, 147, 0.1);
+  border: 1px solid rgba(242, 12, 147, 0.1);
+
+  border-radius: 40px;
 }
 
 .page-container::before {
@@ -57,8 +72,6 @@ body {
   align-items: center;
   
   overflow: hidden; /* 내부 요소가 둥근 모서리를 벗어나지 않도록 */
-  background-color: #ffffff; /* 기본 배경색 */
-  border: none; /* 기존 border 제거 */
   position: relative; /* 하이라이트 효과를 위한 positioning */
 }
 
@@ -351,25 +364,39 @@ body {
 
 .active-slot .slot-box {
   border: 2px solid #f20c93;
-  box-shadow: 0 0 10px rgba(242, 12, 147, 0.4);
+  box-shadow: 0 0 20px rgba(242, 12, 147, 0.4);
 }
 
 /* 버튼 컨테이너 */
 .button-container {
   width: 1024px;
-  height: 203px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f3f3f3;
 }
 
-.button-group {
+.button-group:first-child {
   width: 512px;
-  height: 203px;
+  height: 166px;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  background-color: #f3f3f3;
+
+  border-bottom-left-radius: 40px;
+}
+
+.button-group:last-child {
+  width: 512px;
+  height: 166px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #f3f3f3;
+
+  border-bottom-right-radius: 40px;
 }
 
 .button {

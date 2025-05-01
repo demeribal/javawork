@@ -5,6 +5,17 @@
     box-sizing: border-box;
     font-family: 'Noto Sans KR', sans-serif;
   }
+
+  
+html {
+  width: 100vw;
+  height: 100vh;
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
   
   body {
     width: 1024px;
@@ -16,8 +27,8 @@
   }
   
   .wrapper {
-    width: 100%;
-    height: 100%;
+    width: 1024px;
+    height: 1448px;
     position: relative;
   }
   

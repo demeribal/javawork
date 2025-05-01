@@ -17,7 +17,7 @@ function onSubmit() {
 
     console.log("리캡챠 토큰: " + token);
 
-    fetch("http://tomhoon.duckdns.org:8882/api/user/login", {
+    fetch("http://34.201.234.67:8080/api/user/login", {
         method: "POST",
         credentials: "include",
         headers: {
